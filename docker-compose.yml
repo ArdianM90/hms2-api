@@ -10,6 +10,25 @@ services:
       - "5433:5432"
     volumes:
       - hms-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d hms" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  hms-auth:
+    build:
+      context: ../hms-auth
+      dockerfile: Dockerfile
+    container_name: hms-auth
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://hms-db:5432/hms
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    depends_on:
+      hms-db:
+        condition: service_healthy
 
 volumes:
   hms-db-data:
