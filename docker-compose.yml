@@ -1,0 +1,15 @@
+services:
+  hms-db:
+    image: postgres:17
+    container_name: hms
+    environment:
+      POSTGRES_DB: hms
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    volumes:
+      - hms-db-data:/var/lib/postgresql/data
+
+volumes:
+  hms-db-data:
