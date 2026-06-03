@@ -1,4 +1,4 @@
-package com.hms.api.config;
+package com.hms.api.common.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -25,6 +25,9 @@ public class OpenApiConfig {
                                     new OAuthFlow()
                                         .authorizationUrl("http://localhost:8081/oauth2/authorize")
                                         .tokenUrl("http://localhost:8081/oauth2/token")
-                                        .scopes(new Scopes().addString("read", "read access"))))));
+                                        .scopes(
+                                            new Scopes()
+                                                .addString("openid", "OpenID")
+                                                .addString("read", "read access"))))));
   }
 }
