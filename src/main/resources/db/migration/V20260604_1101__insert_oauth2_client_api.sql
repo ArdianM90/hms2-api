@@ -11,16 +11,16 @@ INSERT INTO public.oauth2_registered_client (id,
                                              scopes,
                                              client_settings,
                                              token_settings)
-VALUES ('hms-web',
-        'hms-web',
+VALUES ('hms-api',
+        'hms-api',
         NOW(),
         NULL,
         NULL,
-        'HMS Web Client',
+        'HMS Api Client (Swagger)',
         'none',
         'authorization_code,refresh_token',
-        'http://localhost:5173/callback,http://localhost:8082/swagger-ui/oauth2-redirect.html',
-        'http://localhost:5173/logout',
+        'http://localhost:8082/swagger-ui/oauth2-redirect.html',
+        'http://localhost:8082',
         'openid,profile,read',
         '{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":true,"settings.client.require-authorization-consent":false}',
         '{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.x509-certificate-bound-access-tokens":false,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",86400.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000],"settings.token.device-authorization-code-time-to-live":["java.time.Duration",300.000000000]}')
@@ -35,4 +35,4 @@ on conflict (id) do update set client_id                     = excluded.client_i
                                post_logout_redirect_uris     = excluded.post_logout_redirect_uris,
                                scopes                        = excluded.scopes,
                                client_settings               = excluded.client_settings,
-                               token_settings                = excluded.token_settings;;
+                               token_settings                = excluded.token_settings;
