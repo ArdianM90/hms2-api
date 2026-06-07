@@ -28,6 +28,8 @@
 	</scm>
 	<properties>
 		<java.version>23</java.version>
+		<jooq.version>3.21.5</jooq.version>
+		<lombok.version>1.18.46</lombok.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -115,6 +117,44 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- JOOQ CONFIG -->
+			<plugin>
+				<groupId>org.jooq</groupId>
+				<artifactId>jooq-codegen-maven</artifactId>
+				<version>${jooq.version}</version>
+
+				<configuration>
+					<jdbc>
+						<driver>org.postgresql.Driver</driver>
+						<url>${jooqJdbcUrl}</url>
+						<user>${jooqJdbcUser}</user>
+						<password>${jooqJdbcPassword}</password>
+					</jdbc>
+					<generator>
+						<database>
+							<name>org.jooq.meta.postgres.PostgresDatabase</name>
+							<schemata>
+								<schema>
+									<inputSchema>auth</inputSchema>
+								</schema>
+								<schema>
+									<inputSchema>hms</inputSchema>
+								</schema>
+							</schemata>
+						</database>
+						<generate>
+							<pojos>true</pojos>
+							<daos>true</daos>
+							<records>true</records>
+						</generate>
+						<target>
+							<packageName>com.hms.auth.generated.jooq</packageName>
+							<directory>src/main/java</directory>
+						</target>
+					</generator>
+				</configuration>
 			</plugin>
 
 			<!-- SPOTLESS CONFIG-->
