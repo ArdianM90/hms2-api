@@ -11,5 +11,7 @@ public interface RoomRepository {
 
   int createRoom(CreateRoomRequest request);
 
+  void deleteRoom(int id);
+
   List<RoomStandard> getRoomStandards();
 }

@@ -29,6 +29,12 @@ public class RoomController {
     return ResponseEntity.status(HttpStatus.CREATED).body(new IntIdResponse(id));
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteRoom(@PathVariable int id) {
+    roomService.deleteRoom(id);
+    return ResponseEntity.noContent().build();
+  }
+
   @GetMapping("/standards")
   public ResponseEntity<List<RoomStandard>> getRoomStandards() {
     return ResponseEntity.ok(roomService.getRoomStandards());

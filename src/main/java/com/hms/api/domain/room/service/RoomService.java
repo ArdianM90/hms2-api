@@ -12,5 +12,8 @@ public interface RoomService {
   @Transactional
   int createRoom(CreateRoomRequest request);
 
+  @Transactional
+  void deleteRoom(int id);
+
   List<RoomStandard> getRoomStandards();
 }

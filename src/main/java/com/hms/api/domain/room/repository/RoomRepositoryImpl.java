@@ -39,12 +39,6 @@ public class RoomRepositoryImpl implements RoomRepository {
   }
 
   @Override
-  public List<RoomStandard> getRoomStandards() {
-    TypeRoomStandard trs = TypeRoomStandard.TYPE_ROOM_STANDARD;
-    return dsl.select(trs.CODE, trs.NAME).from(trs).fetchInto(RoomStandard.class);
-  }
-
-  @Override
   public int createRoom(CreateRoomRequest request) {
     RoomRecord room = dsl.newRecord(Tables.ROOM);
     room.setCapacity(request.capacity());
@@ -55,5 +49,16 @@ public class RoomRepositoryImpl implements RoomRepository {
     room.setTypeRoomStandardCode(request.roomStandardCode());
     room.store();
     return room.getRoomId();
+  }
+
+  @Override
+  public void deleteRoom(int id) {
+    dsl.deleteFrom(Tables.ROOM).where(Tables.ROOM.ROOM_ID.eq(id)).execute();
+  }
+
+  @Override
+  public List<RoomStandard> getRoomStandards() {
+    TypeRoomStandard trs = TypeRoomStandard.TYPE_ROOM_STANDARD;
+    return dsl.select(trs.CODE, trs.NAME).from(trs).fetchInto(RoomStandard.class);
   }
 }

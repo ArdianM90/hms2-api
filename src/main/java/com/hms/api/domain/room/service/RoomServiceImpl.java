@@ -25,6 +25,11 @@ public class RoomServiceImpl implements RoomService {
   }
 
   @Override
+  public void deleteRoom(int id) {
+    roomRepository.deleteRoom(id);
+  }
+
+  @Override
   public List<RoomStandard> getRoomStandards() {
     return roomRepository.getRoomStandards();
   }
