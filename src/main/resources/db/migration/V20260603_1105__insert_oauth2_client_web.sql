@@ -35,4 +35,4 @@ on conflict (id) do update set client_id                     = excluded.client_i
                                post_logout_redirect_uris     = excluded.post_logout_redirect_uris,
                                scopes                        = excluded.scopes,
                                client_settings               = excluded.client_settings,
-                               token_settings                = excluded.token_settings;;
+                               token_settings                = excluded.token_settings;
