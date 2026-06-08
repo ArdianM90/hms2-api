@@ -3,10 +3,13 @@ package com.hms.api.domain.room.repository;
 import com.hms.api.domain.room.dto.CreateRoomRequest;
 import com.hms.api.domain.room.dto.RoomDto;
 import com.hms.api.domain.room.dto.RoomStandard;
+import com.hms.api.domain.room.dto.UpdateRoomRequest;
 import com.hms.generated.jooq.hms.Tables;
 import com.hms.generated.jooq.hms.tables.RoomV;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
 import com.hms.generated.jooq.hms.tables.records.RoomRecord;
+import com.hms.generated.jooq.hms.tables.records.RoomVRecord;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -19,23 +22,15 @@ public class RoomRepositoryImpl implements RoomRepository {
   private final DSLContext dsl;
 
   @Override
+  public RoomDto getRoom(int id) {
+    RoomV v = RoomV.ROOM_V;
+    return dsl.selectFrom(v).where(v.ROOM_ID.eq(id)).fetchOne(this::mapToRoomDto);
+  }
+
+  @Override
   public List<RoomDto> getRooms() {
     RoomV v = RoomV.ROOM_V;
-    return dsl.selectFrom(v)
-        .fetch(
-            r -> {
-              RoomStandard standard = new RoomStandard();
-              standard.setCode(r.get(v.STANDARD_CODE));
-              standard.setName(r.get(v.STANDARD_NAME));
-              return new RoomDto(
-                  r.get(v.ROOM_ID),
-                  r.get(v.ROOM_NUMBER),
-                  standard,
-                  r.get(v.CAPACITY),
-                  r.get(v.PRICE_PER_NIGHT),
-                  r.get(v.FLOOR),
-                  r.get(v.AREA_M2));
-            });
+    return dsl.selectFrom(v).fetch(this::mapToRoomDto);
   }
 
   @Override
@@ -52,6 +47,20 @@ public class RoomRepositoryImpl implements RoomRepository {
   }
 
   @Override
+  public void updateRoom(int id, UpdateRoomRequest request) {
+    dsl.update(Tables.ROOM)
+        .set(Tables.ROOM.ROOM_NUMBER, request.roomNumber())
+        .set(Tables.ROOM.TYPE_ROOM_STANDARD_CODE, request.roomStandardCode())
+        .set(Tables.ROOM.CAPACITY, request.capacity())
+        .set(Tables.ROOM.PRICE_PER_NIGHT, request.pricePerNight())
+        .set(Tables.ROOM.FLOOR, request.floor())
+        .set(Tables.ROOM.AREA_M2, request.areaM2())
+        .set(Tables.ROOM.UPDATED_AT, LocalDateTime.now())
+        .where(Tables.ROOM.ROOM_ID.eq(id))
+        .execute();
+  }
+
+  @Override
   public void deleteRoom(int id) {
     dsl.deleteFrom(Tables.ROOM).where(Tables.ROOM.ROOM_ID.eq(id)).execute();
   }
@@ -60,5 +69,20 @@ public class RoomRepositoryImpl implements RoomRepository {
   public List<RoomStandard> getRoomStandards() {
     TypeRoomStandard trs = TypeRoomStandard.TYPE_ROOM_STANDARD;
     return dsl.select(trs.CODE, trs.NAME).from(trs).fetchInto(RoomStandard.class);
+  }
+
+  private RoomDto mapToRoomDto(RoomVRecord r) {
+    RoomV v = RoomV.ROOM_V;
+    RoomStandard standard = new RoomStandard();
+    standard.setCode(r.get(v.STANDARD_CODE));
+    standard.setName(r.get(v.STANDARD_NAME));
+    return new RoomDto(
+        r.get(v.ROOM_ID),
+        r.get(v.ROOM_NUMBER),
+        standard,
+        r.get(v.CAPACITY),
+        r.get(v.PRICE_PER_NIGHT),
+        r.get(v.FLOOR),
+        r.get(v.AREA_M2));
   }
 }

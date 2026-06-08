@@ -3,6 +3,7 @@ package com.hms.api.domain.room.service;
 import com.hms.api.domain.room.dto.CreateRoomRequest;
 import com.hms.api.domain.room.dto.RoomDto;
 import com.hms.api.domain.room.dto.RoomStandard;
+import com.hms.api.domain.room.dto.UpdateRoomRequest;
 import com.hms.api.domain.room.repository.RoomRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,11 @@ public class RoomServiceImpl implements RoomService {
   private final RoomRepository roomRepository;
 
   @Override
+  public RoomDto getRoom(int id) {
+    return roomRepository.getRoom(id);
+  }
+
+  @Override
   public List<RoomDto> getRooms() {
     return roomRepository.getRooms();
   }
@@ -22,6 +28,11 @@ public class RoomServiceImpl implements RoomService {
   @Override
   public int createRoom(CreateRoomRequest request) {
     return roomRepository.createRoom(request);
+  }
+
+  @Override
+  public void updateRoom(int id, UpdateRoomRequest request) {
+    roomRepository.updateRoom(id, request);
   }
 
   @Override

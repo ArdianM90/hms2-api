@@ -4,6 +4,7 @@ import com.hms.api.common.dto.IntIdResponse;
 import com.hms.api.domain.room.dto.CreateRoomRequest;
 import com.hms.api.domain.room.dto.RoomDto;
 import com.hms.api.domain.room.dto.RoomStandard;
+import com.hms.api.domain.room.dto.UpdateRoomRequest;
 import com.hms.api.domain.room.service.RoomService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,11 @@ public class RoomController {
 
   private final RoomService roomService;
 
+  @GetMapping("/{id}")
+  public ResponseEntity<RoomDto> getRoom(@PathVariable int id) {
+    return ResponseEntity.ok(roomService.getRoom(id));
+  }
+
   @GetMapping
   public ResponseEntity<List<RoomDto>> getRooms() {
     return ResponseEntity.ok(roomService.getRooms());
@@ -27,6 +33,13 @@ public class RoomController {
   public ResponseEntity<IntIdResponse> createRoom(@RequestBody CreateRoomRequest request) {
     int id = roomService.createRoom(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(new IntIdResponse(id));
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Void> updateRoom(
+      @PathVariable int id, @RequestBody UpdateRoomRequest request) {
+    roomService.updateRoom(id, request);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @DeleteMapping("/{id}")
