@@ -33,12 +33,12 @@ public class Keys {
     public static final UniqueKey<RoomRecord> UQ_ROOM_NUMBER = Internal.createUniqueKey(Room.ROOM, DSL.name("uq_room_number"), new TableField[] { Room.ROOM.ROOM_NUMBER }, true);
     public static final UniqueKey<RoomPropertyRecord> ROOM_PROPERTY_PKEY = Internal.createUniqueKey(RoomProperty.ROOM_PROPERTY, DSL.name("room_property_pkey"), new TableField[] { RoomProperty.ROOM_PROPERTY.ROOM_PROPERTY_ID }, true);
     public static final UniqueKey<TypeRoomStandardRecord> TYPE_ROOM_STANDARD_CODE_KEY = Internal.createUniqueKey(TypeRoomStandard.TYPE_ROOM_STANDARD, DSL.name("type_room_standard_code_key"), new TableField[] { TypeRoomStandard.TYPE_ROOM_STANDARD.CODE }, true);
-    public static final UniqueKey<TypeRoomStandardRecord> TYPE_ROOM_STANDARD_PKEY = Internal.createUniqueKey(TypeRoomStandard.TYPE_ROOM_STANDARD, DSL.name("type_room_standard_pkey"), new TableField[] { TypeRoomStandard.TYPE_ROOM_STANDARD.TYPE_ROOM_STANDARD_ID }, true);
+    public static final UniqueKey<TypeRoomStandardRecord> TYPE_ROOM_STANDARD_PKEY = Internal.createUniqueKey(TypeRoomStandard.TYPE_ROOM_STANDARD, DSL.name("type_room_standard_pkey"), new TableField[] { TypeRoomStandard.TYPE_ROOM_STANDARD.CODE }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<RoomRecord, TypeRoomStandardRecord> ROOM__FK_ROOM_TYPE_ROOM_STANDARD = Internal.createForeignKey(Room.ROOM, DSL.name("fk_room_type_room_standard"), new TableField[] { Room.ROOM.TYPE_ROOM_STANDARD_ID }, Keys.TYPE_ROOM_STANDARD_PKEY, new TableField[] { TypeRoomStandard.TYPE_ROOM_STANDARD.TYPE_ROOM_STANDARD_ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<RoomRecord, TypeRoomStandardRecord> ROOM__FK_ROOM_TYPE_ROOM_STANDARD_CODE = Internal.createForeignKey(Room.ROOM, DSL.name("fk_room_type_room_standard_code"), new TableField[] { Room.ROOM.TYPE_ROOM_STANDARD_CODE }, Keys.TYPE_ROOM_STANDARD_CODE_KEY, new TableField[] { TypeRoomStandard.TYPE_ROOM_STANDARD.CODE }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<RoomPropertyRecord, RoomRecord> ROOM_PROPERTY__FK_ROOM_PROPERTY_ROOM = Internal.createForeignKey(RoomProperty.ROOM_PROPERTY, DSL.name("fk_room_property_room"), new TableField[] { RoomProperty.ROOM_PROPERTY.ROOM_ID }, Keys.ROOM_PKEY, new TableField[] { Room.ROOM.ROOM_ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
 }

@@ -6,6 +6,7 @@ package com.hms.auth.generated.jooq.hms;
 
 import com.hms.auth.generated.jooq.hms.tables.Room;
 import com.hms.auth.generated.jooq.hms.tables.RoomProperty;
+import com.hms.auth.generated.jooq.hms.tables.RoomV;
 import com.hms.auth.generated.jooq.hms.tables.TypeRoomStandard;
 
 
@@ -24,6 +25,11 @@ public class Tables {
      * The table <code>hms.room_property</code>.
      */
     public static final RoomProperty ROOM_PROPERTY = RoomProperty.ROOM_PROPERTY;
+
+    /**
+     * The table <code>hms.room_v</code>.
+     */
+    public static final RoomV ROOM_V = RoomV.ROOM_V;
 
     /**
      * The table <code>hms.type_room_standard</code>.

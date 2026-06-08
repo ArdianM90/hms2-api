@@ -71,21 +71,6 @@ public class RoomDao extends DAOImpl<RoomRecord, com.hms.auth.generated.jooq.hms
     }
 
     /**
-     * Fetch records that have <code>type_room_standard_id BETWEEN
-     * lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.hms.auth.generated.jooq.hms.tables.pojos.Room> fetchRangeOfTypeRoomStandardId(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(Room.ROOM.TYPE_ROOM_STANDARD_ID, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>type_room_standard_id IN (values)</code>
-     */
-    public List<com.hms.auth.generated.jooq.hms.tables.pojos.Room> fetchByTypeRoomStandardId(Integer... values) {
-        return fetch(Room.ROOM.TYPE_ROOM_STANDARD_ID, values);
-    }
-
-    /**
      * Fetch records that have <code>capacity BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -217,5 +202,20 @@ public class RoomDao extends DAOImpl<RoomRecord, com.hms.auth.generated.jooq.hms
      */
     public List<com.hms.auth.generated.jooq.hms.tables.pojos.Room> fetchByUpdatedAt(LocalDateTime... values) {
         return fetch(Room.ROOM.UPDATED_AT, values);
+    }
+
+    /**
+     * Fetch records that have <code>type_room_standard_code BETWEEN
+     * lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.hms.auth.generated.jooq.hms.tables.pojos.Room> fetchRangeOfTypeRoomStandardCode(String lowerInclusive, String upperInclusive) {
+        return fetchRange(Room.ROOM.TYPE_ROOM_STANDARD_CODE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>type_room_standard_code IN (values)</code>
+     */
+    public List<com.hms.auth.generated.jooq.hms.tables.pojos.Room> fetchByTypeRoomStandardCode(String... values) {
+        return fetch(Room.ROOM.TYPE_ROOM_STANDARD_CODE, values);
     }
 }

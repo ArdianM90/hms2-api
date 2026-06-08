@@ -16,7 +16,6 @@ import java.util.List;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
-import org.jooq.Identity;
 import org.jooq.InverseForeignKey;
 import org.jooq.Name;
 import org.jooq.Path;
@@ -59,11 +58,6 @@ public class TypeRoomStandard extends TableImpl<TypeRoomStandardRecord> {
     }
 
     /**
-     * The column <code>hms.type_room_standard.type_room_standard_id</code>.
-     */
-    public final TableField<TypeRoomStandardRecord, Integer> TYPE_ROOM_STANDARD_ID = createField(DSL.name("type_room_standard_id"), SQLDataType.INTEGER.nullable(false).generatedAlwaysAsIdentity(), this, "");
-
-    /**
      * The column <code>hms.type_room_standard.code</code>.
      */
     public final TableField<TypeRoomStandardRecord, String> CODE = createField(DSL.name("code"), SQLDataType.CLOB.nullable(false), this, "");
@@ -72,6 +66,11 @@ public class TypeRoomStandard extends TableImpl<TypeRoomStandardRecord> {
      * The column <code>hms.type_room_standard.name</code>.
      */
     public final TableField<TypeRoomStandardRecord, String> NAME = createField(DSL.name("name"), SQLDataType.CLOB.nullable(false), this, "");
+
+    /**
+     * The column <code>hms.type_room_standard.is_active</code>.
+     */
+    public final TableField<TypeRoomStandardRecord, Boolean> IS_ACTIVE = createField(DSL.name("is_active"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field(DSL.raw("true"), SQLDataType.BOOLEAN)), this, "");
 
     private TypeRoomStandard(Name alias, Table<TypeRoomStandardRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -141,11 +140,6 @@ public class TypeRoomStandard extends TableImpl<TypeRoomStandardRecord> {
     }
 
     @Override
-    public Identity<TypeRoomStandardRecord, Integer> getIdentity() {
-        return (Identity<TypeRoomStandardRecord, Integer>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<TypeRoomStandardRecord> getPrimaryKey() {
         return Keys.TYPE_ROOM_STANDARD_PKEY;
     }
@@ -162,7 +156,7 @@ public class TypeRoomStandard extends TableImpl<TypeRoomStandardRecord> {
      */
     public RoomPath room() {
         if (_room == null)
-            _room = new RoomPath(this, null, Keys.ROOM__FK_ROOM_TYPE_ROOM_STANDARD.getInverseKey());
+            _room = new RoomPath(this, null, Keys.ROOM__FK_ROOM_TYPE_ROOM_STANDARD_CODE.getInverseKey());
 
         return _room;
     }

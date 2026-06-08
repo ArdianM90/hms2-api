@@ -18,7 +18,6 @@ public class Room implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer roomId;
-    private Integer typeRoomStandardId;
     private Integer capacity;
     private BigDecimal pricePerNight;
     private String roomNumber;
@@ -27,12 +26,12 @@ public class Room implements Serializable {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String typeRoomStandardCode;
 
     public Room() {}
 
     public Room(Room value) {
         this.roomId = value.roomId;
-        this.typeRoomStandardId = value.typeRoomStandardId;
         this.capacity = value.capacity;
         this.pricePerNight = value.pricePerNight;
         this.roomNumber = value.roomNumber;
@@ -41,11 +40,11 @@ public class Room implements Serializable {
         this.isActive = value.isActive;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
+        this.typeRoomStandardCode = value.typeRoomStandardCode;
     }
 
     public Room(
         Integer roomId,
-        Integer typeRoomStandardId,
         Integer capacity,
         BigDecimal pricePerNight,
         String roomNumber,
@@ -53,10 +52,10 @@ public class Room implements Serializable {
         Integer areaM2,
         Boolean isActive,
         LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        LocalDateTime updatedAt,
+        String typeRoomStandardCode
     ) {
         this.roomId = roomId;
-        this.typeRoomStandardId = typeRoomStandardId;
         this.capacity = capacity;
         this.pricePerNight = pricePerNight;
         this.roomNumber = roomNumber;
@@ -65,6 +64,7 @@ public class Room implements Serializable {
         this.isActive = isActive;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.typeRoomStandardCode = typeRoomStandardCode;
     }
 
     /**
@@ -79,20 +79,6 @@ public class Room implements Serializable {
      */
     public void setRoomId(Integer roomId) {
         this.roomId = roomId;
-    }
-
-    /**
-     * Getter for <code>hms.room.type_room_standard_id</code>.
-     */
-    public Integer getTypeRoomStandardId() {
-        return this.typeRoomStandardId;
-    }
-
-    /**
-     * Setter for <code>hms.room.type_room_standard_id</code>.
-     */
-    public void setTypeRoomStandardId(Integer typeRoomStandardId) {
-        this.typeRoomStandardId = typeRoomStandardId;
     }
 
     /**
@@ -207,6 +193,20 @@ public class Room implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    /**
+     * Getter for <code>hms.room.type_room_standard_code</code>.
+     */
+    public String getTypeRoomStandardCode() {
+        return this.typeRoomStandardCode;
+    }
+
+    /**
+     * Setter for <code>hms.room.type_room_standard_code</code>.
+     */
+    public void setTypeRoomStandardCode(String typeRoomStandardCode) {
+        this.typeRoomStandardCode = typeRoomStandardCode;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -221,12 +221,6 @@ public class Room implements Serializable {
                 return false;
         }
         else if (!this.roomId.equals(other.roomId))
-            return false;
-        if (this.typeRoomStandardId == null) {
-            if (other.typeRoomStandardId != null)
-                return false;
-        }
-        else if (!this.typeRoomStandardId.equals(other.typeRoomStandardId))
             return false;
         if (this.capacity == null) {
             if (other.capacity != null)
@@ -276,6 +270,12 @@ public class Room implements Serializable {
         }
         else if (!this.updatedAt.equals(other.updatedAt))
             return false;
+        if (this.typeRoomStandardCode == null) {
+            if (other.typeRoomStandardCode != null)
+                return false;
+        }
+        else if (!this.typeRoomStandardCode.equals(other.typeRoomStandardCode))
+            return false;
         return true;
     }
 
@@ -284,7 +284,6 @@ public class Room implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.roomId == null) ? 0 : this.roomId.hashCode());
-        result = prime * result + ((this.typeRoomStandardId == null) ? 0 : this.typeRoomStandardId.hashCode());
         result = prime * result + ((this.capacity == null) ? 0 : this.capacity.hashCode());
         result = prime * result + ((this.pricePerNight == null) ? 0 : this.pricePerNight.hashCode());
         result = prime * result + ((this.roomNumber == null) ? 0 : this.roomNumber.hashCode());
@@ -293,6 +292,7 @@ public class Room implements Serializable {
         result = prime * result + ((this.isActive == null) ? 0 : this.isActive.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
+        result = prime * result + ((this.typeRoomStandardCode == null) ? 0 : this.typeRoomStandardCode.hashCode());
         return result;
     }
 
@@ -301,7 +301,6 @@ public class Room implements Serializable {
         StringBuilder sb = new StringBuilder("Room (");
 
         sb.append(roomId);
-        sb.append(", ").append(typeRoomStandardId);
         sb.append(", ").append(capacity);
         sb.append(", ").append(pricePerNight);
         sb.append(", ").append(roomNumber);
@@ -310,6 +309,7 @@ public class Room implements Serializable {
         sb.append(", ").append(isActive);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
+        sb.append(", ").append(typeRoomStandardCode);
 
         sb.append(")");
         return sb.toString();

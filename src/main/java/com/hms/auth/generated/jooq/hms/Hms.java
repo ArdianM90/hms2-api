@@ -7,6 +7,7 @@ package com.hms.auth.generated.jooq.hms;
 import com.hms.auth.generated.jooq.DefaultCatalog;
 import com.hms.auth.generated.jooq.hms.tables.Room;
 import com.hms.auth.generated.jooq.hms.tables.RoomProperty;
+import com.hms.auth.generated.jooq.hms.tables.RoomV;
 import com.hms.auth.generated.jooq.hms.tables.TypeRoomStandard;
 
 import java.util.Arrays;
@@ -42,6 +43,11 @@ public class Hms extends SchemaImpl {
     public final RoomProperty ROOM_PROPERTY = RoomProperty.ROOM_PROPERTY;
 
     /**
+     * The table <code>hms.room_v</code>.
+     */
+    public final RoomV ROOM_V = RoomV.ROOM_V;
+
+    /**
      * The table <code>hms.type_room_standard</code>.
      */
     public final TypeRoomStandard TYPE_ROOM_STANDARD = TypeRoomStandard.TYPE_ROOM_STANDARD;
@@ -64,6 +70,7 @@ public class Hms extends SchemaImpl {
         return Arrays.asList(
             Room.ROOM,
             RoomProperty.ROOM_PROPERTY,
+            RoomV.ROOM_V,
             TypeRoomStandard.TYPE_ROOM_STANDARD
         );
     }

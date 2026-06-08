@@ -36,129 +36,129 @@ public class RoomRecord extends UpdatableRecordImpl<RoomRecord> {
     }
 
     /**
-     * Setter for <code>hms.room.type_room_standard_id</code>.
-     */
-    public void setTypeRoomStandardId(Integer value) {
-        set(1, value);
-    }
-
-    /**
-     * Getter for <code>hms.room.type_room_standard_id</code>.
-     */
-    public Integer getTypeRoomStandardId() {
-        return (Integer) get(1);
-    }
-
-    /**
      * Setter for <code>hms.room.capacity</code>.
      */
     public void setCapacity(Integer value) {
-        set(2, value);
+        set(1, value);
     }
 
     /**
      * Getter for <code>hms.room.capacity</code>.
      */
     public Integer getCapacity() {
-        return (Integer) get(2);
+        return (Integer) get(1);
     }
 
     /**
      * Setter for <code>hms.room.price_per_night</code>.
      */
     public void setPricePerNight(BigDecimal value) {
-        set(3, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>hms.room.price_per_night</code>.
      */
     public BigDecimal getPricePerNight() {
-        return (BigDecimal) get(3);
+        return (BigDecimal) get(2);
     }
 
     /**
      * Setter for <code>hms.room.room_number</code>.
      */
     public void setRoomNumber(String value) {
-        set(4, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>hms.room.room_number</code>.
      */
     public String getRoomNumber() {
-        return (String) get(4);
+        return (String) get(3);
     }
 
     /**
      * Setter for <code>hms.room.floor</code>.
      */
     public void setFloor(Integer value) {
-        set(5, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>hms.room.floor</code>.
      */
     public Integer getFloor() {
-        return (Integer) get(5);
+        return (Integer) get(4);
     }
 
     /**
      * Setter for <code>hms.room.area_m2</code>.
      */
     public void setAreaM2(Integer value) {
-        set(6, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>hms.room.area_m2</code>.
      */
     public Integer getAreaM2() {
-        return (Integer) get(6);
+        return (Integer) get(5);
     }
 
     /**
      * Setter for <code>hms.room.is_active</code>.
      */
     public void setIsActive(Boolean value) {
-        set(7, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>hms.room.is_active</code>.
      */
     public Boolean getIsActive() {
-        return (Boolean) get(7);
+        return (Boolean) get(6);
     }
 
     /**
      * Setter for <code>hms.room.created_at</code>.
      */
     public void setCreatedAt(LocalDateTime value) {
-        set(8, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>hms.room.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>hms.room.updated_at</code>.
      */
     public void setUpdatedAt(LocalDateTime value) {
-        set(9, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>hms.room.updated_at</code>.
      */
     public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(9);
+        return (LocalDateTime) get(8);
+    }
+
+    /**
+     * Setter for <code>hms.room.type_room_standard_code</code>.
+     */
+    public void setTypeRoomStandardCode(String value) {
+        set(9, value);
+    }
+
+    /**
+     * Getter for <code>hms.room.type_room_standard_code</code>.
+     */
+    public String getTypeRoomStandardCode() {
+        return (String) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -184,11 +184,10 @@ public class RoomRecord extends UpdatableRecordImpl<RoomRecord> {
     /**
      * Create a detached, initialised RoomRecord
      */
-    public RoomRecord(Integer roomId, Integer typeRoomStandardId, Integer capacity, BigDecimal pricePerNight, String roomNumber, Integer floor, Integer areaM2, Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public RoomRecord(Integer roomId, Integer capacity, BigDecimal pricePerNight, String roomNumber, Integer floor, Integer areaM2, Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt, String typeRoomStandardCode) {
         super(Room.ROOM);
 
         setRoomId(roomId);
-        setTypeRoomStandardId(typeRoomStandardId);
         setCapacity(capacity);
         setPricePerNight(pricePerNight);
         setRoomNumber(roomNumber);
@@ -197,6 +196,7 @@ public class RoomRecord extends UpdatableRecordImpl<RoomRecord> {
         setIsActive(isActive);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
+        setTypeRoomStandardCode(typeRoomStandardCode);
         resetTouchedOnNotNull();
     }
 
@@ -208,7 +208,6 @@ public class RoomRecord extends UpdatableRecordImpl<RoomRecord> {
 
         if (value != null) {
             setRoomId(value.getRoomId());
-            setTypeRoomStandardId(value.getTypeRoomStandardId());
             setCapacity(value.getCapacity());
             setPricePerNight(value.getPricePerNight());
             setRoomNumber(value.getRoomNumber());
@@ -217,6 +216,7 @@ public class RoomRecord extends UpdatableRecordImpl<RoomRecord> {
             setIsActive(value.getIsActive());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
+            setTypeRoomStandardCode(value.getTypeRoomStandardCode());
             resetTouchedOnNotNull();
         }
     }

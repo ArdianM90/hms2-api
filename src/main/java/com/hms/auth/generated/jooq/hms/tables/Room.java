@@ -67,11 +67,6 @@ public class Room extends TableImpl<RoomRecord> {
     public final TableField<RoomRecord, Integer> ROOM_ID = createField(DSL.name("room_id"), SQLDataType.INTEGER.nullable(false).generatedAlwaysAsIdentity(), this, "");
 
     /**
-     * The column <code>hms.room.type_room_standard_id</code>.
-     */
-    public final TableField<RoomRecord, Integer> TYPE_ROOM_STANDARD_ID = createField(DSL.name("type_room_standard_id"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
      * The column <code>hms.room.capacity</code>.
      */
     public final TableField<RoomRecord, Integer> CAPACITY = createField(DSL.name("capacity"), SQLDataType.INTEGER.nullable(false), this, "");
@@ -110,6 +105,11 @@ public class Room extends TableImpl<RoomRecord> {
      * The column <code>hms.room.updated_at</code>.
      */
     public final TableField<RoomRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(6), this, "");
+
+    /**
+     * The column <code>hms.room.type_room_standard_code</code>.
+     */
+    public final TableField<RoomRecord, String> TYPE_ROOM_STANDARD_CODE = createField(DSL.name("type_room_standard_code"), SQLDataType.CLOB.nullable(false), this, "");
 
     private Room(Name alias, Table<RoomRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -195,7 +195,7 @@ public class Room extends TableImpl<RoomRecord> {
 
     @Override
     public List<ForeignKey<RoomRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.ROOM__FK_ROOM_TYPE_ROOM_STANDARD);
+        return Arrays.asList(Keys.ROOM__FK_ROOM_TYPE_ROOM_STANDARD_CODE);
     }
 
     private transient TypeRoomStandardPath _typeRoomStandard;
@@ -206,7 +206,7 @@ public class Room extends TableImpl<RoomRecord> {
      */
     public TypeRoomStandardPath typeRoomStandard() {
         if (_typeRoomStandard == null)
-            _typeRoomStandard = new TypeRoomStandardPath(this, Keys.ROOM__FK_ROOM_TYPE_ROOM_STANDARD, null);
+            _typeRoomStandard = new TypeRoomStandardPath(this, Keys.ROOM__FK_ROOM_TYPE_ROOM_STANDARD_CODE, null);
 
         return _typeRoomStandard;
     }

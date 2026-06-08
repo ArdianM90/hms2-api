@@ -19,45 +19,45 @@ public class TypeRoomStandardRecord extends UpdatableRecordImpl<TypeRoomStandard
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>hms.type_room_standard.type_room_standard_id</code>.
-     */
-    public void setTypeRoomStandardId(Integer value) {
-        set(0, value);
-    }
-
-    /**
-     * Getter for <code>hms.type_room_standard.type_room_standard_id</code>.
-     */
-    public Integer getTypeRoomStandardId() {
-        return (Integer) get(0);
-    }
-
-    /**
      * Setter for <code>hms.type_room_standard.code</code>.
      */
     public void setCode(String value) {
-        set(1, value);
+        set(0, value);
     }
 
     /**
      * Getter for <code>hms.type_room_standard.code</code>.
      */
     public String getCode() {
-        return (String) get(1);
+        return (String) get(0);
     }
 
     /**
      * Setter for <code>hms.type_room_standard.name</code>.
      */
     public void setName(String value) {
-        set(2, value);
+        set(1, value);
     }
 
     /**
      * Getter for <code>hms.type_room_standard.name</code>.
      */
     public String getName() {
-        return (String) get(2);
+        return (String) get(1);
+    }
+
+    /**
+     * Setter for <code>hms.type_room_standard.is_active</code>.
+     */
+    public void setIsActive(Boolean value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>hms.type_room_standard.is_active</code>.
+     */
+    public Boolean getIsActive() {
+        return (Boolean) get(2);
     }
 
     // -------------------------------------------------------------------------
@@ -65,7 +65,7 @@ public class TypeRoomStandardRecord extends UpdatableRecordImpl<TypeRoomStandard
     // -------------------------------------------------------------------------
 
     @Override
-    public Record1<Integer> key() {
+    public Record1<String> key() {
         return (Record1) super.key();
     }
 
@@ -83,12 +83,12 @@ public class TypeRoomStandardRecord extends UpdatableRecordImpl<TypeRoomStandard
     /**
      * Create a detached, initialised TypeRoomStandardRecord
      */
-    public TypeRoomStandardRecord(Integer typeRoomStandardId, String code, String name) {
+    public TypeRoomStandardRecord(String code, String name, Boolean isActive) {
         super(TypeRoomStandard.TYPE_ROOM_STANDARD);
 
-        setTypeRoomStandardId(typeRoomStandardId);
         setCode(code);
         setName(name);
+        setIsActive(isActive);
         resetTouchedOnNotNull();
     }
 
@@ -99,9 +99,9 @@ public class TypeRoomStandardRecord extends UpdatableRecordImpl<TypeRoomStandard
         super(TypeRoomStandard.TYPE_ROOM_STANDARD);
 
         if (value != null) {
-            setTypeRoomStandardId(value.getTypeRoomStandardId());
             setCode(value.getCode());
             setName(value.getName());
+            setIsActive(value.getIsActive());
             resetTouchedOnNotNull();
         }
     }

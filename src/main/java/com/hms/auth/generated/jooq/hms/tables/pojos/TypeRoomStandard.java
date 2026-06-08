@@ -15,40 +15,26 @@ public class TypeRoomStandard implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer typeRoomStandardId;
     private String code;
     private String name;
+    private Boolean isActive;
 
     public TypeRoomStandard() {}
 
     public TypeRoomStandard(TypeRoomStandard value) {
-        this.typeRoomStandardId = value.typeRoomStandardId;
         this.code = value.code;
         this.name = value.name;
+        this.isActive = value.isActive;
     }
 
     public TypeRoomStandard(
-        Integer typeRoomStandardId,
         String code,
-        String name
+        String name,
+        Boolean isActive
     ) {
-        this.typeRoomStandardId = typeRoomStandardId;
         this.code = code;
         this.name = name;
-    }
-
-    /**
-     * Getter for <code>hms.type_room_standard.type_room_standard_id</code>.
-     */
-    public Integer getTypeRoomStandardId() {
-        return this.typeRoomStandardId;
-    }
-
-    /**
-     * Setter for <code>hms.type_room_standard.type_room_standard_id</code>.
-     */
-    public void setTypeRoomStandardId(Integer typeRoomStandardId) {
-        this.typeRoomStandardId = typeRoomStandardId;
+        this.isActive = isActive;
     }
 
     /**
@@ -79,6 +65,20 @@ public class TypeRoomStandard implements Serializable {
         this.name = name;
     }
 
+    /**
+     * Getter for <code>hms.type_room_standard.is_active</code>.
+     */
+    public Boolean getIsActive() {
+        return this.isActive;
+    }
+
+    /**
+     * Setter for <code>hms.type_room_standard.is_active</code>.
+     */
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -88,12 +88,6 @@ public class TypeRoomStandard implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         final TypeRoomStandard other = (TypeRoomStandard) obj;
-        if (this.typeRoomStandardId == null) {
-            if (other.typeRoomStandardId != null)
-                return false;
-        }
-        else if (!this.typeRoomStandardId.equals(other.typeRoomStandardId))
-            return false;
         if (this.code == null) {
             if (other.code != null)
                 return false;
@@ -106,6 +100,12 @@ public class TypeRoomStandard implements Serializable {
         }
         else if (!this.name.equals(other.name))
             return false;
+        if (this.isActive == null) {
+            if (other.isActive != null)
+                return false;
+        }
+        else if (!this.isActive.equals(other.isActive))
+            return false;
         return true;
     }
 
@@ -113,9 +113,9 @@ public class TypeRoomStandard implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((this.typeRoomStandardId == null) ? 0 : this.typeRoomStandardId.hashCode());
         result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.isActive == null) ? 0 : this.isActive.hashCode());
         return result;
     }
 
@@ -123,9 +123,9 @@ public class TypeRoomStandard implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("TypeRoomStandard (");
 
-        sb.append(typeRoomStandardId);
-        sb.append(", ").append(code);
+        sb.append(code);
         sb.append(", ").append(name);
+        sb.append(", ").append(isActive);
 
         sb.append(")");
         return sb.toString();

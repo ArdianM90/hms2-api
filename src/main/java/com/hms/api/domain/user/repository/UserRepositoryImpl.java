@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepositoryImpl {
+public class UserRepositoryImpl implements UserRepository {
 
   private final DSLContext dsl;
 }
