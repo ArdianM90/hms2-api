@@ -5,9 +5,12 @@ package com.hms.generated.jooq.hms;
 
 
 import com.hms.generated.jooq.DefaultCatalog;
+import com.hms.generated.jooq.hms.tables.Reservation;
 import com.hms.generated.jooq.hms.tables.Room;
 import com.hms.generated.jooq.hms.tables.RoomProperty;
 import com.hms.generated.jooq.hms.tables.RoomV;
+import com.hms.generated.jooq.hms.tables.TypeReservationSource;
+import com.hms.generated.jooq.hms.tables.TypeReservationStatus;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
 
 import java.util.Arrays;
@@ -33,6 +36,11 @@ public class Hms extends SchemaImpl {
     public static final Hms HMS = new Hms();
 
     /**
+     * The table <code>hms.reservation</code>.
+     */
+    public final Reservation RESERVATION = Reservation.RESERVATION;
+
+    /**
      * The table <code>hms.room</code>.
      */
     public final Room ROOM = Room.ROOM;
@@ -46,6 +54,16 @@ public class Hms extends SchemaImpl {
      * The table <code>hms.room_v</code>.
      */
     public final RoomV ROOM_V = RoomV.ROOM_V;
+
+    /**
+     * The table <code>hms.type_reservation_source</code>.
+     */
+    public final TypeReservationSource TYPE_RESERVATION_SOURCE = TypeReservationSource.TYPE_RESERVATION_SOURCE;
+
+    /**
+     * The table <code>hms.type_reservation_status</code>.
+     */
+    public final TypeReservationStatus TYPE_RESERVATION_STATUS = TypeReservationStatus.TYPE_RESERVATION_STATUS;
 
     /**
      * The table <code>hms.type_room_standard</code>.
@@ -68,9 +86,12 @@ public class Hms extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            Reservation.RESERVATION,
             Room.ROOM,
             RoomProperty.ROOM_PROPERTY,
             RoomV.ROOM_V,
+            TypeReservationSource.TYPE_RESERVATION_SOURCE,
+            TypeReservationStatus.TYPE_RESERVATION_STATUS,
             TypeRoomStandard.TYPE_ROOM_STANDARD
         );
     }

@@ -7,6 +7,7 @@ package com.hms.generated.jooq.auth.tables;
 import com.hms.generated.jooq.auth.Auth;
 import com.hms.generated.jooq.auth.Keys;
 import com.hms.generated.jooq.auth.tables.records.AppUserRecord;
+import com.hms.generated.jooq.hms.tables.Reservation.ReservationPath;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -16,9 +17,13 @@ import java.util.UUID;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.InverseForeignKey;
 import org.jooq.Name;
+import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
+import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Stringly;
@@ -113,6 +118,39 @@ public class AppUser extends TableImpl<AppUserRecord> {
         this(DSL.name("app_user"), null);
     }
 
+    public <O extends Record> AppUser(Table<O> path, ForeignKey<O, AppUserRecord> childPath, InverseForeignKey<O, AppUserRecord> parentPath) {
+        super(path, childPath, parentPath, APP_USER);
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class AppUserPath extends AppUser implements Path<AppUserRecord> {
+
+        private static final long serialVersionUID = 1L;
+        public <O extends Record> AppUserPath(Table<O> path, ForeignKey<O, AppUserRecord> childPath, InverseForeignKey<O, AppUserRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+        private AppUserPath(Name alias, Table<AppUserRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public AppUserPath as(String alias) {
+            return new AppUserPath(DSL.name(alias), this);
+        }
+
+        @Override
+        public AppUserPath as(Name alias) {
+            return new AppUserPath(alias, this);
+        }
+
+        @Override
+        public AppUserPath as(Table<?> alias) {
+            return new AppUserPath(alias.getQualifiedName(), this);
+        }
+    }
+
     @Override
     public Schema getSchema() {
         return aliased() ? null : Auth.AUTH;
@@ -126,6 +164,19 @@ public class AppUser extends TableImpl<AppUserRecord> {
     @Override
     public List<UniqueKey<AppUserRecord>> getUniqueKeys() {
         return Arrays.asList(Keys.USER_EMAIL_KEY, Keys.USER_USERNAME_KEY);
+    }
+
+    private transient ReservationPath _reservation;
+
+    /**
+     * Get the implicit to-many join path to the <code>hms.reservation</code>
+     * table
+     */
+    public ReservationPath reservation() {
+        if (_reservation == null)
+            _reservation = new ReservationPath(this, null, com.hms.generated.jooq.hms.Keys.RESERVATION__FK_RESERVATION_APP_USER.getInverseKey());
+
+        return _reservation;
     }
 
     @Override
