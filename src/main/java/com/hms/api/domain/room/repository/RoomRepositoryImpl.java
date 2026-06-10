@@ -1,18 +1,18 @@
 package com.hms.api.domain.room.repository;
 
-import com.hms.api.domain.room.dto.CreateRoomRequest;
-import com.hms.api.domain.room.dto.RoomDto;
-import com.hms.api.domain.room.dto.RoomStandard;
-import com.hms.api.domain.room.dto.UpdateRoomRequest;
+import com.hms.api.domain.room.dto.*;
 import com.hms.generated.jooq.hms.Tables;
 import com.hms.generated.jooq.hms.tables.RoomV;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
 import com.hms.generated.jooq.hms.tables.records.RoomRecord;
 import com.hms.generated.jooq.hms.tables.records.RoomVRecord;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -28,9 +28,22 @@ public class RoomRepositoryImpl implements RoomRepository {
   }
 
   @Override
-  public List<RoomDto> getRooms() {
+  public List<RoomDto> getRooms(RoomsFilterParams filterParams) {
     RoomV v = RoomV.ROOM_V;
-    return dsl.selectFrom(v).fetch(this::mapToRoomDto);
+    Condition condition = DSL.trueCondition();
+    if (filterParams.roomCapacities() != null) {
+      condition = condition.and(v.CAPACITY.in(filterParams.roomCapacities()));
+    }
+    if (filterParams.standardCode() != null) {
+      condition = condition.and(v.STANDARD_CODE.eq(filterParams.standardCode()));
+    }
+    if (filterParams.priceFrom() != null) {
+      condition = condition.and(v.PRICE_PER_NIGHT.ge(BigDecimal.valueOf(filterParams.priceFrom())));
+    }
+    if (filterParams.priceTo() != null) {
+      condition = condition.and(v.PRICE_PER_NIGHT.le(BigDecimal.valueOf(filterParams.priceTo())));
+    }
+    return dsl.selectFrom(v).where(condition).fetch(this::mapToRoomDto);
   }
 
   @Override
@@ -73,13 +86,10 @@ public class RoomRepositoryImpl implements RoomRepository {
 
   private RoomDto mapToRoomDto(RoomVRecord r) {
     RoomV v = RoomV.ROOM_V;
-    RoomStandard standard = new RoomStandard();
-    standard.setCode(r.get(v.STANDARD_CODE));
-    standard.setName(r.get(v.STANDARD_NAME));
     return new RoomDto(
         r.get(v.ROOM_ID),
         r.get(v.ROOM_NUMBER),
-        standard,
+        new RoomStandard(r.get(v.STANDARD_CODE), r.get(v.STANDARD_NAME)),
         r.get(v.CAPACITY),
         r.get(v.PRICE_PER_NIGHT),
         r.get(v.FLOOR),
