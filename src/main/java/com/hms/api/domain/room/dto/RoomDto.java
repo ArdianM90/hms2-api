@@ -10,5 +10,3 @@ public record RoomDto(
     BigDecimal pricePerNight,
     Integer floor,
     Integer areaM2) {}
-
-

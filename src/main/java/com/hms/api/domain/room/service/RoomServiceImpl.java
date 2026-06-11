@@ -23,6 +23,12 @@ public class RoomServiceImpl implements RoomService {
   }
 
   @Override
+  public RoomsQtyResponse getRoomsQuantity() {
+    return new RoomsQtyResponse(
+        roomRepository.getRooms(new RoomsFilterParams(null, null, null, null)).size());
+  }
+
+  @Override
   public int createRoom(CreateRoomRequest request) {
     return roomRepository.createRoom(request);
   }

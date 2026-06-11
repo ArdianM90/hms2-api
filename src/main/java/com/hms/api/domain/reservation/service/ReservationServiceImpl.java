@@ -4,6 +4,7 @@ import com.hms.api.domain.reservation.dto.ReservationDto;
 import com.hms.api.domain.reservation.dto.ReservationOffer;
 import com.hms.api.domain.reservation.dto.RoomOffer;
 import com.hms.api.domain.reservation.dto.SearchReservationOffersRequest;
+import com.hms.api.domain.reservation.exception.TooManyRoomsException;
 import com.hms.api.domain.reservation.repository.ReservationRepository;
 import com.hms.api.domain.room.dto.RoomDto;
 import com.hms.api.domain.room.dto.RoomsFilterParams;
@@ -25,6 +26,8 @@ public class ReservationServiceImpl implements ReservationService {
   private final RoomService roomService;
 
   public List<ReservationOffer> getReservationOffers(SearchReservationOffersRequest request) {
+    validateSearchReservationRequest(request);
+
     Set<Integer> reservedRoomIds =
         reservationRepository.getReservations(request.startDate(), request.endDate()).stream()
             .map(ReservationDto::roomId)
@@ -84,5 +87,12 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     return result;
+  }
+
+  private void validateSearchReservationRequest(SearchReservationOffersRequest request) {
+    int roomsQty = roomService.getRoomsQuantity().quantity();
+    if (request.roomCapacities().length > roomsQty) {
+      throw new TooManyRoomsException("Przekroczono liczbę dostępnych pokojów.");
+    }
   }
 }

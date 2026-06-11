@@ -27,6 +27,11 @@ public class RoomController {
     return ResponseEntity.ok(roomService.getRooms(filterParams));
   }
 
+  @GetMapping("/quantity")
+  public ResponseEntity<RoomsQtyResponse> getRoomsQuantity() {
+    return ResponseEntity.ok(roomService.getRoomsQuantity());
+  }
+
   @PostMapping
   public ResponseEntity<IntIdResponse> createRoom(@RequestBody CreateRoomRequest request) {
     int id = roomService.createRoom(request);

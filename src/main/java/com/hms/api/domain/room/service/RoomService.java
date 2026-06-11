@@ -10,6 +10,8 @@ public interface RoomService {
 
   List<RoomDto> getRooms(RoomsFilterParams filterParams);
 
+  RoomsQtyResponse getRoomsQuantity();
+
   @Transactional
   int createRoom(CreateRoomRequest request);
 
