@@ -10,6 +10,7 @@ import com.hms.api.domain.room.dto.RoomDto;
 import com.hms.api.domain.room.dto.RoomsFilterParams;
 import com.hms.api.domain.room.service.RoomService;
 import java.math.BigDecimal;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,11 +62,14 @@ public class ReservationServiceImpl implements ReservationService {
                   combo.stream()
                       .map(r -> new RoomOffer(r.standard(), r.capacity(), r.pricePerNight()))
                       .toList();
+              int numberOfNights =
+                  (int) ChronoUnit.DAYS.between(request.startDate(), request.endDate());
               BigDecimal totalPrice =
                   roomOffers.stream()
                       .map(RoomOffer::pricePerNight)
-                      .reduce(BigDecimal.ZERO, BigDecimal::add);
-              return new ReservationOffer(totalPrice, roomOffers);
+                      .reduce(BigDecimal.ZERO, BigDecimal::add)
+                      .multiply(BigDecimal.valueOf(numberOfNights));
+              return new ReservationOffer(numberOfNights, totalPrice, roomOffers);
             })
         .toList();
   }
