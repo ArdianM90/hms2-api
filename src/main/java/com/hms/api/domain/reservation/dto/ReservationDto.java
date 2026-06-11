@@ -8,5 +8,5 @@ public record ReservationDto(
     LocalDate startDate,
     LocalDate endDate,
     RoomStandard roomStandard,
-    ReservationStatus reservationStatus,
+    ReservationStatusDto reservationStatus,
     Integer roomId) {}

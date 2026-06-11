@@ -1,22 +1,18 @@
 package com.hms.api.domain.reservation.service;
 
-import com.hms.api.domain.reservation.dto.ReservationDto;
-import com.hms.api.domain.reservation.dto.ReservationOffer;
-import com.hms.api.domain.reservation.dto.RoomOffer;
-import com.hms.api.domain.reservation.dto.SearchReservationOffersRequest;
+import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.exception.TooManyRoomsException;
+import com.hms.api.domain.reservation.model.ReservationSource;
 import com.hms.api.domain.reservation.repository.ReservationRepository;
 import com.hms.api.domain.room.dto.RoomDto;
 import com.hms.api.domain.room.dto.RoomsFilterParams;
 import com.hms.api.domain.room.service.RoomService;
 import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,52 +22,86 @@ public class ReservationServiceImpl implements ReservationService {
   private final ReservationRepository reservationRepository;
   private final RoomService roomService;
 
+  @Override
+  public void makeReservation(Jwt jwt, MakeReservationRequest request) {
+    String appUserId = jwt.getClaimAsString("user_id");
+    //todo: nie działa rozpoznawanie source
+    ReservationSource source = resolveSource(jwt);
+    reservationRepository.makeReservation(appUserId, source, request);
+  }
+
+  @Override
   public List<ReservationOffer> getReservationOffers(SearchReservationOffersRequest request) {
     validateSearchReservationRequest(request);
+    List<RoomDto> availableRooms = getAvailableRooms(request);
+    List<List<RoomDto>> combinations = buildCombinations(availableRooms, request.roomCapacities());
+    return toUniqueOffers(combinations, request);
+  }
 
+  private List<RoomDto> getAvailableRooms(SearchReservationOffersRequest request) {
     Set<Integer> reservedRoomIds =
         reservationRepository.getReservations(request.startDate(), request.endDate()).stream()
             .map(ReservationDto::roomId)
             .collect(Collectors.toSet());
-    List<RoomDto> availableRooms =
-        roomService
-            .getRooms(
-                new RoomsFilterParams(
-                    null, request.standardCode(), request.priceFrom(), request.priceTo()))
-            .stream()
-            .filter(r -> !reservedRoomIds.contains(r.roomId()))
-            .toList();
+    return roomService
+        .getRooms(
+            new RoomsFilterParams(
+                null, request.standardCode(), request.priceFrom(), request.priceTo()))
+        .stream()
+        .filter(r -> !reservedRoomIds.contains(r.roomId()))
+        .toList();
+  }
+
+  private List<List<RoomDto>> buildCombinations(
+      List<RoomDto> availableRooms, Integer[] roomCapacities) {
     List<List<RoomDto>> candidatesPerSlot =
-        Arrays.stream(request.roomCapacities())
+        Arrays.stream(roomCapacities)
             .map(
                 requiredCapacity ->
                     availableRooms.stream().filter(r -> r.capacity() >= requiredCapacity).toList())
             .toList();
-    List<List<RoomDto>> combinations = cartesianProduct(candidatesPerSlot);
+    return cartesianProduct(candidatesPerSlot);
+  }
+
+  private List<ReservationOffer> toUniqueOffers(
+      List<List<RoomDto>> combinations, SearchReservationOffersRequest request) {
+    int numberOfNights = (int) ChronoUnit.DAYS.between(request.startDate(), request.endDate());
+    Set<List<RoomOfferKey>> seen = new HashSet<>();
 
     return combinations.stream()
-        .filter(
-            combo -> {
-              Set<Integer> ids = combo.stream().map(RoomDto::roomId).collect(Collectors.toSet());
-              return ids.size() == combo.size();
-            })
-        .distinct()
-        .map(
-            combo -> {
-              List<RoomOffer> roomOffers =
-                  combo.stream()
-                      .map(r -> new RoomOffer(r.standard(), r.capacity(), r.pricePerNight()))
-                      .toList();
-              int numberOfNights =
-                  (int) ChronoUnit.DAYS.between(request.startDate(), request.endDate());
-              BigDecimal totalPrice =
-                  roomOffers.stream()
-                      .map(RoomOffer::pricePerNight)
-                      .reduce(BigDecimal.ZERO, BigDecimal::add)
-                      .multiply(BigDecimal.valueOf(numberOfNights));
-              return new ReservationOffer(numberOfNights, totalPrice, roomOffers);
-            })
+        .filter(this::hasUniqueRooms)
+        .filter(combo -> isUniqueOffer(combo, seen))
+        .map(combo -> toReservationOffer(combo, numberOfNights))
         .toList();
+  }
+
+  private boolean hasUniqueRooms(List<RoomDto> combo) {
+    Set<Integer> ids = combo.stream().map(RoomDto::roomId).collect(Collectors.toSet());
+    return ids.size() == combo.size();
+  }
+
+  private boolean isUniqueOffer(List<RoomDto> combo, Set<List<RoomOfferKey>> seen) {
+    List<RoomOfferKey> key =
+        combo.stream()
+            .map(r -> new RoomOfferKey(r.standard(), r.capacity(), r.pricePerNight()))
+            .sorted(
+                Comparator.comparingInt(RoomOfferKey::capacity)
+                    .thenComparing(k -> k.standard().code()))
+            .toList();
+    return seen.add(key);
+  }
+
+  private ReservationOffer toReservationOffer(List<RoomDto> combo, int numberOfNights) {
+    List<RoomOffer> roomOffers =
+        combo.stream()
+            .map(r -> new RoomOffer(r.roomId(), r.standard(), r.capacity(), r.pricePerNight()))
+            .toList();
+    BigDecimal totalPrice =
+        roomOffers.stream()
+            .map(RoomOffer::pricePerNight)
+            .reduce(BigDecimal.ZERO, BigDecimal::add)
+            .multiply(BigDecimal.valueOf(numberOfNights));
+    return new ReservationOffer(numberOfNights, totalPrice, roomOffers);
   }
 
   private List<List<RoomDto>> cartesianProduct(List<List<RoomDto>> lists) {
@@ -91,6 +121,14 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     return result;
+  }
+
+  private ReservationSource resolveSource(Jwt jwt) {
+    String clientId = jwt.getClaimAsString("client_id");
+    if (clientId == null) {
+      return ReservationSource.OTHER;
+    }
+    return ReservationSource.fromCode(clientId);
   }
 
   private void validateSearchReservationRequest(SearchReservationOffersRequest request) {
