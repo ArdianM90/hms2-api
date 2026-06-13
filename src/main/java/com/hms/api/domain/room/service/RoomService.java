@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface RoomService {
 
-  RoomDto getRoom(int id);
+  RoomDto getRoom(int roomId);
 
   List<RoomDto> getRooms(RoomsFilterParams filterParams);
 
@@ -16,10 +16,10 @@ public interface RoomService {
   int createRoom(CreateRoomRequest request);
 
   @Transactional
-  void updateRoom(int id, UpdateRoomRequest request);
+  void updateRoom(int roomId, UpdateRoomRequest request);
 
   @Transactional
-  void deleteRoom(int id);
+  void deleteRoom(int roomId);
 
   List<RoomStandard> getRoomStandards();
 }

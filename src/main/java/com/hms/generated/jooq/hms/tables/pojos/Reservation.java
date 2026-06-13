@@ -20,8 +20,7 @@ public class Reservation implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer reservationId;
-    private Integer roomId;
-    private UUID userId;
+    private UUID appUserId;
     private LocalDate startDate;
     private LocalDate endDate;
     private String statusCode;
@@ -35,8 +34,7 @@ public class Reservation implements Serializable {
 
     public Reservation(Reservation value) {
         this.reservationId = value.reservationId;
-        this.roomId = value.roomId;
-        this.userId = value.userId;
+        this.appUserId = value.appUserId;
         this.startDate = value.startDate;
         this.endDate = value.endDate;
         this.statusCode = value.statusCode;
@@ -49,8 +47,7 @@ public class Reservation implements Serializable {
 
     public Reservation(
         Integer reservationId,
-        Integer roomId,
-        UUID userId,
+        UUID appUserId,
         LocalDate startDate,
         LocalDate endDate,
         String statusCode,
@@ -61,8 +58,7 @@ public class Reservation implements Serializable {
         String comment
     ) {
         this.reservationId = reservationId;
-        this.roomId = roomId;
-        this.userId = userId;
+        this.appUserId = appUserId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.statusCode = statusCode;
@@ -88,31 +84,17 @@ public class Reservation implements Serializable {
     }
 
     /**
-     * Getter for <code>hms.reservation.room_id</code>.
+     * Getter for <code>hms.reservation.app_user_id</code>.
      */
-    public Integer getRoomId() {
-        return this.roomId;
+    public UUID getAppUserId() {
+        return this.appUserId;
     }
 
     /**
-     * Setter for <code>hms.reservation.room_id</code>.
+     * Setter for <code>hms.reservation.app_user_id</code>.
      */
-    public void setRoomId(Integer roomId) {
-        this.roomId = roomId;
-    }
-
-    /**
-     * Getter for <code>hms.reservation.user_id</code>.
-     */
-    public UUID getUserId() {
-        return this.userId;
-    }
-
-    /**
-     * Setter for <code>hms.reservation.user_id</code>.
-     */
-    public void setUserId(UUID userId) {
-        this.userId = userId;
+    public void setAppUserId(UUID appUserId) {
+        this.appUserId = appUserId;
     }
 
     /**
@@ -242,17 +224,11 @@ public class Reservation implements Serializable {
         }
         else if (!this.reservationId.equals(other.reservationId))
             return false;
-        if (this.roomId == null) {
-            if (other.roomId != null)
+        if (this.appUserId == null) {
+            if (other.appUserId != null)
                 return false;
         }
-        else if (!this.roomId.equals(other.roomId))
-            return false;
-        if (this.userId == null) {
-            if (other.userId != null)
-                return false;
-        }
-        else if (!this.userId.equals(other.userId))
+        else if (!this.appUserId.equals(other.appUserId))
             return false;
         if (this.startDate == null) {
             if (other.startDate != null)
@@ -310,8 +286,7 @@ public class Reservation implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.reservationId == null) ? 0 : this.reservationId.hashCode());
-        result = prime * result + ((this.roomId == null) ? 0 : this.roomId.hashCode());
-        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
+        result = prime * result + ((this.appUserId == null) ? 0 : this.appUserId.hashCode());
         result = prime * result + ((this.startDate == null) ? 0 : this.startDate.hashCode());
         result = prime * result + ((this.endDate == null) ? 0 : this.endDate.hashCode());
         result = prime * result + ((this.statusCode == null) ? 0 : this.statusCode.hashCode());
@@ -328,8 +303,7 @@ public class Reservation implements Serializable {
         StringBuilder sb = new StringBuilder("Reservation (");
 
         sb.append(reservationId);
-        sb.append(", ").append(roomId);
-        sb.append(", ").append(userId);
+        sb.append(", ").append(appUserId);
         sb.append(", ").append(startDate);
         sb.append(", ").append(endDate);
         sb.append(", ").append(statusCode);

@@ -17,9 +17,9 @@ public class RoomController {
 
   private final RoomService roomService;
 
-  @GetMapping("/{id}")
-  public ResponseEntity<RoomDto> getRoom(@PathVariable int id) {
-    return ResponseEntity.ok(roomService.getRoom(id));
+  @GetMapping("/{roomId}")
+  public ResponseEntity<RoomDto> getRoom(@PathVariable int roomId) {
+    return ResponseEntity.ok(roomService.getRoom(roomId));
   }
 
   @GetMapping
@@ -38,16 +38,16 @@ public class RoomController {
     return ResponseEntity.status(HttpStatus.CREATED).body(new IntIdResponse(id));
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/{roomId}")
   public ResponseEntity<Void> updateRoom(
-      @PathVariable int id, @RequestBody UpdateRoomRequest request) {
-    roomService.updateRoom(id, request);
+      @PathVariable int roomId, @RequestBody UpdateRoomRequest request) {
+    roomService.updateRoom(roomId, request);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteRoom(@PathVariable int id) {
-    roomService.deleteRoom(id);
+  @DeleteMapping("/{roomId}")
+  public ResponseEntity<Void> deleteRoom(@PathVariable int roomId) {
+    roomService.deleteRoom(roomId);
     return ResponseEntity.noContent().build();
   }
 

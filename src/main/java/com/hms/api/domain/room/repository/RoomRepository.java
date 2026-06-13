@@ -5,15 +5,15 @@ import java.util.List;
 
 public interface RoomRepository {
 
-  RoomDto getRoom(int id);
+  RoomDto getRoom(int roomId);
 
   List<RoomDto> getRooms(RoomsFilterParams filterParams);
 
   int createRoom(CreateRoomRequest request);
 
-  void updateRoom(int id, UpdateRoomRequest request);
+  void updateRoom(int roomId, UpdateRoomRequest request);
 
-  void deleteRoom(int id);
+  void deleteRoom(int roomId);
 
   List<RoomStandard> getRoomStandards();
 }

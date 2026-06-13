@@ -22,9 +22,9 @@ public class RoomRepositoryImpl implements RoomRepository {
   private final DSLContext dsl;
 
   @Override
-  public RoomDto getRoom(int id) {
+  public RoomDto getRoom(int roomId) {
     RoomV v = RoomV.ROOM_V;
-    return dsl.selectFrom(v).where(v.ROOM_ID.eq(id)).fetchOne(this::mapToRoomDto);
+    return dsl.selectFrom(v).where(v.ROOM_ID.eq(roomId)).fetchOne(this::mapToRoomDto);
   }
 
   @Override
@@ -60,7 +60,7 @@ public class RoomRepositoryImpl implements RoomRepository {
   }
 
   @Override
-  public void updateRoom(int id, UpdateRoomRequest request) {
+  public void updateRoom(int roomId, UpdateRoomRequest request) {
     dsl.update(Tables.ROOM)
         .set(Tables.ROOM.ROOM_NUMBER, request.roomNumber())
         .set(Tables.ROOM.TYPE_ROOM_STANDARD_CODE, request.roomStandardCode())
@@ -69,13 +69,13 @@ public class RoomRepositoryImpl implements RoomRepository {
         .set(Tables.ROOM.FLOOR, request.floor())
         .set(Tables.ROOM.AREA_M2, request.areaM2())
         .set(Tables.ROOM.UPDATED_AT, LocalDateTime.now())
-        .where(Tables.ROOM.ROOM_ID.eq(id))
+        .where(Tables.ROOM.ROOM_ID.eq(roomId))
         .execute();
   }
 
   @Override
-  public void deleteRoom(int id) {
-    dsl.deleteFrom(Tables.ROOM).where(Tables.ROOM.ROOM_ID.eq(id)).execute();
+  public void deleteRoom(int roomId) {
+    dsl.deleteFrom(Tables.ROOM).where(Tables.ROOM.ROOM_ID.eq(roomId)).execute();
   }
 
   @Override

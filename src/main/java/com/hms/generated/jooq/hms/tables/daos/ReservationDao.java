@@ -73,33 +73,18 @@ public class ReservationDao extends DAOImpl<ReservationRecord, com.hms.generated
     }
 
     /**
-     * Fetch records that have <code>room_id BETWEEN lowerInclusive AND
+     * Fetch records that have <code>app_user_id BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.hms.generated.jooq.hms.tables.pojos.Reservation> fetchRangeOfRoomId(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(Reservation.RESERVATION.ROOM_ID, lowerInclusive, upperInclusive);
+    public List<com.hms.generated.jooq.hms.tables.pojos.Reservation> fetchRangeOfAppUserId(UUID lowerInclusive, UUID upperInclusive) {
+        return fetchRange(Reservation.RESERVATION.APP_USER_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>room_id IN (values)</code>
+     * Fetch records that have <code>app_user_id IN (values)</code>
      */
-    public List<com.hms.generated.jooq.hms.tables.pojos.Reservation> fetchByRoomId(Integer... values) {
-        return fetch(Reservation.RESERVATION.ROOM_ID, values);
-    }
-
-    /**
-     * Fetch records that have <code>user_id BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<com.hms.generated.jooq.hms.tables.pojos.Reservation> fetchRangeOfUserId(UUID lowerInclusive, UUID upperInclusive) {
-        return fetchRange(Reservation.RESERVATION.USER_ID, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>user_id IN (values)</code>
-     */
-    public List<com.hms.generated.jooq.hms.tables.pojos.Reservation> fetchByUserId(UUID... values) {
-        return fetch(Reservation.RESERVATION.USER_ID, values);
+    public List<com.hms.generated.jooq.hms.tables.pojos.Reservation> fetchByAppUserId(UUID... values) {
+        return fetch(Reservation.RESERVATION.APP_USER_ID, values);
     }
 
     /**

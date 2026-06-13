@@ -13,8 +13,8 @@ public class RoomServiceImpl implements RoomService {
   private final RoomRepository roomRepository;
 
   @Override
-  public RoomDto getRoom(int id) {
-    return roomRepository.getRoom(id);
+  public RoomDto getRoom(int roomId) {
+    return roomRepository.getRoom(roomId);
   }
 
   @Override
@@ -34,13 +34,13 @@ public class RoomServiceImpl implements RoomService {
   }
 
   @Override
-  public void updateRoom(int id, UpdateRoomRequest request) {
-    roomRepository.updateRoom(id, request);
+  public void updateRoom(int roomId, UpdateRoomRequest request) {
+    roomRepository.updateRoom(roomId, request);
   }
 
   @Override
-  public void deleteRoom(int id) {
-    roomRepository.deleteRoom(id);
+  public void deleteRoom(int roomId) {
+    roomRepository.deleteRoom(roomId);
   }
 
   @Override

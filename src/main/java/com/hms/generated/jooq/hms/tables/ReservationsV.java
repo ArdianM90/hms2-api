@@ -9,7 +9,9 @@ import com.hms.generated.jooq.hms.tables.records.ReservationsVRecord;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.UUID;
 
 import org.jooq.Condition;
 import org.jooq.Field;
@@ -56,6 +58,21 @@ public class ReservationsV extends TableImpl<ReservationsVRecord> {
     public final TableField<ReservationsVRecord, Integer> RESERVATION_ID = createField(DSL.name("reservation_id"), SQLDataType.INTEGER, this, "");
 
     /**
+     * The column <code>hms.reservations_v.app_user_id</code>.
+     */
+    public final TableField<ReservationsVRecord, UUID> APP_USER_ID = createField(DSL.name("app_user_id"), SQLDataType.UUID, this, "");
+
+    /**
+     * The column <code>hms.reservations_v.created_at</code>.
+     */
+    public final TableField<ReservationsVRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(6), this, "");
+
+    /**
+     * The column <code>hms.reservations_v.updated_at</code>.
+     */
+    public final TableField<ReservationsVRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(6), this, "");
+
+    /**
      * The column <code>hms.reservations_v.start_date</code>.
      */
     public final TableField<ReservationsVRecord, LocalDate> START_DATE = createField(DSL.name("start_date"), SQLDataType.LOCALDATE, this, "");
@@ -76,34 +93,24 @@ public class ReservationsV extends TableImpl<ReservationsVRecord> {
     public final TableField<ReservationsVRecord, String> STATUS_NAME = createField(DSL.name("status_name"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>hms.reservations_v.room_id</code>.
+     * The column <code>hms.reservations_v.source_code</code>.
      */
-    public final TableField<ReservationsVRecord, Integer> ROOM_ID = createField(DSL.name("room_id"), SQLDataType.INTEGER, this, "");
+    public final TableField<ReservationsVRecord, String> SOURCE_CODE = createField(DSL.name("source_code"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>hms.reservations_v.room_number</code>.
+     * The column <code>hms.reservations_v.source_name</code>.
      */
-    public final TableField<ReservationsVRecord, String> ROOM_NUMBER = createField(DSL.name("room_number"), SQLDataType.CLOB, this, "");
+    public final TableField<ReservationsVRecord, String> SOURCE_NAME = createField(DSL.name("source_name"), SQLDataType.CLOB, this, "");
 
     /**
-     * The column <code>hms.reservations_v.capacity</code>.
+     * The column <code>hms.reservations_v.total_price</code>.
      */
-    public final TableField<ReservationsVRecord, Integer> CAPACITY = createField(DSL.name("capacity"), SQLDataType.INTEGER, this, "");
+    public final TableField<ReservationsVRecord, BigDecimal> TOTAL_PRICE = createField(DSL.name("total_price"), SQLDataType.NUMERIC(10, 2), this, "");
 
     /**
-     * The column <code>hms.reservations_v.price_per_night</code>.
+     * The column <code>hms.reservations_v.rooms_quantity</code>.
      */
-    public final TableField<ReservationsVRecord, BigDecimal> PRICE_PER_NIGHT = createField(DSL.name("price_per_night"), SQLDataType.NUMERIC(10, 2), this, "");
-
-    /**
-     * The column <code>hms.reservations_v.standard_code</code>.
-     */
-    public final TableField<ReservationsVRecord, String> STANDARD_CODE = createField(DSL.name("standard_code"), SQLDataType.CLOB, this, "");
-
-    /**
-     * The column <code>hms.reservations_v.standard_name</code>.
-     */
-    public final TableField<ReservationsVRecord, String> STANDARD_NAME = createField(DSL.name("standard_name"), SQLDataType.CLOB, this, "");
+    public final TableField<ReservationsVRecord, Long> ROOMS_QUANTITY = createField(DSL.name("rooms_quantity"), SQLDataType.BIGINT, this, "");
 
     private ReservationsV(Name alias, Table<ReservationsVRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -112,20 +119,23 @@ public class ReservationsV extends TableImpl<ReservationsVRecord> {
     private ReservationsV(Name alias, Table<ReservationsVRecord> aliased, Field<?>[] parameters, Condition where) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
         CREATE VIEW "reservations_v" AS  SELECT rsv.reservation_id,
-         rsv.start_date,
-         rsv.end_date,
-         rsv.status_code,
-         trs.name AS status_name,
-         r.room_id,
-         r.room_number,
-         r.capacity,
-         r.price_per_night,
-         t.code AS standard_code,
-         t.name AS standard_name
-        FROM (((hms.reservation rsv
-          JOIN hms.type_reservation_status trs ON ((rsv.status_code = trs.code)))
-          JOIN hms.room r ON ((r.room_id = rsv.room_id)))
-          JOIN hms.type_room_standard t ON ((r.type_room_standard_code = t.code)));
+          rsv.app_user_id,
+          rsv.created_at,
+          rsv.updated_at,
+          rsv.start_date,
+          rsv.end_date,
+          rsv.status_code,
+          t_sts.name AS status_name,
+          rsv.source_code,
+          t_src.name AS source_name,
+          rsv.total_price,
+          count(*) AS rooms_quantity
+         FROM ((((hms.reservation rsv
+           JOIN hms.type_reservation_status t_sts ON ((rsv.status_code = t_sts.code)))
+           JOIN hms.type_reservation_source t_src ON ((rsv.source_code = t_src.code)))
+           JOIN hms.reservation_room rr ON ((rsv.reservation_id = rr.reservation_id)))
+           JOIN hms.room r ON ((r.room_id = rr.room_id)))
+        GROUP BY rsv.reservation_id, rsv.created_at, rsv.updated_at, rsv.start_date, rsv.end_date, rsv.status_code, t_sts.name, rsv.source_code, t_src.name, rsv.total_price;
         """), where);
     }
 

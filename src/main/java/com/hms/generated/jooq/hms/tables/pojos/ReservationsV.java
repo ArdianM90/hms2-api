@@ -7,6 +7,8 @@ package com.hms.generated.jooq.hms.tables.pojos;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 /**
@@ -18,57 +20,61 @@ public class ReservationsV implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer reservationId;
+    private UUID appUserId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private LocalDate startDate;
     private LocalDate endDate;
     private String statusCode;
     private String statusName;
-    private Integer roomId;
-    private String roomNumber;
-    private Integer capacity;
-    private BigDecimal pricePerNight;
-    private String standardCode;
-    private String standardName;
+    private String sourceCode;
+    private String sourceName;
+    private BigDecimal totalPrice;
+    private Long roomsQuantity;
 
     public ReservationsV() {}
 
     public ReservationsV(ReservationsV value) {
         this.reservationId = value.reservationId;
+        this.appUserId = value.appUserId;
+        this.createdAt = value.createdAt;
+        this.updatedAt = value.updatedAt;
         this.startDate = value.startDate;
         this.endDate = value.endDate;
         this.statusCode = value.statusCode;
         this.statusName = value.statusName;
-        this.roomId = value.roomId;
-        this.roomNumber = value.roomNumber;
-        this.capacity = value.capacity;
-        this.pricePerNight = value.pricePerNight;
-        this.standardCode = value.standardCode;
-        this.standardName = value.standardName;
+        this.sourceCode = value.sourceCode;
+        this.sourceName = value.sourceName;
+        this.totalPrice = value.totalPrice;
+        this.roomsQuantity = value.roomsQuantity;
     }
 
     public ReservationsV(
         Integer reservationId,
+        UUID appUserId,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt,
         LocalDate startDate,
         LocalDate endDate,
         String statusCode,
         String statusName,
-        Integer roomId,
-        String roomNumber,
-        Integer capacity,
-        BigDecimal pricePerNight,
-        String standardCode,
-        String standardName
+        String sourceCode,
+        String sourceName,
+        BigDecimal totalPrice,
+        Long roomsQuantity
     ) {
         this.reservationId = reservationId;
+        this.appUserId = appUserId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.startDate = startDate;
         this.endDate = endDate;
         this.statusCode = statusCode;
         this.statusName = statusName;
-        this.roomId = roomId;
-        this.roomNumber = roomNumber;
-        this.capacity = capacity;
-        this.pricePerNight = pricePerNight;
-        this.standardCode = standardCode;
-        this.standardName = standardName;
+        this.sourceCode = sourceCode;
+        this.sourceName = sourceName;
+        this.totalPrice = totalPrice;
+        this.roomsQuantity = roomsQuantity;
     }
 
     /**
@@ -83,6 +89,48 @@ public class ReservationsV implements Serializable {
      */
     public void setReservationId(Integer reservationId) {
         this.reservationId = reservationId;
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.app_user_id</code>.
+     */
+    public UUID getAppUserId() {
+        return this.appUserId;
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.app_user_id</code>.
+     */
+    public void setAppUserId(UUID appUserId) {
+        this.appUserId = appUserId;
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.created_at</code>.
+     */
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.created_at</code>.
+     */
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.updated_at</code>.
+     */
+    public LocalDateTime getUpdatedAt() {
+        return this.updatedAt;
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.updated_at</code>.
+     */
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     /**
@@ -142,87 +190,59 @@ public class ReservationsV implements Serializable {
     }
 
     /**
-     * Getter for <code>hms.reservations_v.room_id</code>.
+     * Getter for <code>hms.reservations_v.source_code</code>.
      */
-    public Integer getRoomId() {
-        return this.roomId;
+    public String getSourceCode() {
+        return this.sourceCode;
     }
 
     /**
-     * Setter for <code>hms.reservations_v.room_id</code>.
+     * Setter for <code>hms.reservations_v.source_code</code>.
      */
-    public void setRoomId(Integer roomId) {
-        this.roomId = roomId;
+    public void setSourceCode(String sourceCode) {
+        this.sourceCode = sourceCode;
     }
 
     /**
-     * Getter for <code>hms.reservations_v.room_number</code>.
+     * Getter for <code>hms.reservations_v.source_name</code>.
      */
-    public String getRoomNumber() {
-        return this.roomNumber;
+    public String getSourceName() {
+        return this.sourceName;
     }
 
     /**
-     * Setter for <code>hms.reservations_v.room_number</code>.
+     * Setter for <code>hms.reservations_v.source_name</code>.
      */
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
     }
 
     /**
-     * Getter for <code>hms.reservations_v.capacity</code>.
+     * Getter for <code>hms.reservations_v.total_price</code>.
      */
-    public Integer getCapacity() {
-        return this.capacity;
+    public BigDecimal getTotalPrice() {
+        return this.totalPrice;
     }
 
     /**
-     * Setter for <code>hms.reservations_v.capacity</code>.
+     * Setter for <code>hms.reservations_v.total_price</code>.
      */
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     /**
-     * Getter for <code>hms.reservations_v.price_per_night</code>.
+     * Getter for <code>hms.reservations_v.rooms_quantity</code>.
      */
-    public BigDecimal getPricePerNight() {
-        return this.pricePerNight;
+    public Long getRoomsQuantity() {
+        return this.roomsQuantity;
     }
 
     /**
-     * Setter for <code>hms.reservations_v.price_per_night</code>.
+     * Setter for <code>hms.reservations_v.rooms_quantity</code>.
      */
-    public void setPricePerNight(BigDecimal pricePerNight) {
-        this.pricePerNight = pricePerNight;
-    }
-
-    /**
-     * Getter for <code>hms.reservations_v.standard_code</code>.
-     */
-    public String getStandardCode() {
-        return this.standardCode;
-    }
-
-    /**
-     * Setter for <code>hms.reservations_v.standard_code</code>.
-     */
-    public void setStandardCode(String standardCode) {
-        this.standardCode = standardCode;
-    }
-
-    /**
-     * Getter for <code>hms.reservations_v.standard_name</code>.
-     */
-    public String getStandardName() {
-        return this.standardName;
-    }
-
-    /**
-     * Setter for <code>hms.reservations_v.standard_name</code>.
-     */
-    public void setStandardName(String standardName) {
-        this.standardName = standardName;
+    public void setRoomsQuantity(Long roomsQuantity) {
+        this.roomsQuantity = roomsQuantity;
     }
 
     @Override
@@ -239,6 +259,24 @@ public class ReservationsV implements Serializable {
                 return false;
         }
         else if (!this.reservationId.equals(other.reservationId))
+            return false;
+        if (this.appUserId == null) {
+            if (other.appUserId != null)
+                return false;
+        }
+        else if (!this.appUserId.equals(other.appUserId))
+            return false;
+        if (this.createdAt == null) {
+            if (other.createdAt != null)
+                return false;
+        }
+        else if (!this.createdAt.equals(other.createdAt))
+            return false;
+        if (this.updatedAt == null) {
+            if (other.updatedAt != null)
+                return false;
+        }
+        else if (!this.updatedAt.equals(other.updatedAt))
             return false;
         if (this.startDate == null) {
             if (other.startDate != null)
@@ -264,41 +302,29 @@ public class ReservationsV implements Serializable {
         }
         else if (!this.statusName.equals(other.statusName))
             return false;
-        if (this.roomId == null) {
-            if (other.roomId != null)
+        if (this.sourceCode == null) {
+            if (other.sourceCode != null)
                 return false;
         }
-        else if (!this.roomId.equals(other.roomId))
+        else if (!this.sourceCode.equals(other.sourceCode))
             return false;
-        if (this.roomNumber == null) {
-            if (other.roomNumber != null)
+        if (this.sourceName == null) {
+            if (other.sourceName != null)
                 return false;
         }
-        else if (!this.roomNumber.equals(other.roomNumber))
+        else if (!this.sourceName.equals(other.sourceName))
             return false;
-        if (this.capacity == null) {
-            if (other.capacity != null)
+        if (this.totalPrice == null) {
+            if (other.totalPrice != null)
                 return false;
         }
-        else if (!this.capacity.equals(other.capacity))
+        else if (!this.totalPrice.equals(other.totalPrice))
             return false;
-        if (this.pricePerNight == null) {
-            if (other.pricePerNight != null)
+        if (this.roomsQuantity == null) {
+            if (other.roomsQuantity != null)
                 return false;
         }
-        else if (!this.pricePerNight.equals(other.pricePerNight))
-            return false;
-        if (this.standardCode == null) {
-            if (other.standardCode != null)
-                return false;
-        }
-        else if (!this.standardCode.equals(other.standardCode))
-            return false;
-        if (this.standardName == null) {
-            if (other.standardName != null)
-                return false;
-        }
-        else if (!this.standardName.equals(other.standardName))
+        else if (!this.roomsQuantity.equals(other.roomsQuantity))
             return false;
         return true;
     }
@@ -308,16 +334,17 @@ public class ReservationsV implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.reservationId == null) ? 0 : this.reservationId.hashCode());
+        result = prime * result + ((this.appUserId == null) ? 0 : this.appUserId.hashCode());
+        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
+        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
         result = prime * result + ((this.startDate == null) ? 0 : this.startDate.hashCode());
         result = prime * result + ((this.endDate == null) ? 0 : this.endDate.hashCode());
         result = prime * result + ((this.statusCode == null) ? 0 : this.statusCode.hashCode());
         result = prime * result + ((this.statusName == null) ? 0 : this.statusName.hashCode());
-        result = prime * result + ((this.roomId == null) ? 0 : this.roomId.hashCode());
-        result = prime * result + ((this.roomNumber == null) ? 0 : this.roomNumber.hashCode());
-        result = prime * result + ((this.capacity == null) ? 0 : this.capacity.hashCode());
-        result = prime * result + ((this.pricePerNight == null) ? 0 : this.pricePerNight.hashCode());
-        result = prime * result + ((this.standardCode == null) ? 0 : this.standardCode.hashCode());
-        result = prime * result + ((this.standardName == null) ? 0 : this.standardName.hashCode());
+        result = prime * result + ((this.sourceCode == null) ? 0 : this.sourceCode.hashCode());
+        result = prime * result + ((this.sourceName == null) ? 0 : this.sourceName.hashCode());
+        result = prime * result + ((this.totalPrice == null) ? 0 : this.totalPrice.hashCode());
+        result = prime * result + ((this.roomsQuantity == null) ? 0 : this.roomsQuantity.hashCode());
         return result;
     }
 
@@ -326,16 +353,17 @@ public class ReservationsV implements Serializable {
         StringBuilder sb = new StringBuilder("ReservationsV (");
 
         sb.append(reservationId);
+        sb.append(", ").append(appUserId);
+        sb.append(", ").append(createdAt);
+        sb.append(", ").append(updatedAt);
         sb.append(", ").append(startDate);
         sb.append(", ").append(endDate);
         sb.append(", ").append(statusCode);
         sb.append(", ").append(statusName);
-        sb.append(", ").append(roomId);
-        sb.append(", ").append(roomNumber);
-        sb.append(", ").append(capacity);
-        sb.append(", ").append(pricePerNight);
-        sb.append(", ").append(standardCode);
-        sb.append(", ").append(standardName);
+        sb.append(", ").append(sourceCode);
+        sb.append(", ").append(sourceName);
+        sb.append(", ").append(totalPrice);
+        sb.append(", ").append(roomsQuantity);
 
         sb.append(")");
         return sb.toString();

@@ -5,6 +5,8 @@ package com.hms.generated.jooq.hms;
 
 
 import com.hms.generated.jooq.hms.tables.Reservation;
+import com.hms.generated.jooq.hms.tables.ReservationRoom;
+import com.hms.generated.jooq.hms.tables.ReservationRoomsV;
 import com.hms.generated.jooq.hms.tables.ReservationsV;
 import com.hms.generated.jooq.hms.tables.Room;
 import com.hms.generated.jooq.hms.tables.RoomProperty;
@@ -24,6 +26,16 @@ public class Tables {
      * The table <code>hms.reservation</code>.
      */
     public static final Reservation RESERVATION = Reservation.RESERVATION;
+
+    /**
+     * The table <code>hms.reservation_room</code>.
+     */
+    public static final ReservationRoom RESERVATION_ROOM = ReservationRoom.RESERVATION_ROOM;
+
+    /**
+     * The table <code>hms.reservation_rooms_v</code>.
+     */
+    public static final ReservationRoomsV RESERVATION_ROOMS_V = ReservationRoomsV.RESERVATION_ROOMS_V;
 
     /**
      * The table <code>hms.reservations_v</code>.

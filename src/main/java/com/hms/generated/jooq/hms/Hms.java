@@ -6,6 +6,8 @@ package com.hms.generated.jooq.hms;
 
 import com.hms.generated.jooq.DefaultCatalog;
 import com.hms.generated.jooq.hms.tables.Reservation;
+import com.hms.generated.jooq.hms.tables.ReservationRoom;
+import com.hms.generated.jooq.hms.tables.ReservationRoomsV;
 import com.hms.generated.jooq.hms.tables.ReservationsV;
 import com.hms.generated.jooq.hms.tables.Room;
 import com.hms.generated.jooq.hms.tables.RoomProperty;
@@ -40,6 +42,16 @@ public class Hms extends SchemaImpl {
      * The table <code>hms.reservation</code>.
      */
     public final Reservation RESERVATION = Reservation.RESERVATION;
+
+    /**
+     * The table <code>hms.reservation_room</code>.
+     */
+    public final ReservationRoom RESERVATION_ROOM = ReservationRoom.RESERVATION_ROOM;
+
+    /**
+     * The table <code>hms.reservation_rooms_v</code>.
+     */
+    public final ReservationRoomsV RESERVATION_ROOMS_V = ReservationRoomsV.RESERVATION_ROOMS_V;
 
     /**
      * The table <code>hms.reservations_v</code>.
@@ -93,6 +105,8 @@ public class Hms extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             Reservation.RESERVATION,
+            ReservationRoom.RESERVATION_ROOM,
+            ReservationRoomsV.RESERVATION_ROOMS_V,
             ReservationsV.RESERVATIONS_V,
             Room.ROOM,
             RoomProperty.ROOM_PROPERTY,

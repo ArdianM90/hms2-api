@@ -7,6 +7,7 @@ package com.hms.generated.jooq.hms.tables;
 import com.hms.generated.jooq.auth.tables.AppUser.AppUserPath;
 import com.hms.generated.jooq.hms.Hms;
 import com.hms.generated.jooq.hms.Keys;
+import com.hms.generated.jooq.hms.tables.ReservationRoom.ReservationRoomPath;
 import com.hms.generated.jooq.hms.tables.Room.RoomPath;
 import com.hms.generated.jooq.hms.tables.TypeReservationSource.TypeReservationSourcePath;
 import com.hms.generated.jooq.hms.tables.TypeReservationStatus.TypeReservationStatusPath;
@@ -71,14 +72,9 @@ public class Reservation extends TableImpl<ReservationRecord> {
     public final TableField<ReservationRecord, Integer> RESERVATION_ID = createField(DSL.name("reservation_id"), SQLDataType.INTEGER.nullable(false).generatedAlwaysAsIdentity(), this, "");
 
     /**
-     * The column <code>hms.reservation.room_id</code>.
+     * The column <code>hms.reservation.app_user_id</code>.
      */
-    public final TableField<ReservationRecord, Integer> ROOM_ID = createField(DSL.name("room_id"), SQLDataType.INTEGER.nullable(false), this, "");
-
-    /**
-     * The column <code>hms.reservation.user_id</code>.
-     */
-    public final TableField<ReservationRecord, UUID> USER_ID = createField(DSL.name("user_id"), SQLDataType.UUID, this, "");
+    public final TableField<ReservationRecord, UUID> APP_USER_ID = createField(DSL.name("app_user_id"), SQLDataType.UUID, this, "");
 
     /**
      * The column <code>hms.reservation.start_date</code>.
@@ -199,7 +195,7 @@ public class Reservation extends TableImpl<ReservationRecord> {
 
     @Override
     public List<ForeignKey<ReservationRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.RESERVATION__FK_RESERVATION_APP_USER, Keys.RESERVATION__FK_RESERVATION_RESERVATION_ROOM, Keys.RESERVATION__FK_RESERVATION_RESERVATION_SOURCE, Keys.RESERVATION__FK_RESERVATION_RESERVATION_STATUS);
+        return Arrays.asList(Keys.RESERVATION__FK_RESERVATION_APP_USER, Keys.RESERVATION__FK_RESERVATION_RESERVATION_SOURCE, Keys.RESERVATION__FK_RESERVATION_RESERVATION_STATUS);
     }
 
     private transient AppUserPath _appUser;
@@ -212,18 +208,6 @@ public class Reservation extends TableImpl<ReservationRecord> {
             _appUser = new AppUserPath(this, Keys.RESERVATION__FK_RESERVATION_APP_USER, null);
 
         return _appUser;
-    }
-
-    private transient RoomPath _room;
-
-    /**
-     * Get the implicit join path to the <code>hms.room</code> table.
-     */
-    public RoomPath room() {
-        if (_room == null)
-            _room = new RoomPath(this, Keys.RESERVATION__FK_RESERVATION_RESERVATION_ROOM, null);
-
-        return _room;
     }
 
     private transient TypeReservationSourcePath _typeReservationSource;
@@ -250,6 +234,27 @@ public class Reservation extends TableImpl<ReservationRecord> {
             _typeReservationStatus = new TypeReservationStatusPath(this, Keys.RESERVATION__FK_RESERVATION_RESERVATION_STATUS, null);
 
         return _typeReservationStatus;
+    }
+
+    private transient ReservationRoomPath _reservationRoom;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>hms.reservation_room</code> table
+     */
+    public ReservationRoomPath reservationRoom() {
+        if (_reservationRoom == null)
+            _reservationRoom = new ReservationRoomPath(this, null, Keys.RESERVATION_ROOM__FK_RESERVATION_ROOM_RESERVATION.getInverseKey());
+
+        return _reservationRoom;
+    }
+
+    /**
+     * Get the implicit many-to-many join path to the <code>hms.room</code>
+     * table
+     */
+    public RoomPath room() {
+        return reservationRoom().room();
     }
 
     @Override

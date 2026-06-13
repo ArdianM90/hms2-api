@@ -8,6 +8,8 @@ import com.hms.generated.jooq.hms.tables.ReservationsV;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.jooq.impl.TableRecordImpl;
 
@@ -35,143 +37,157 @@ public class ReservationsVRecord extends TableRecordImpl<ReservationsVRecord> {
     }
 
     /**
+     * Setter for <code>hms.reservations_v.app_user_id</code>.
+     */
+    public void setAppUserId(UUID value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.app_user_id</code>.
+     */
+    public UUID getAppUserId() {
+        return (UUID) get(1);
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.created_at</code>.
+     */
+    public void setCreatedAt(LocalDateTime value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.created_at</code>.
+     */
+    public LocalDateTime getCreatedAt() {
+        return (LocalDateTime) get(2);
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.updated_at</code>.
+     */
+    public void setUpdatedAt(LocalDateTime value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.updated_at</code>.
+     */
+    public LocalDateTime getUpdatedAt() {
+        return (LocalDateTime) get(3);
+    }
+
+    /**
      * Setter for <code>hms.reservations_v.start_date</code>.
      */
     public void setStartDate(LocalDate value) {
-        set(1, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>hms.reservations_v.start_date</code>.
      */
     public LocalDate getStartDate() {
-        return (LocalDate) get(1);
+        return (LocalDate) get(4);
     }
 
     /**
      * Setter for <code>hms.reservations_v.end_date</code>.
      */
     public void setEndDate(LocalDate value) {
-        set(2, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>hms.reservations_v.end_date</code>.
      */
     public LocalDate getEndDate() {
-        return (LocalDate) get(2);
+        return (LocalDate) get(5);
     }
 
     /**
      * Setter for <code>hms.reservations_v.status_code</code>.
      */
     public void setStatusCode(String value) {
-        set(3, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>hms.reservations_v.status_code</code>.
      */
     public String getStatusCode() {
-        return (String) get(3);
+        return (String) get(6);
     }
 
     /**
      * Setter for <code>hms.reservations_v.status_name</code>.
      */
     public void setStatusName(String value) {
-        set(4, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>hms.reservations_v.status_name</code>.
      */
     public String getStatusName() {
-        return (String) get(4);
+        return (String) get(7);
     }
 
     /**
-     * Setter for <code>hms.reservations_v.room_id</code>.
+     * Setter for <code>hms.reservations_v.source_code</code>.
      */
-    public void setRoomId(Integer value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>hms.reservations_v.room_id</code>.
-     */
-    public Integer getRoomId() {
-        return (Integer) get(5);
-    }
-
-    /**
-     * Setter for <code>hms.reservations_v.room_number</code>.
-     */
-    public void setRoomNumber(String value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for <code>hms.reservations_v.room_number</code>.
-     */
-    public String getRoomNumber() {
-        return (String) get(6);
-    }
-
-    /**
-     * Setter for <code>hms.reservations_v.capacity</code>.
-     */
-    public void setCapacity(Integer value) {
-        set(7, value);
-    }
-
-    /**
-     * Getter for <code>hms.reservations_v.capacity</code>.
-     */
-    public Integer getCapacity() {
-        return (Integer) get(7);
-    }
-
-    /**
-     * Setter for <code>hms.reservations_v.price_per_night</code>.
-     */
-    public void setPricePerNight(BigDecimal value) {
+    public void setSourceCode(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>hms.reservations_v.price_per_night</code>.
+     * Getter for <code>hms.reservations_v.source_code</code>.
      */
-    public BigDecimal getPricePerNight() {
-        return (BigDecimal) get(8);
+    public String getSourceCode() {
+        return (String) get(8);
     }
 
     /**
-     * Setter for <code>hms.reservations_v.standard_code</code>.
+     * Setter for <code>hms.reservations_v.source_name</code>.
      */
-    public void setStandardCode(String value) {
+    public void setSourceName(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>hms.reservations_v.standard_code</code>.
+     * Getter for <code>hms.reservations_v.source_name</code>.
      */
-    public String getStandardCode() {
+    public String getSourceName() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>hms.reservations_v.standard_name</code>.
+     * Setter for <code>hms.reservations_v.total_price</code>.
      */
-    public void setStandardName(String value) {
+    public void setTotalPrice(BigDecimal value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>hms.reservations_v.standard_name</code>.
+     * Getter for <code>hms.reservations_v.total_price</code>.
      */
-    public String getStandardName() {
-        return (String) get(10);
+    public BigDecimal getTotalPrice() {
+        return (BigDecimal) get(10);
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.rooms_quantity</code>.
+     */
+    public void setRoomsQuantity(Long value) {
+        set(11, value);
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.rooms_quantity</code>.
+     */
+    public Long getRoomsQuantity() {
+        return (Long) get(11);
     }
 
     // -------------------------------------------------------------------------
@@ -188,20 +204,21 @@ public class ReservationsVRecord extends TableRecordImpl<ReservationsVRecord> {
     /**
      * Create a detached, initialised ReservationsVRecord
      */
-    public ReservationsVRecord(Integer reservationId, LocalDate startDate, LocalDate endDate, String statusCode, String statusName, Integer roomId, String roomNumber, Integer capacity, BigDecimal pricePerNight, String standardCode, String standardName) {
+    public ReservationsVRecord(Integer reservationId, UUID appUserId, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate startDate, LocalDate endDate, String statusCode, String statusName, String sourceCode, String sourceName, BigDecimal totalPrice, Long roomsQuantity) {
         super(ReservationsV.RESERVATIONS_V);
 
         setReservationId(reservationId);
+        setAppUserId(appUserId);
+        setCreatedAt(createdAt);
+        setUpdatedAt(updatedAt);
         setStartDate(startDate);
         setEndDate(endDate);
         setStatusCode(statusCode);
         setStatusName(statusName);
-        setRoomId(roomId);
-        setRoomNumber(roomNumber);
-        setCapacity(capacity);
-        setPricePerNight(pricePerNight);
-        setStandardCode(standardCode);
-        setStandardName(standardName);
+        setSourceCode(sourceCode);
+        setSourceName(sourceName);
+        setTotalPrice(totalPrice);
+        setRoomsQuantity(roomsQuantity);
         resetTouchedOnNotNull();
     }
 
@@ -213,16 +230,17 @@ public class ReservationsVRecord extends TableRecordImpl<ReservationsVRecord> {
 
         if (value != null) {
             setReservationId(value.getReservationId());
+            setAppUserId(value.getAppUserId());
+            setCreatedAt(value.getCreatedAt());
+            setUpdatedAt(value.getUpdatedAt());
             setStartDate(value.getStartDate());
             setEndDate(value.getEndDate());
             setStatusCode(value.getStatusCode());
             setStatusName(value.getStatusName());
-            setRoomId(value.getRoomId());
-            setRoomNumber(value.getRoomNumber());
-            setCapacity(value.getCapacity());
-            setPricePerNight(value.getPricePerNight());
-            setStandardCode(value.getStandardCode());
-            setStandardName(value.getStandardName());
+            setSourceCode(value.getSourceCode());
+            setSourceName(value.getSourceName());
+            setTotalPrice(value.getTotalPrice());
+            setRoomsQuantity(value.getRoomsQuantity());
             resetTouchedOnNotNull();
         }
     }

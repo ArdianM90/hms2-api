@@ -1,8 +1,10 @@
 package com.hms.api.domain.reservation.service;
 
+import com.hms.api.common.jwt.JwtService;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.exception.TooManyRoomsException;
 import com.hms.api.domain.reservation.model.ReservationSource;
+import com.hms.api.domain.reservation.model.ReservationStatus;
 import com.hms.api.domain.reservation.repository.ReservationRepository;
 import com.hms.api.domain.room.dto.RoomDto;
 import com.hms.api.domain.room.dto.RoomsFilterParams;
@@ -19,15 +21,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
 
-  private final ReservationRepository reservationRepository;
+  private final JwtService jwtService;
   private final RoomService roomService;
+  private final ReservationRepository reservationRepository;
 
   @Override
-  public void makeReservation(Jwt jwt, MakeReservationRequest request) {
-    String appUserId = jwt.getClaimAsString("user_id");
-    //todo: nie działa rozpoznawanie source
+  public List<ReservationDto> getMyReservations(Jwt jwt) {
+    UUID appUserId = jwtService.requireAppUserId(jwt);
+    return reservationRepository.getMyReservations(appUserId);
+  }
+
+  @Override
+  public int makeReservation(Jwt jwt, MakeReservationRequest request) {
+    UUID appUserId = jwtService.requireAppUserId(jwt);
     ReservationSource source = resolveSource(jwt);
-    reservationRepository.makeReservation(appUserId, source, request);
+    return reservationRepository.makeReservation(appUserId, source, request);
   }
 
   @Override
@@ -38,11 +46,15 @@ public class ReservationServiceImpl implements ReservationService {
     return toUniqueOffers(combinations, request);
   }
 
+  @Override
+  public void updateReservationStatus(int reservationId, UpdateReservationStatusRequest request) {
+    ReservationStatus status = ReservationStatus.fromCode(request.statusCode());
+    reservationRepository.updateReservationStatus(reservationId, status);
+  }
+
   private List<RoomDto> getAvailableRooms(SearchReservationOffersRequest request) {
     Set<Integer> reservedRoomIds =
-        reservationRepository.getReservations(request.startDate(), request.endDate()).stream()
-            .map(ReservationDto::roomId)
-            .collect(Collectors.toSet());
+        reservationRepository.getReservedRoomIds(request.startDate(), request.endDate());
     return roomService
         .getRooms(
             new RoomsFilterParams(

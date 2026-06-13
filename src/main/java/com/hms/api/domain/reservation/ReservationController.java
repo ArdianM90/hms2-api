@@ -1,9 +1,7 @@
 package com.hms.api.domain.reservation;
 
 import com.hms.api.common.dto.IntIdResponse;
-import com.hms.api.domain.reservation.dto.MakeReservationRequest;
-import com.hms.api.domain.reservation.dto.ReservationOffer;
-import com.hms.api.domain.reservation.dto.SearchReservationOffersRequest;
+import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.service.ReservationService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +18,28 @@ public class ReservationController {
 
   private final ReservationService reservationService;
 
+  @GetMapping()
+  public ResponseEntity<List<ReservationDto>> getMyReservations(@AuthenticationPrincipal Jwt jwt) {
+    return ResponseEntity.ok(reservationService.getMyReservations(jwt));
+  }
+
   @PostMapping()
   public ResponseEntity<IntIdResponse> makeReservation(
       @AuthenticationPrincipal Jwt jwt, @RequestBody MakeReservationRequest request) {
-    reservationService.makeReservation(jwt, request);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+    int reservationId = reservationService.makeReservation(jwt, request);
+    return ResponseEntity.status(HttpStatus.CREATED).body(new IntIdResponse(reservationId));
   }
 
   @PostMapping("/search")
   public ResponseEntity<List<ReservationOffer>> getReservationOffers(
       @RequestBody SearchReservationOffersRequest request) {
     return ResponseEntity.ok(reservationService.getReservationOffers(request));
+  }
+
+  @PatchMapping("/{reservationId}/status")
+  public ResponseEntity<List<ReservationOffer>> updateReservationStatus(
+      @PathVariable int reservationId, @RequestBody UpdateReservationStatusRequest request) {
+    reservationService.updateReservationStatus(reservationId, request);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
