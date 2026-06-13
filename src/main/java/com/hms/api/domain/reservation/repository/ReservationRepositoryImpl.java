@@ -11,6 +11,7 @@ import com.hms.generated.jooq.hms.tables.ReservationsV;
 import com.hms.generated.jooq.hms.tables.records.ReservationRecord;
 import com.hms.generated.jooq.hms.tables.records.ReservationRoomRecord;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -90,6 +91,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     Reservation r = Tables.RESERVATION;
     dsl.update(r)
         .set(r.STATUS_CODE, status.getCode())
+        .set(r.UPDATED_AT, LocalDateTime.now())
         .where(r.RESERVATION_ID.eq(reservationId))
         .execute();
   }
