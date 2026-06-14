@@ -31,6 +31,7 @@ public class ReservationsV implements Serializable {
     private String sourceName;
     private BigDecimal totalPrice;
     private Long roomsQuantity;
+    private String comment;
 
     public ReservationsV() {}
 
@@ -47,6 +48,7 @@ public class ReservationsV implements Serializable {
         this.sourceName = value.sourceName;
         this.totalPrice = value.totalPrice;
         this.roomsQuantity = value.roomsQuantity;
+        this.comment = value.comment;
     }
 
     public ReservationsV(
@@ -61,7 +63,8 @@ public class ReservationsV implements Serializable {
         String sourceCode,
         String sourceName,
         BigDecimal totalPrice,
-        Long roomsQuantity
+        Long roomsQuantity,
+        String comment
     ) {
         this.reservationId = reservationId;
         this.appUserId = appUserId;
@@ -75,6 +78,7 @@ public class ReservationsV implements Serializable {
         this.sourceName = sourceName;
         this.totalPrice = totalPrice;
         this.roomsQuantity = roomsQuantity;
+        this.comment = comment;
     }
 
     /**
@@ -245,6 +249,20 @@ public class ReservationsV implements Serializable {
         this.roomsQuantity = roomsQuantity;
     }
 
+    /**
+     * Getter for <code>hms.reservations_v.comment</code>.
+     */
+    public String getComment() {
+        return this.comment;
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.comment</code>.
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -326,6 +344,12 @@ public class ReservationsV implements Serializable {
         }
         else if (!this.roomsQuantity.equals(other.roomsQuantity))
             return false;
+        if (this.comment == null) {
+            if (other.comment != null)
+                return false;
+        }
+        else if (!this.comment.equals(other.comment))
+            return false;
         return true;
     }
 
@@ -345,6 +369,7 @@ public class ReservationsV implements Serializable {
         result = prime * result + ((this.sourceName == null) ? 0 : this.sourceName.hashCode());
         result = prime * result + ((this.totalPrice == null) ? 0 : this.totalPrice.hashCode());
         result = prime * result + ((this.roomsQuantity == null) ? 0 : this.roomsQuantity.hashCode());
+        result = prime * result + ((this.comment == null) ? 0 : this.comment.hashCode());
         return result;
     }
 
@@ -364,6 +389,7 @@ public class ReservationsV implements Serializable {
         sb.append(", ").append(sourceName);
         sb.append(", ").append(totalPrice);
         sb.append(", ").append(roomsQuantity);
+        sb.append(", ").append(comment);
 
         sb.append(")");
         return sb.toString();

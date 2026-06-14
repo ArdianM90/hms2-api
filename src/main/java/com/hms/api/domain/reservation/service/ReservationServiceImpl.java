@@ -25,6 +25,11 @@ public class ReservationServiceImpl implements ReservationService {
   private final ReservationRepository reservationRepository;
 
   @Override
+  public ReservationDetails getReservation(int reservationId) {
+    return reservationRepository.getReservation(reservationId);
+  }
+
+  @Override
   public List<ReservationDto> getMyReservations(Jwt jwt) {
     UUID appUserId = jwtService.requireAppUserId(jwt);
     return reservationRepository.getMyReservations(appUserId);

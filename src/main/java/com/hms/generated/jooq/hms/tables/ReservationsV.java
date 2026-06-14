@@ -112,6 +112,11 @@ public class ReservationsV extends TableImpl<ReservationsVRecord> {
      */
     public final TableField<ReservationsVRecord, Long> ROOMS_QUANTITY = createField(DSL.name("rooms_quantity"), SQLDataType.BIGINT, this, "");
 
+    /**
+     * The column <code>hms.reservations_v.comment</code>.
+     */
+    public final TableField<ReservationsVRecord, String> COMMENT = createField(DSL.name("comment"), SQLDataType.CLOB, this, "");
+
     private ReservationsV(Name alias, Table<ReservationsVRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
     }
@@ -129,7 +134,8 @@ public class ReservationsV extends TableImpl<ReservationsVRecord> {
           rsv.source_code,
           t_src.name AS source_name,
           rsv.total_price,
-          count(*) AS rooms_quantity
+          count(*) AS rooms_quantity,
+          rsv.comment
          FROM ((((hms.reservation rsv
            JOIN hms.type_reservation_status t_sts ON ((rsv.status_code = t_sts.code)))
            JOIN hms.type_reservation_source t_src ON ((rsv.source_code = t_src.code)))

@@ -190,6 +190,20 @@ public class ReservationsVRecord extends TableRecordImpl<ReservationsVRecord> {
         return (Long) get(11);
     }
 
+    /**
+     * Setter for <code>hms.reservations_v.comment</code>.
+     */
+    public void setComment(String value) {
+        set(12, value);
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.comment</code>.
+     */
+    public String getComment() {
+        return (String) get(12);
+    }
+
     // -------------------------------------------------------------------------
     // Constructors
     // -------------------------------------------------------------------------
@@ -204,7 +218,7 @@ public class ReservationsVRecord extends TableRecordImpl<ReservationsVRecord> {
     /**
      * Create a detached, initialised ReservationsVRecord
      */
-    public ReservationsVRecord(Integer reservationId, UUID appUserId, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate startDate, LocalDate endDate, String statusCode, String statusName, String sourceCode, String sourceName, BigDecimal totalPrice, Long roomsQuantity) {
+    public ReservationsVRecord(Integer reservationId, UUID appUserId, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDate startDate, LocalDate endDate, String statusCode, String statusName, String sourceCode, String sourceName, BigDecimal totalPrice, Long roomsQuantity, String comment) {
         super(ReservationsV.RESERVATIONS_V);
 
         setReservationId(reservationId);
@@ -219,6 +233,7 @@ public class ReservationsVRecord extends TableRecordImpl<ReservationsVRecord> {
         setSourceName(sourceName);
         setTotalPrice(totalPrice);
         setRoomsQuantity(roomsQuantity);
+        setComment(comment);
         resetTouchedOnNotNull();
     }
 
@@ -241,6 +256,7 @@ public class ReservationsVRecord extends TableRecordImpl<ReservationsVRecord> {
             setSourceName(value.getSourceName());
             setTotalPrice(value.getTotalPrice());
             setRoomsQuantity(value.getRoomsQuantity());
+            setComment(value.getComment());
             resetTouchedOnNotNull();
         }
     }

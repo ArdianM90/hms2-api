@@ -6,6 +6,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 public interface ReservationService {
 
+  ReservationDetails getReservation(int reservationId);
+
   List<ReservationDto> getMyReservations(Jwt jwt);
 
   int makeReservation(Jwt jwt, MakeReservationRequest request);

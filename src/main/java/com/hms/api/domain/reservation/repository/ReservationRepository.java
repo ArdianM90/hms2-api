@@ -1,6 +1,7 @@
 package com.hms.api.domain.reservation.repository;
 
 import com.hms.api.domain.reservation.dto.MakeReservationRequest;
+import com.hms.api.domain.reservation.dto.ReservationDetails;
 import com.hms.api.domain.reservation.dto.ReservationDto;
 import com.hms.api.domain.reservation.model.ReservationSource;
 import com.hms.api.domain.reservation.model.ReservationStatus;
@@ -11,6 +12,8 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface ReservationRepository {
+
+  ReservationDetails getReservation(int reservationId);
 
   List<ReservationDto> getMyReservations(UUID appUserId);
 

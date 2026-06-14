@@ -1,17 +1,19 @@
 package com.hms.api.domain.reservation.repository;
 
 import com.hms.api.domain.reservation.dto.MakeReservationRequest;
+import com.hms.api.domain.reservation.dto.ReservationDetails;
 import com.hms.api.domain.reservation.dto.ReservationDto;
 import com.hms.api.domain.reservation.model.ReservationSource;
 import com.hms.api.domain.reservation.model.ReservationStatus;
+import com.hms.api.domain.room.dto.RoomDto;
+import com.hms.api.domain.room.dto.RoomStandard;
 import com.hms.generated.jooq.hms.Tables;
-import com.hms.generated.jooq.hms.tables.Reservation;
-import com.hms.generated.jooq.hms.tables.ReservationRoomsV;
-import com.hms.generated.jooq.hms.tables.ReservationsV;
+import com.hms.generated.jooq.hms.tables.*;
 import com.hms.generated.jooq.hms.tables.records.ReservationRecord;
 import com.hms.generated.jooq.hms.tables.records.ReservationRoomRecord;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -24,19 +26,30 @@ public class ReservationRepositoryImpl implements ReservationRepository {
   private final DSLContext dsl;
 
   @Override
+  public ReservationDetails getReservation(int reservationId) {
+    ReservationsV v = ReservationsV.RESERVATIONS_V;
+    List<RoomDto> rooms = getReservationRooms(reservationId);
+    return dsl.selectFrom(v)
+        .where(v.RESERVATION_ID.eq(reservationId))
+        .fetchOne(
+            r ->
+                new ReservationDetails(
+                    r.get(v.RESERVATION_ID),
+                    r.get(v.CREATED_AT),
+                    r.get(v.UPDATED_AT),
+                    r.get(v.START_DATE),
+                    r.get(v.END_DATE),
+                    r.get(v.TOTAL_PRICE),
+                    ReservationStatus.fromCode(r.get(v.STATUS_CODE)),
+                    ReservationSource.fromCode(r.get(v.SOURCE_CODE)),
+                    rooms,
+                    r.get(v.COMMENT)));
+  }
+
+  @Override
   public List<ReservationDto> getMyReservations(UUID appUserId) {
     ReservationsV v = ReservationsV.RESERVATIONS_V;
-    return dsl.select(
-            v.RESERVATION_ID,
-            v.START_DATE,
-            v.END_DATE,
-            v.CREATED_AT,
-            v.UPDATED_AT,
-            v.STATUS_CODE,
-            v.SOURCE_CODE,
-            v.TOTAL_PRICE,
-            v.ROOMS_QUANTITY)
-        .from(v)
+    return dsl.selectFrom(v)
         .where(v.APP_USER_ID.eq(appUserId))
         .fetch(
             r ->
@@ -46,6 +59,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                     r.get(v.END_DATE),
                     r.get(v.CREATED_AT),
                     r.get(v.UPDATED_AT),
+                    ChronoUnit.DAYS.between(r.get(v.START_DATE), r.get(v.END_DATE)),
                     ReservationStatus.fromCode(r.get(v.STATUS_CODE)),
                     ReservationSource.fromCode(r.get(v.SOURCE_CODE)),
                     r.get(v.TOTAL_PRICE),
@@ -94,5 +108,27 @@ public class ReservationRepositoryImpl implements ReservationRepository {
         .set(r.UPDATED_AT, LocalDateTime.now())
         .where(r.RESERVATION_ID.eq(reservationId))
         .execute();
+  }
+
+  private List<RoomDto> getReservationRooms(int reservationId) {
+    RoomV v = RoomV.ROOM_V;
+    ReservationRoom rr = ReservationRoom.RESERVATION_ROOM;
+    List<Integer> roomIds =
+        dsl.select(rr.ROOM_ID)
+            .from(rr)
+            .where(rr.RESERVATION_ID.eq(reservationId))
+            .fetch(rr.ROOM_ID);
+    return dsl.selectFrom(v)
+        .where(v.ROOM_ID.in(roomIds))
+        .fetch(
+            r ->
+                new RoomDto(
+                    r.get(v.ROOM_ID),
+                    r.get(v.ROOM_NUMBER),
+                    new RoomStandard(r.get(v.STANDARD_CODE), r.get(v.STANDARD_NAME)),
+                    r.get(v.CAPACITY),
+                    r.get(v.PRICE_PER_NIGHT),
+                    r.get(v.FLOOR),
+                    r.get(v.AREA_M2)));
   }
 }

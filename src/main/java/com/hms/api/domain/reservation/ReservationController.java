@@ -18,6 +18,11 @@ public class ReservationController {
 
   private final ReservationService reservationService;
 
+  @GetMapping("/{reservationId}")
+  public ResponseEntity<ReservationDetails> getReservation(@PathVariable int reservationId) {
+    return ResponseEntity.ok(reservationService.getReservation(reservationId));
+  }
+
   @GetMapping()
   public ResponseEntity<List<ReservationDto>> getMyReservations(@AuthenticationPrincipal Jwt jwt) {
     return ResponseEntity.ok(reservationService.getMyReservations(jwt));
