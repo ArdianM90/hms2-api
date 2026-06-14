@@ -1,5 +1,6 @@
 package com.hms.api.domain.reservation.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.hms.api.common.exception.BusinessException;
 import com.hms.api.common.jackson.CodeLabelEnum;
 import com.hms.api.common.jackson.CodeLabelResponse;
@@ -24,6 +25,7 @@ public enum ReservationSource implements CodeLabelEnum {
     this.label = label;
   }
 
+  @JsonCreator
   public static ReservationSource fromCode(String code) {
     if (code == null) {
       throw new BusinessException("Brak źródła rezerwacji");

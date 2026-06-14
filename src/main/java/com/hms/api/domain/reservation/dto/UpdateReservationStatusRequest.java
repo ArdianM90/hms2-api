@@ -1,3 +1,5 @@
 package com.hms.api.domain.reservation.dto;
 
-public record UpdateReservationStatusRequest(String statusCode) {}
+import com.hms.api.domain.reservation.model.ReservationStatus;
+
+public record UpdateReservationStatusRequest(ReservationStatus statusCode) {}

@@ -4,7 +4,6 @@ import com.hms.api.common.jwt.JwtService;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.exception.TooManyRoomsException;
 import com.hms.api.domain.reservation.model.ReservationSource;
-import com.hms.api.domain.reservation.model.ReservationStatus;
 import com.hms.api.domain.reservation.repository.ReservationRepository;
 import com.hms.api.domain.room.dto.RoomDto;
 import com.hms.api.domain.room.dto.RoomsFilterParams;
@@ -48,8 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
 
   @Override
   public void updateReservationStatus(int reservationId, UpdateReservationStatusRequest request) {
-    ReservationStatus status = ReservationStatus.fromCode(request.statusCode());
-    reservationRepository.updateReservationStatus(reservationId, status);
+    reservationRepository.updateReservationStatus(reservationId, request.statusCode());
   }
 
   private List<RoomDto> getAvailableRooms(SearchReservationOffersRequest request) {

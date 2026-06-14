@@ -1,5 +1,6 @@
 package com.hms.api.domain.reservation.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.hms.api.common.exception.BusinessException;
 import com.hms.api.common.jackson.CodeLabelEnum;
 import com.hms.api.common.jackson.CodeLabelResponse;
@@ -26,6 +27,7 @@ public enum ReservationStatus implements CodeLabelEnum {
     return name().toLowerCase();
   }
 
+  @JsonCreator
   public static ReservationStatus fromCode(String code) {
     for (ReservationStatus status : values()) {
       if (status.name().equalsIgnoreCase(code)) {
