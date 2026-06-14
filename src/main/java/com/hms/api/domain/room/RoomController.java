@@ -1,6 +1,6 @@
 package com.hms.api.domain.room;
 
-import com.hms.api.common.dto.IntIdResponse;
+import com.hms.api.common.dto.LabeledValue;
 import com.hms.api.domain.room.dto.*;
 import com.hms.api.domain.room.service.RoomService;
 import java.util.List;
@@ -33,9 +33,9 @@ public class RoomController {
   }
 
   @PostMapping
-  public ResponseEntity<IntIdResponse> createRoom(@RequestBody CreateRoomRequest request) {
+  public ResponseEntity<LabeledValue<Integer>> createRoom(@RequestBody CreateRoomRequest request) {
     int id = roomService.createRoom(request);
-    return ResponseEntity.status(HttpStatus.CREATED).body(new IntIdResponse(id));
+    return ResponseEntity.status(HttpStatus.CREATED).body(new LabeledValue<>("roomId", id));
   }
 
   @PutMapping("/{roomId}")

@@ -1,6 +1,6 @@
 package com.hms.api.domain.reservation;
 
-import com.hms.api.common.dto.IntIdResponse;
+import com.hms.api.common.dto.LabeledValue;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.service.ReservationService;
 import java.util.List;
@@ -24,10 +24,11 @@ public class ReservationController {
   }
 
   @PostMapping()
-  public ResponseEntity<IntIdResponse> makeReservation(
+  public ResponseEntity<LabeledValue<Integer>> makeReservation(
       @AuthenticationPrincipal Jwt jwt, @RequestBody MakeReservationRequest request) {
     int reservationId = reservationService.makeReservation(jwt, request);
-    return ResponseEntity.status(HttpStatus.CREATED).body(new IntIdResponse(reservationId));
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(new LabeledValue<>("reservationId", reservationId));
   }
 
   @PostMapping("/search")
