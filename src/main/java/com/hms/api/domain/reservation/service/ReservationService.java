@@ -10,6 +10,8 @@ public interface ReservationService {
 
   List<ReservationDto> getMyReservations(Jwt jwt);
 
+  List<NamedReservationDto> getAllReservations(Jwt jwt);
+
   int makeReservation(Jwt jwt, MakeReservationRequest request);
 
   List<ReservationOffer> getReservationOffers(SearchReservationOffersRequest request);

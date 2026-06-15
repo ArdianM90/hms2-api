@@ -21,6 +21,8 @@ public class ReservationsV implements Serializable {
 
     private Integer reservationId;
     private UUID appUserId;
+    private String guestFirstName;
+    private String guestLastName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDate startDate;
@@ -38,6 +40,8 @@ public class ReservationsV implements Serializable {
     public ReservationsV(ReservationsV value) {
         this.reservationId = value.reservationId;
         this.appUserId = value.appUserId;
+        this.guestFirstName = value.guestFirstName;
+        this.guestLastName = value.guestLastName;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
         this.startDate = value.startDate;
@@ -54,6 +58,8 @@ public class ReservationsV implements Serializable {
     public ReservationsV(
         Integer reservationId,
         UUID appUserId,
+        String guestFirstName,
+        String guestLastName,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
         LocalDate startDate,
@@ -68,6 +74,8 @@ public class ReservationsV implements Serializable {
     ) {
         this.reservationId = reservationId;
         this.appUserId = appUserId;
+        this.guestFirstName = guestFirstName;
+        this.guestLastName = guestLastName;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.startDate = startDate;
@@ -107,6 +115,34 @@ public class ReservationsV implements Serializable {
      */
     public void setAppUserId(UUID appUserId) {
         this.appUserId = appUserId;
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.guest_first_name</code>.
+     */
+    public String getGuestFirstName() {
+        return this.guestFirstName;
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.guest_first_name</code>.
+     */
+    public void setGuestFirstName(String guestFirstName) {
+        this.guestFirstName = guestFirstName;
+    }
+
+    /**
+     * Getter for <code>hms.reservations_v.guest_last_name</code>.
+     */
+    public String getGuestLastName() {
+        return this.guestLastName;
+    }
+
+    /**
+     * Setter for <code>hms.reservations_v.guest_last_name</code>.
+     */
+    public void setGuestLastName(String guestLastName) {
+        this.guestLastName = guestLastName;
     }
 
     /**
@@ -284,6 +320,18 @@ public class ReservationsV implements Serializable {
         }
         else if (!this.appUserId.equals(other.appUserId))
             return false;
+        if (this.guestFirstName == null) {
+            if (other.guestFirstName != null)
+                return false;
+        }
+        else if (!this.guestFirstName.equals(other.guestFirstName))
+            return false;
+        if (this.guestLastName == null) {
+            if (other.guestLastName != null)
+                return false;
+        }
+        else if (!this.guestLastName.equals(other.guestLastName))
+            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -359,6 +407,8 @@ public class ReservationsV implements Serializable {
         int result = 1;
         result = prime * result + ((this.reservationId == null) ? 0 : this.reservationId.hashCode());
         result = prime * result + ((this.appUserId == null) ? 0 : this.appUserId.hashCode());
+        result = prime * result + ((this.guestFirstName == null) ? 0 : this.guestFirstName.hashCode());
+        result = prime * result + ((this.guestLastName == null) ? 0 : this.guestLastName.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
         result = prime * result + ((this.startDate == null) ? 0 : this.startDate.hashCode());
@@ -379,6 +429,8 @@ public class ReservationsV implements Serializable {
 
         sb.append(reservationId);
         sb.append(", ").append(appUserId);
+        sb.append(", ").append(guestFirstName);
+        sb.append(", ").append(guestLastName);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
         sb.append(", ").append(startDate);

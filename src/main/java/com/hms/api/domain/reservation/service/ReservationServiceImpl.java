@@ -36,6 +36,12 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
+  public List<NamedReservationDto> getAllReservations(Jwt jwt) {
+    // todo: walidacja uprawnień admina
+    return reservationRepository.getAllReservations();
+  }
+
+  @Override
   public int makeReservation(Jwt jwt, MakeReservationRequest request) {
     UUID appUserId = jwtService.requireAppUserId(jwt);
     ReservationSource source = resolveSource(jwt);

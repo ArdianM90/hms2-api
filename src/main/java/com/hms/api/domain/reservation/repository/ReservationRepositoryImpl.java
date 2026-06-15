@@ -1,6 +1,7 @@
 package com.hms.api.domain.reservation.repository;
 
 import com.hms.api.domain.reservation.dto.MakeReservationRequest;
+import com.hms.api.domain.reservation.dto.NamedReservationDto;
 import com.hms.api.domain.reservation.dto.ReservationDetails;
 import com.hms.api.domain.reservation.dto.ReservationDto;
 import com.hms.api.domain.reservation.model.ReservationSource;
@@ -55,6 +56,27 @@ public class ReservationRepositoryImpl implements ReservationRepository {
             r ->
                 new ReservationDto(
                     r.get(v.RESERVATION_ID),
+                    r.get(v.START_DATE),
+                    r.get(v.END_DATE),
+                    r.get(v.CREATED_AT),
+                    r.get(v.UPDATED_AT),
+                    ChronoUnit.DAYS.between(r.get(v.START_DATE), r.get(v.END_DATE)),
+                    ReservationStatus.fromCode(r.get(v.STATUS_CODE)),
+                    ReservationSource.fromCode(r.get(v.SOURCE_CODE)),
+                    r.get(v.TOTAL_PRICE),
+                    r.get(v.ROOMS_QUANTITY)));
+  }
+
+  @Override
+  public List<NamedReservationDto> getAllReservations() {
+    ReservationsV v = ReservationsV.RESERVATIONS_V;
+    return dsl.selectFrom(v)
+        .fetch(
+            r ->
+                new NamedReservationDto(
+                    r.get(v.RESERVATION_ID),
+                    r.get(v.GUEST_FIRST_NAME),
+                    r.get(v.GUEST_LAST_NAME),
                     r.get(v.START_DATE),
                     r.get(v.END_DATE),
                     r.get(v.CREATED_AT),

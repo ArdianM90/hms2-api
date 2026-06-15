@@ -63,6 +63,16 @@ public class ReservationsV extends TableImpl<ReservationsVRecord> {
     public final TableField<ReservationsVRecord, UUID> APP_USER_ID = createField(DSL.name("app_user_id"), SQLDataType.UUID, this, "");
 
     /**
+     * The column <code>hms.reservations_v.guest_first_name</code>.
+     */
+    public final TableField<ReservationsVRecord, String> GUEST_FIRST_NAME = createField(DSL.name("guest_first_name"), SQLDataType.CLOB, this, "");
+
+    /**
+     * The column <code>hms.reservations_v.guest_last_name</code>.
+     */
+    public final TableField<ReservationsVRecord, String> GUEST_LAST_NAME = createField(DSL.name("guest_last_name"), SQLDataType.CLOB, this, "");
+
+    /**
      * The column <code>hms.reservations_v.created_at</code>.
      */
     public final TableField<ReservationsVRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(6), this, "");
@@ -124,24 +134,26 @@ public class ReservationsV extends TableImpl<ReservationsVRecord> {
     private ReservationsV(Name alias, Table<ReservationsVRecord> aliased, Field<?>[] parameters, Condition where) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
         CREATE VIEW "reservations_v" AS  SELECT rsv.reservation_id,
-          rsv.app_user_id,
-          rsv.created_at,
-          rsv.updated_at,
-          rsv.start_date,
-          rsv.end_date,
-          rsv.status_code,
-          t_sts.name AS status_name,
-          rsv.source_code,
-          t_src.name AS source_name,
-          rsv.total_price,
-          count(*) AS rooms_quantity,
-          rsv.comment
-         FROM ((((hms.reservation rsv
-           JOIN hms.type_reservation_status t_sts ON ((rsv.status_code = t_sts.code)))
-           JOIN hms.type_reservation_source t_src ON ((rsv.source_code = t_src.code)))
-           JOIN hms.reservation_room rr ON ((rsv.reservation_id = rr.reservation_id)))
-           JOIN hms.room r ON ((r.room_id = rr.room_id)))
-        GROUP BY rsv.reservation_id, rsv.created_at, rsv.updated_at, rsv.start_date, rsv.end_date, rsv.status_code, t_sts.name, rsv.source_code, t_src.name, rsv.total_price;
+         rsv.app_user_id,
+         au.first_name AS guest_first_name,
+         au.last_name AS guest_last_name,
+         rsv.created_at,
+         rsv.updated_at,
+         rsv.start_date,
+         rsv.end_date,
+         rsv.status_code,
+         t_sts.name AS status_name,
+         rsv.source_code,
+         t_src.name AS source_name,
+         rsv.total_price,
+         ( SELECT count(1) AS count
+                FROM hms.reservation_room rr
+               WHERE (rr.reservation_id = rsv.reservation_id)) AS rooms_quantity,
+         rsv.comment
+        FROM (((hms.reservation rsv
+          JOIN hms.type_reservation_status t_sts ON ((rsv.status_code = t_sts.code)))
+          JOIN hms.type_reservation_source t_src ON ((rsv.source_code = t_src.code)))
+          LEFT JOIN auth.app_user au ON ((rsv.app_user_id = au.user_id)));
         """), where);
     }
 

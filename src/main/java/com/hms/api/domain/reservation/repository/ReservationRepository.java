@@ -1,6 +1,7 @@
 package com.hms.api.domain.reservation.repository;
 
 import com.hms.api.domain.reservation.dto.MakeReservationRequest;
+import com.hms.api.domain.reservation.dto.NamedReservationDto;
 import com.hms.api.domain.reservation.dto.ReservationDetails;
 import com.hms.api.domain.reservation.dto.ReservationDto;
 import com.hms.api.domain.reservation.model.ReservationSource;
@@ -16,6 +17,8 @@ public interface ReservationRepository {
   ReservationDetails getReservation(int reservationId);
 
   List<ReservationDto> getMyReservations(UUID appUserId);
+
+  List<NamedReservationDto> getAllReservations();
 
   @Transactional
   int makeReservation(UUID appUserId, ReservationSource source, MakeReservationRequest request);

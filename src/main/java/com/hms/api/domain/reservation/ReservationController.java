@@ -28,6 +28,12 @@ public class ReservationController {
     return ResponseEntity.ok(reservationService.getMyReservations(jwt));
   }
 
+  @GetMapping("/all")
+  public ResponseEntity<List<NamedReservationDto>> getAllReservations(
+      @AuthenticationPrincipal Jwt jwt) {
+    return ResponseEntity.ok(reservationService.getAllReservations(jwt));
+  }
+
   @PostMapping()
   public ResponseEntity<LabeledValue<Integer>> makeReservation(
       @AuthenticationPrincipal Jwt jwt, @RequestBody MakeReservationRequest request) {
