@@ -1,5 +1,6 @@
 package com.hms.api.domain.guest.service;
 
+import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.common.exception.BusinessException;
 import com.hms.api.domain.guest.dto.CheckInRequest;
 import com.hms.api.domain.guest.dto.GuestCheckInRequest;
@@ -23,6 +24,16 @@ public class GuestServiceImpl implements GuestService {
   public void checkInGuests(CheckInRequest request) {
     List<ReservationRoomDto> quests = mapRequestToGuestDtoList(request);
     guestRepository.checkInGuests(quests);
+  }
+
+  @Override
+  public List<DictionaryValue> getDocumentTypes() {
+    return guestRepository.getDocumentTypes();
+  }
+
+  @Override
+  public List<DictionaryValue> getCitizenshipList() {
+    return guestRepository.getCitizenshipList();
   }
 
   private List<ReservationRoomDto> mapRequestToGuestDtoList(CheckInRequest request) {

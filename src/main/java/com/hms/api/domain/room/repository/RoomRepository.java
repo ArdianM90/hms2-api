@@ -1,5 +1,6 @@
 package com.hms.api.domain.room.repository;
 
+import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.domain.room.dto.*;
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface RoomRepository {
 
   void deleteRoom(int roomId);
 
-  List<RoomStandard> getRoomStandards();
+  List<DictionaryValue> getRoomStandards();
 }

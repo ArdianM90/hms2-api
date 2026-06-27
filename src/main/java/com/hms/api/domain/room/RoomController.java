@@ -1,5 +1,6 @@
 package com.hms.api.domain.room;
 
+import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.common.dto.LabeledValue;
 import com.hms.api.domain.room.dto.*;
 import com.hms.api.domain.room.service.RoomService;
@@ -52,7 +53,7 @@ public class RoomController {
   }
 
   @GetMapping("/standards")
-  public ResponseEntity<List<RoomStandard>> getRoomStandards() {
+  public ResponseEntity<List<DictionaryValue>> getRoomStandards() {
     return ResponseEntity.ok(roomService.getRoomStandards());
   }
 }

@@ -1,5 +1,6 @@
 package com.hms.api.domain.reservation.repository;
 
+import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.domain.reservation.dto.MakeReservationRequest;
 import com.hms.api.domain.reservation.dto.NamedReservationDto;
 import com.hms.api.domain.reservation.dto.ReservationDetails;
@@ -7,7 +8,6 @@ import com.hms.api.domain.reservation.dto.ReservationDto;
 import com.hms.api.domain.reservation.model.ReservationSource;
 import com.hms.api.domain.reservation.model.ReservationStatus;
 import com.hms.api.domain.room.dto.RoomDto;
-import com.hms.api.domain.room.dto.RoomStandard;
 import com.hms.generated.jooq.hms.Tables;
 import com.hms.generated.jooq.hms.tables.*;
 import com.hms.generated.jooq.hms.tables.records.ReservationRecord;
@@ -147,7 +147,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                 new RoomDto(
                     r.get(v.ROOM_ID),
                     r.get(v.ROOM_NUMBER),
-                    new RoomStandard(r.get(v.STANDARD_CODE), r.get(v.STANDARD_NAME)),
+                    new DictionaryValue(r.get(v.STANDARD_CODE), r.get(v.STANDARD_NAME)),
                     r.get(v.CAPACITY),
                     r.get(v.PRICE_PER_NIGHT),
                     r.get(v.FLOOR),

@@ -1,5 +1,6 @@
 package com.hms.api.domain.room.service;
 
+import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.domain.room.dto.*;
 import com.hms.api.domain.room.repository.RoomRepository;
 import java.util.List;
@@ -44,7 +45,7 @@ public class RoomServiceImpl implements RoomService {
   }
 
   @Override
-  public List<RoomStandard> getRoomStandards() {
+  public List<DictionaryValue> getRoomStandards() {
     return roomRepository.getRoomStandards();
   }
 }

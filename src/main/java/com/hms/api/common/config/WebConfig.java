@@ -10,6 +10,8 @@ public class WebConfig implements WebMvcConfigurer {
 
   @Override
   public void configurePathMatch(PathMatchConfigurer configurer) {
-    configurer.addPathPrefix("/api/hms", HandlerTypePredicate.forBasePackage("com.hms.api.domain"));
+    configurer.addPathPrefix(
+        "/api/hms",
+        HandlerTypePredicate.forBasePackage("com.hms.api.domain", "com.hms.api.common"));
   }
 }

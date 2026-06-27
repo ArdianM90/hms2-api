@@ -1,5 +1,6 @@
 package com.hms.api.domain.room.repository;
 
+import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.domain.room.dto.*;
 import com.hms.generated.jooq.hms.Tables;
 import com.hms.generated.jooq.hms.tables.RoomV;
@@ -79,9 +80,9 @@ public class RoomRepositoryImpl implements RoomRepository {
   }
 
   @Override
-  public List<RoomStandard> getRoomStandards() {
+  public List<DictionaryValue> getRoomStandards() {
     TypeRoomStandard trs = TypeRoomStandard.TYPE_ROOM_STANDARD;
-    return dsl.select(trs.CODE, trs.NAME).from(trs).fetchInto(RoomStandard.class);
+    return dsl.selectFrom(trs).fetch(r -> new DictionaryValue(r.getCode(), r.getName()));
   }
 
   private RoomDto mapToRoomDto(RoomVRecord r) {
@@ -89,7 +90,7 @@ public class RoomRepositoryImpl implements RoomRepository {
     return new RoomDto(
         r.get(v.ROOM_ID),
         r.get(v.ROOM_NUMBER),
-        new RoomStandard(r.get(v.STANDARD_CODE), r.get(v.STANDARD_NAME)),
+        new DictionaryValue(r.get(v.STANDARD_CODE), r.get(v.STANDARD_NAME)),
         r.get(v.CAPACITY),
         r.get(v.PRICE_PER_NIGHT),
         r.get(v.FLOOR),
