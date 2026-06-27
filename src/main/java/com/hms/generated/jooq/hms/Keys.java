@@ -7,16 +7,22 @@ package com.hms.generated.jooq.hms;
 import com.hms.generated.jooq.auth.tables.AppUser;
 import com.hms.generated.jooq.auth.tables.records.AppUserRecord;
 import com.hms.generated.jooq.hms.tables.Reservation;
+import com.hms.generated.jooq.hms.tables.ReservationGuest;
 import com.hms.generated.jooq.hms.tables.ReservationRoom;
 import com.hms.generated.jooq.hms.tables.Room;
 import com.hms.generated.jooq.hms.tables.RoomProperty;
+import com.hms.generated.jooq.hms.tables.TypeCitizenship;
+import com.hms.generated.jooq.hms.tables.TypeDocumentType;
 import com.hms.generated.jooq.hms.tables.TypeReservationSource;
 import com.hms.generated.jooq.hms.tables.TypeReservationStatus;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
+import com.hms.generated.jooq.hms.tables.records.ReservationGuestRecord;
 import com.hms.generated.jooq.hms.tables.records.ReservationRecord;
 import com.hms.generated.jooq.hms.tables.records.ReservationRoomRecord;
 import com.hms.generated.jooq.hms.tables.records.RoomPropertyRecord;
 import com.hms.generated.jooq.hms.tables.records.RoomRecord;
+import com.hms.generated.jooq.hms.tables.records.TypeCitizenshipRecord;
+import com.hms.generated.jooq.hms.tables.records.TypeDocumentTypeRecord;
 import com.hms.generated.jooq.hms.tables.records.TypeReservationSourceRecord;
 import com.hms.generated.jooq.hms.tables.records.TypeReservationStatusRecord;
 import com.hms.generated.jooq.hms.tables.records.TypeRoomStandardRecord;
@@ -40,10 +46,13 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<ReservationRecord> RESERVATION_PKEY = Internal.createUniqueKey(Reservation.RESERVATION, DSL.name("reservation_pkey"), new TableField[] { Reservation.RESERVATION.RESERVATION_ID }, true);
+    public static final UniqueKey<ReservationGuestRecord> RESERVATION_GUEST_PKEY = Internal.createUniqueKey(ReservationGuest.RESERVATION_GUEST, DSL.name("reservation_guest_pkey"), new TableField[] { ReservationGuest.RESERVATION_GUEST.RESERVATION_GUEST_ID }, true);
     public static final UniqueKey<ReservationRoomRecord> RESERVATION_ROOM_PKEY = Internal.createUniqueKey(ReservationRoom.RESERVATION_ROOM, DSL.name("reservation_room_pkey"), new TableField[] { ReservationRoom.RESERVATION_ROOM.RESERVATION_ID, ReservationRoom.RESERVATION_ROOM.ROOM_ID }, true);
     public static final UniqueKey<RoomRecord> ROOM_PKEY = Internal.createUniqueKey(Room.ROOM, DSL.name("room_pkey"), new TableField[] { Room.ROOM.ROOM_ID }, true);
     public static final UniqueKey<RoomRecord> UQ_ROOM_NUMBER = Internal.createUniqueKey(Room.ROOM, DSL.name("uq_room_number"), new TableField[] { Room.ROOM.ROOM_NUMBER }, true);
     public static final UniqueKey<RoomPropertyRecord> ROOM_PROPERTY_PKEY = Internal.createUniqueKey(RoomProperty.ROOM_PROPERTY, DSL.name("room_property_pkey"), new TableField[] { RoomProperty.ROOM_PROPERTY.ROOM_PROPERTY_ID }, true);
+    public static final UniqueKey<TypeCitizenshipRecord> TYPE_CITIZENSHIP_PKEY = Internal.createUniqueKey(TypeCitizenship.TYPE_CITIZENSHIP, DSL.name("type_citizenship_pkey"), new TableField[] { TypeCitizenship.TYPE_CITIZENSHIP.CODE }, true);
+    public static final UniqueKey<TypeDocumentTypeRecord> TYPE_DOCUMENT_TYPE_PKEY = Internal.createUniqueKey(TypeDocumentType.TYPE_DOCUMENT_TYPE, DSL.name("type_document_type_pkey"), new TableField[] { TypeDocumentType.TYPE_DOCUMENT_TYPE.CODE }, true);
     public static final UniqueKey<TypeReservationSourceRecord> TYPE_RESERVATION_SOURCE_PKEY = Internal.createUniqueKey(TypeReservationSource.TYPE_RESERVATION_SOURCE, DSL.name("type_reservation_source_pkey"), new TableField[] { TypeReservationSource.TYPE_RESERVATION_SOURCE.CODE }, true);
     public static final UniqueKey<TypeReservationStatusRecord> TYPE_RESERVATION_STATUS_PKEY = Internal.createUniqueKey(TypeReservationStatus.TYPE_RESERVATION_STATUS, DSL.name("type_reservation_status_pkey"), new TableField[] { TypeReservationStatus.TYPE_RESERVATION_STATUS.CODE }, true);
     public static final UniqueKey<TypeRoomStandardRecord> TYPE_ROOM_STANDARD_CODE_KEY = Internal.createUniqueKey(TypeRoomStandard.TYPE_ROOM_STANDARD, DSL.name("type_room_standard_code_key"), new TableField[] { TypeRoomStandard.TYPE_ROOM_STANDARD.CODE }, true);
@@ -56,6 +65,10 @@ public class Keys {
     public static final ForeignKey<ReservationRecord, AppUserRecord> RESERVATION__FK_RESERVATION_APP_USER = Internal.createForeignKey(Reservation.RESERVATION, DSL.name("fk_reservation_app_user"), new TableField[] { Reservation.RESERVATION.APP_USER_ID }, com.hms.generated.jooq.auth.Keys.USER_PKEY, new TableField[] { AppUser.APP_USER.USER_ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<ReservationRecord, TypeReservationSourceRecord> RESERVATION__FK_RESERVATION_RESERVATION_SOURCE = Internal.createForeignKey(Reservation.RESERVATION, DSL.name("fk_reservation_reservation_source"), new TableField[] { Reservation.RESERVATION.SOURCE_CODE }, Keys.TYPE_RESERVATION_SOURCE_PKEY, new TableField[] { TypeReservationSource.TYPE_RESERVATION_SOURCE.CODE }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<ReservationRecord, TypeReservationStatusRecord> RESERVATION__FK_RESERVATION_RESERVATION_STATUS = Internal.createForeignKey(Reservation.RESERVATION, DSL.name("fk_reservation_reservation_status"), new TableField[] { Reservation.RESERVATION.STATUS_CODE }, Keys.TYPE_RESERVATION_STATUS_PKEY, new TableField[] { TypeReservationStatus.TYPE_RESERVATION_STATUS.CODE }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<ReservationGuestRecord, TypeCitizenshipRecord> RESERVATION_GUEST__FK_RESERVATION_GUEST_CITIZENSHIP = Internal.createForeignKey(ReservationGuest.RESERVATION_GUEST, DSL.name("fk_reservation_guest_citizenship"), new TableField[] { ReservationGuest.RESERVATION_GUEST.CITIZENSHIP_CODE }, Keys.TYPE_CITIZENSHIP_PKEY, new TableField[] { TypeCitizenship.TYPE_CITIZENSHIP.CODE }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<ReservationGuestRecord, TypeDocumentTypeRecord> RESERVATION_GUEST__FK_RESERVATION_GUEST_DOCUMENT_TYPE = Internal.createForeignKey(ReservationGuest.RESERVATION_GUEST, DSL.name("fk_reservation_guest_document_type"), new TableField[] { ReservationGuest.RESERVATION_GUEST.DOCUMENT_TYPE_CODE }, Keys.TYPE_DOCUMENT_TYPE_PKEY, new TableField[] { TypeDocumentType.TYPE_DOCUMENT_TYPE.CODE }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<ReservationGuestRecord, ReservationRecord> RESERVATION_GUEST__FK_RESERVATION_GUEST_GUEST_RESERVATION = Internal.createForeignKey(ReservationGuest.RESERVATION_GUEST, DSL.name("fk_reservation_guest_guest_reservation"), new TableField[] { ReservationGuest.RESERVATION_GUEST.RESERVATION_ID }, Keys.RESERVATION_PKEY, new TableField[] { Reservation.RESERVATION.RESERVATION_ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
+    public static final ForeignKey<ReservationGuestRecord, RoomRecord> RESERVATION_GUEST__FK_RESERVATION_GUEST_GUEST_ROOM = Internal.createForeignKey(ReservationGuest.RESERVATION_GUEST, DSL.name("fk_reservation_guest_guest_room"), new TableField[] { ReservationGuest.RESERVATION_GUEST.ROOM_ID }, Keys.ROOM_PKEY, new TableField[] { Room.ROOM.ROOM_ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<ReservationRoomRecord, ReservationRecord> RESERVATION_ROOM__FK_RESERVATION_ROOM_RESERVATION = Internal.createForeignKey(ReservationRoom.RESERVATION_ROOM, DSL.name("fk_reservation_room_reservation"), new TableField[] { ReservationRoom.RESERVATION_ROOM.RESERVATION_ID }, Keys.RESERVATION_PKEY, new TableField[] { Reservation.RESERVATION.RESERVATION_ID }, true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<ReservationRoomRecord, RoomRecord> RESERVATION_ROOM__FK_RESERVATION_ROOM_ROOM = Internal.createForeignKey(ReservationRoom.RESERVATION_ROOM, DSL.name("fk_reservation_room_room"), new TableField[] { ReservationRoom.RESERVATION_ROOM.ROOM_ID }, Keys.ROOM_PKEY, new TableField[] { Room.ROOM.ROOM_ID }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);
     public static final ForeignKey<RoomRecord, TypeRoomStandardRecord> ROOM__FK_ROOM_TYPE_ROOM_STANDARD_CODE = Internal.createForeignKey(Room.ROOM, DSL.name("fk_room_type_room_standard_code"), new TableField[] { Room.ROOM.TYPE_ROOM_STANDARD_CODE }, Keys.TYPE_ROOM_STANDARD_CODE_KEY, new TableField[] { TypeRoomStandard.TYPE_ROOM_STANDARD.CODE }, true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION);

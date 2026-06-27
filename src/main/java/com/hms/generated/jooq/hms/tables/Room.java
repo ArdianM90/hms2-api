@@ -7,6 +7,7 @@ package com.hms.generated.jooq.hms.tables;
 import com.hms.generated.jooq.hms.Hms;
 import com.hms.generated.jooq.hms.Keys;
 import com.hms.generated.jooq.hms.tables.Reservation.ReservationPath;
+import com.hms.generated.jooq.hms.tables.ReservationGuest.ReservationGuestPath;
 import com.hms.generated.jooq.hms.tables.ReservationRoom.ReservationRoomPath;
 import com.hms.generated.jooq.hms.tables.RoomProperty.RoomPropertyPath;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard.TypeRoomStandardPath;
@@ -211,6 +212,19 @@ public class Room extends TableImpl<RoomRecord> {
             _typeRoomStandard = new TypeRoomStandardPath(this, Keys.ROOM__FK_ROOM_TYPE_ROOM_STANDARD_CODE, null);
 
         return _typeRoomStandard;
+    }
+
+    private transient ReservationGuestPath _reservationGuest;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>hms.reservation_guest</code> table
+     */
+    public ReservationGuestPath reservationGuest() {
+        if (_reservationGuest == null)
+            _reservationGuest = new ReservationGuestPath(this, null, Keys.RESERVATION_GUEST__FK_RESERVATION_GUEST_GUEST_ROOM.getInverseKey());
+
+        return _reservationGuest;
     }
 
     private transient ReservationRoomPath _reservationRoom;

@@ -6,12 +6,15 @@ package com.hms.generated.jooq.hms;
 
 import com.hms.generated.jooq.DefaultCatalog;
 import com.hms.generated.jooq.hms.tables.Reservation;
+import com.hms.generated.jooq.hms.tables.ReservationGuest;
 import com.hms.generated.jooq.hms.tables.ReservationRoom;
 import com.hms.generated.jooq.hms.tables.ReservationRoomsV;
 import com.hms.generated.jooq.hms.tables.ReservationsV;
 import com.hms.generated.jooq.hms.tables.Room;
 import com.hms.generated.jooq.hms.tables.RoomProperty;
 import com.hms.generated.jooq.hms.tables.RoomV;
+import com.hms.generated.jooq.hms.tables.TypeCitizenship;
+import com.hms.generated.jooq.hms.tables.TypeDocumentType;
 import com.hms.generated.jooq.hms.tables.TypeReservationSource;
 import com.hms.generated.jooq.hms.tables.TypeReservationStatus;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
@@ -44,6 +47,11 @@ public class Hms extends SchemaImpl {
     public final Reservation RESERVATION = Reservation.RESERVATION;
 
     /**
+     * The table <code>hms.reservation_guest</code>.
+     */
+    public final ReservationGuest RESERVATION_GUEST = ReservationGuest.RESERVATION_GUEST;
+
+    /**
      * The table <code>hms.reservation_room</code>.
      */
     public final ReservationRoom RESERVATION_ROOM = ReservationRoom.RESERVATION_ROOM;
@@ -72,6 +80,16 @@ public class Hms extends SchemaImpl {
      * The table <code>hms.room_v</code>.
      */
     public final RoomV ROOM_V = RoomV.ROOM_V;
+
+    /**
+     * The table <code>hms.type_citizenship</code>.
+     */
+    public final TypeCitizenship TYPE_CITIZENSHIP = TypeCitizenship.TYPE_CITIZENSHIP;
+
+    /**
+     * The table <code>hms.type_document_type</code>.
+     */
+    public final TypeDocumentType TYPE_DOCUMENT_TYPE = TypeDocumentType.TYPE_DOCUMENT_TYPE;
 
     /**
      * The table <code>hms.type_reservation_source</code>.
@@ -105,12 +123,15 @@ public class Hms extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             Reservation.RESERVATION,
+            ReservationGuest.RESERVATION_GUEST,
             ReservationRoom.RESERVATION_ROOM,
             ReservationRoomsV.RESERVATION_ROOMS_V,
             ReservationsV.RESERVATIONS_V,
             Room.ROOM,
             RoomProperty.ROOM_PROPERTY,
             RoomV.ROOM_V,
+            TypeCitizenship.TYPE_CITIZENSHIP,
+            TypeDocumentType.TYPE_DOCUMENT_TYPE,
             TypeReservationSource.TYPE_RESERVATION_SOURCE,
             TypeReservationStatus.TYPE_RESERVATION_STATUS,
             TypeRoomStandard.TYPE_ROOM_STANDARD

@@ -5,12 +5,15 @@ package com.hms.generated.jooq.hms;
 
 
 import com.hms.generated.jooq.hms.tables.Reservation;
+import com.hms.generated.jooq.hms.tables.ReservationGuest;
 import com.hms.generated.jooq.hms.tables.ReservationRoom;
 import com.hms.generated.jooq.hms.tables.ReservationRoomsV;
 import com.hms.generated.jooq.hms.tables.ReservationsV;
 import com.hms.generated.jooq.hms.tables.Room;
 import com.hms.generated.jooq.hms.tables.RoomProperty;
 import com.hms.generated.jooq.hms.tables.RoomV;
+import com.hms.generated.jooq.hms.tables.TypeCitizenship;
+import com.hms.generated.jooq.hms.tables.TypeDocumentType;
 import com.hms.generated.jooq.hms.tables.TypeReservationSource;
 import com.hms.generated.jooq.hms.tables.TypeReservationStatus;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
@@ -26,6 +29,11 @@ public class Tables {
      * The table <code>hms.reservation</code>.
      */
     public static final Reservation RESERVATION = Reservation.RESERVATION;
+
+    /**
+     * The table <code>hms.reservation_guest</code>.
+     */
+    public static final ReservationGuest RESERVATION_GUEST = ReservationGuest.RESERVATION_GUEST;
 
     /**
      * The table <code>hms.reservation_room</code>.
@@ -56,6 +64,16 @@ public class Tables {
      * The table <code>hms.room_v</code>.
      */
     public static final RoomV ROOM_V = RoomV.ROOM_V;
+
+    /**
+     * The table <code>hms.type_citizenship</code>.
+     */
+    public static final TypeCitizenship TYPE_CITIZENSHIP = TypeCitizenship.TYPE_CITIZENSHIP;
+
+    /**
+     * The table <code>hms.type_document_type</code>.
+     */
+    public static final TypeDocumentType TYPE_DOCUMENT_TYPE = TypeDocumentType.TYPE_DOCUMENT_TYPE;
 
     /**
      * The table <code>hms.type_reservation_source</code>.
