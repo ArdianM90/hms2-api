@@ -1,3 +1,9 @@
 package com.hms.api.domain.user.repository;
 
-public interface UserRepository {}
+import com.hms.api.domain.user.dto.EmployeeListItem;
+import java.util.List;
+
+public interface UserRepository {
+
+  List<EmployeeListItem> getEmployees();
+}

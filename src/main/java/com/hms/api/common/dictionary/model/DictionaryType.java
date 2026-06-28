@@ -18,8 +18,7 @@ public enum DictionaryType {
   DOCUMENT_TYPE(TypeDocumentType.TYPE_DOCUMENT_TYPE),
   CITIZENSHIP(TypeCitizenship.TYPE_CITIZENSHIP),
   APP_USER_ROLE(TypeAppUserRole.TYPE_APP_USER_ROLE),
-  EMPLOYEE_POSITION(TypeEmployeePosition.TYPE_EMPLOYEE_POSITION)
-  ;
+  EMPLOYEE_POSITION(TypeEmployeePosition.TYPE_EMPLOYEE_POSITION);
 
   private final Table<? extends Record> table;
 

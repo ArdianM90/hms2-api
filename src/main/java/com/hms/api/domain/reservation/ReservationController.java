@@ -52,6 +52,6 @@ public class ReservationController {
   public ResponseEntity<Void> updateReservationStatus(
       @PathVariable int reservationId, @RequestBody UpdateReservationStatusRequest request) {
     reservationService.updateReservationStatus(reservationId, request);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    return ResponseEntity.noContent().build();
   }
 }
