@@ -3,8 +3,10 @@ package com.hms.api.common.dictionary.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.hms.api.common.exception.BusinessException;
+import com.hms.generated.jooq.auth.tables.TypeAppUserRole;
 import com.hms.generated.jooq.hms.tables.TypeCitizenship;
 import com.hms.generated.jooq.hms.tables.TypeDocumentType;
+import com.hms.generated.jooq.hms.tables.TypeEmployeePosition;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
 import lombok.Getter;
 import org.jooq.Record;
@@ -12,9 +14,12 @@ import org.jooq.Table;
 
 @Getter
 public enum DictionaryType {
-  ROOM_STANDARDS(TypeRoomStandard.TYPE_ROOM_STANDARD),
-  DOCUMENT_TYPES(TypeDocumentType.TYPE_DOCUMENT_TYPE),
-  CITIZENSHIP(TypeCitizenship.TYPE_CITIZENSHIP);
+  ROOM_STANDARD(TypeRoomStandard.TYPE_ROOM_STANDARD),
+  DOCUMENT_TYPE(TypeDocumentType.TYPE_DOCUMENT_TYPE),
+  CITIZENSHIP(TypeCitizenship.TYPE_CITIZENSHIP),
+  APP_USER_ROLE(TypeAppUserRole.TYPE_APP_USER_ROLE),
+  EMPLOYEE_POSITION(TypeEmployeePosition.TYPE_EMPLOYEE_POSITION)
+  ;
 
   private final Table<? extends Record> table;
 

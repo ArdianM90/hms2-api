@@ -8,7 +8,9 @@ import com.hms.generated.jooq.auth.Auth;
 import com.hms.generated.jooq.auth.Keys;
 import com.hms.generated.jooq.auth.tables.TypeAppUserRole.TypeAppUserRolePath;
 import com.hms.generated.jooq.auth.tables.records.AppUserRecord;
+import com.hms.generated.jooq.hms.tables.EmployeePosition.EmployeePositionPath;
 import com.hms.generated.jooq.hms.tables.Reservation.ReservationPath;
+import com.hms.generated.jooq.hms.tables.TypeEmployeePosition.TypeEmployeePositionPath;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -195,6 +197,19 @@ public class AppUser extends TableImpl<AppUserRecord> {
         return _typeAppUserRole;
     }
 
+    private transient EmployeePositionPath _employeePosition;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>hms.employee_position</code> table
+     */
+    public EmployeePositionPath employeePosition() {
+        if (_employeePosition == null)
+            _employeePosition = new EmployeePositionPath(this, null, com.hms.generated.jooq.hms.Keys.EMPLOYEE_POSITION__FK_EMPLOYEE_POSITION_APP_USER.getInverseKey());
+
+        return _employeePosition;
+    }
+
     private transient ReservationPath _reservation;
 
     /**
@@ -206,6 +221,14 @@ public class AppUser extends TableImpl<AppUserRecord> {
             _reservation = new ReservationPath(this, null, com.hms.generated.jooq.hms.Keys.RESERVATION__FK_RESERVATION_APP_USER.getInverseKey());
 
         return _reservation;
+    }
+
+    /**
+     * Get the implicit many-to-many join path to the
+     * <code>hms.type_employee_position</code> table
+     */
+    public TypeEmployeePositionPath typeEmployeePosition() {
+        return employeePosition().typeEmployeePosition();
     }
 
     @Override

@@ -5,6 +5,8 @@ package com.hms.generated.jooq.hms;
 
 
 import com.hms.generated.jooq.DefaultCatalog;
+import com.hms.generated.jooq.hms.tables.EmployeePosition;
+import com.hms.generated.jooq.hms.tables.EmployeeV;
 import com.hms.generated.jooq.hms.tables.Reservation;
 import com.hms.generated.jooq.hms.tables.ReservationGuest;
 import com.hms.generated.jooq.hms.tables.ReservationRoom;
@@ -15,6 +17,7 @@ import com.hms.generated.jooq.hms.tables.RoomProperty;
 import com.hms.generated.jooq.hms.tables.RoomV;
 import com.hms.generated.jooq.hms.tables.TypeCitizenship;
 import com.hms.generated.jooq.hms.tables.TypeDocumentType;
+import com.hms.generated.jooq.hms.tables.TypeEmployeePosition;
 import com.hms.generated.jooq.hms.tables.TypeReservationSource;
 import com.hms.generated.jooq.hms.tables.TypeReservationStatus;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
@@ -40,6 +43,16 @@ public class Hms extends SchemaImpl {
      * The reference instance of <code>hms</code>
      */
     public static final Hms HMS = new Hms();
+
+    /**
+     * The table <code>hms.employee_position</code>.
+     */
+    public final EmployeePosition EMPLOYEE_POSITION = EmployeePosition.EMPLOYEE_POSITION;
+
+    /**
+     * The table <code>hms.employee_v</code>.
+     */
+    public final EmployeeV EMPLOYEE_V = EmployeeV.EMPLOYEE_V;
 
     /**
      * The table <code>hms.reservation</code>.
@@ -92,6 +105,11 @@ public class Hms extends SchemaImpl {
     public final TypeDocumentType TYPE_DOCUMENT_TYPE = TypeDocumentType.TYPE_DOCUMENT_TYPE;
 
     /**
+     * The table <code>hms.type_employee_position</code>.
+     */
+    public final TypeEmployeePosition TYPE_EMPLOYEE_POSITION = TypeEmployeePosition.TYPE_EMPLOYEE_POSITION;
+
+    /**
      * The table <code>hms.type_reservation_source</code>.
      */
     public final TypeReservationSource TYPE_RESERVATION_SOURCE = TypeReservationSource.TYPE_RESERVATION_SOURCE;
@@ -122,6 +140,8 @@ public class Hms extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            EmployeePosition.EMPLOYEE_POSITION,
+            EmployeeV.EMPLOYEE_V,
             Reservation.RESERVATION,
             ReservationGuest.RESERVATION_GUEST,
             ReservationRoom.RESERVATION_ROOM,
@@ -132,6 +152,7 @@ public class Hms extends SchemaImpl {
             RoomV.ROOM_V,
             TypeCitizenship.TYPE_CITIZENSHIP,
             TypeDocumentType.TYPE_DOCUMENT_TYPE,
+            TypeEmployeePosition.TYPE_EMPLOYEE_POSITION,
             TypeReservationSource.TYPE_RESERVATION_SOURCE,
             TypeReservationStatus.TYPE_RESERVATION_STATUS,
             TypeRoomStandard.TYPE_ROOM_STANDARD
