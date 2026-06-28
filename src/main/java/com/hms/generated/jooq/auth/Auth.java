@@ -6,6 +6,7 @@ package com.hms.generated.jooq.auth;
 
 import com.hms.generated.jooq.DefaultCatalog;
 import com.hms.generated.jooq.auth.tables.AppUser;
+import com.hms.generated.jooq.auth.tables.TypeAppUserRole;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +36,11 @@ public class Auth extends SchemaImpl {
     public final AppUser APP_USER = AppUser.APP_USER;
 
     /**
+     * The table <code>auth.type_app_user_role</code>.
+     */
+    public final TypeAppUserRole TYPE_APP_USER_ROLE = TypeAppUserRole.TYPE_APP_USER_ROLE;
+
+    /**
      * No further instances allowed
      */
     private Auth() {
@@ -50,7 +56,8 @@ public class Auth extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            AppUser.APP_USER
+            AppUser.APP_USER,
+            TypeAppUserRole.TYPE_APP_USER_ROLE
         );
     }
 }

@@ -6,6 +6,7 @@ package com.hms.generated.jooq.auth.tables;
 
 import com.hms.generated.jooq.auth.Auth;
 import com.hms.generated.jooq.auth.Keys;
+import com.hms.generated.jooq.auth.tables.TypeAppUserRole.TypeAppUserRolePath;
 import com.hms.generated.jooq.auth.tables.records.AppUserRecord;
 import com.hms.generated.jooq.hms.tables.Reservation.ReservationPath;
 
@@ -94,6 +95,11 @@ public class AppUser extends TableImpl<AppUserRecord> {
      */
     public final TableField<AppUserRecord, String> LAST_NAME = createField(DSL.name("last_name"), SQLDataType.CLOB.nullable(false), this, "");
 
+    /**
+     * The column <code>auth.app_user.role_code</code>.
+     */
+    public final TableField<AppUserRecord, String> ROLE_CODE = createField(DSL.name("role_code"), SQLDataType.CLOB.nullable(false).defaultValue(DSL.field(DSL.raw("'guest'::text"), SQLDataType.CLOB)), this, "");
+
     private AppUser(Name alias, Table<AppUserRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
     }
@@ -169,6 +175,24 @@ public class AppUser extends TableImpl<AppUserRecord> {
     @Override
     public List<UniqueKey<AppUserRecord>> getUniqueKeys() {
         return Arrays.asList(Keys.USER_EMAIL_KEY);
+    }
+
+    @Override
+    public List<ForeignKey<AppUserRecord, ?>> getReferences() {
+        return Arrays.asList(Keys.APP_USER__FK_APP_USER_ROLE);
+    }
+
+    private transient TypeAppUserRolePath _typeAppUserRole;
+
+    /**
+     * Get the implicit join path to the <code>auth.type_app_user_role</code>
+     * table.
+     */
+    public TypeAppUserRolePath typeAppUserRole() {
+        if (_typeAppUserRole == null)
+            _typeAppUserRole = new TypeAppUserRolePath(this, Keys.APP_USER__FK_APP_USER_ROLE, null);
+
+        return _typeAppUserRole;
     }
 
     private transient ReservationPath _reservation;
