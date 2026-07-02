@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.hms.api.common.exception.BusinessException;
 import com.hms.generated.jooq.auth.tables.TypeAppUserRole;
-import com.hms.generated.jooq.hms.tables.TypeCitizenship;
-import com.hms.generated.jooq.hms.tables.TypeDocumentType;
-import com.hms.generated.jooq.hms.tables.TypeEmployeePosition;
-import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
+import com.hms.generated.jooq.hms.tables.*;
 import lombok.Getter;
 import org.jooq.Record;
 import org.jooq.Table;
@@ -18,7 +15,9 @@ public enum DictionaryType {
   DOCUMENT_TYPE(TypeDocumentType.TYPE_DOCUMENT_TYPE),
   CITIZENSHIP(TypeCitizenship.TYPE_CITIZENSHIP),
   APP_USER_ROLE(TypeAppUserRole.TYPE_APP_USER_ROLE),
-  EMPLOYEE_POSITION(TypeEmployeePosition.TYPE_EMPLOYEE_POSITION);
+  EMPLOYEE_POSITION(TypeEmployeePosition.TYPE_EMPLOYEE_POSITION),
+  EMPLOYEE_TASK(TypeEmployeeTask.TYPE_EMPLOYEE_TASK),
+  TASK_STATUS(TypeEmployeeTaskStatus.TYPE_EMPLOYEE_TASK_STATUS);
 
   private final Table<? extends Record> table;
 

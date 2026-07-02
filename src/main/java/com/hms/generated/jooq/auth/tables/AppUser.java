@@ -9,6 +9,7 @@ import com.hms.generated.jooq.auth.Keys;
 import com.hms.generated.jooq.auth.tables.TypeAppUserRole.TypeAppUserRolePath;
 import com.hms.generated.jooq.auth.tables.records.AppUserRecord;
 import com.hms.generated.jooq.hms.tables.EmployeePosition.EmployeePositionPath;
+import com.hms.generated.jooq.hms.tables.EmployeeTask.EmployeeTaskPath;
 import com.hms.generated.jooq.hms.tables.Reservation.ReservationPath;
 import com.hms.generated.jooq.hms.tables.TypeEmployeePosition.TypeEmployeePositionPath;
 
@@ -208,6 +209,32 @@ public class AppUser extends TableImpl<AppUserRecord> {
             _employeePosition = new EmployeePositionPath(this, null, com.hms.generated.jooq.hms.Keys.EMPLOYEE_POSITION__FK_EMPLOYEE_POSITION_APP_USER.getInverseKey());
 
         return _employeePosition;
+    }
+
+    private transient EmployeeTaskPath _fkEmployeeTaskAssignee;
+
+    /**
+     * Get the implicit to-many join path to the <code>hms.employee_task</code>
+     * table, via the <code>fk_employee_task_assignee</code> key
+     */
+    public EmployeeTaskPath fkEmployeeTaskAssignee() {
+        if (_fkEmployeeTaskAssignee == null)
+            _fkEmployeeTaskAssignee = new EmployeeTaskPath(this, null, com.hms.generated.jooq.hms.Keys.EMPLOYEE_TASK__FK_EMPLOYEE_TASK_ASSIGNEE.getInverseKey());
+
+        return _fkEmployeeTaskAssignee;
+    }
+
+    private transient EmployeeTaskPath _fkEmployeeTaskCreatedBy;
+
+    /**
+     * Get the implicit to-many join path to the <code>hms.employee_task</code>
+     * table, via the <code>fk_employee_task_created_by</code> key
+     */
+    public EmployeeTaskPath fkEmployeeTaskCreatedBy() {
+        if (_fkEmployeeTaskCreatedBy == null)
+            _fkEmployeeTaskCreatedBy = new EmployeeTaskPath(this, null, com.hms.generated.jooq.hms.Keys.EMPLOYEE_TASK__FK_EMPLOYEE_TASK_CREATED_BY.getInverseKey());
+
+        return _fkEmployeeTaskCreatedBy;
     }
 
     private transient ReservationPath _reservation;

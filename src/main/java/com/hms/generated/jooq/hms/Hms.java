@@ -6,6 +6,7 @@ package com.hms.generated.jooq.hms;
 
 import com.hms.generated.jooq.DefaultCatalog;
 import com.hms.generated.jooq.hms.tables.EmployeePosition;
+import com.hms.generated.jooq.hms.tables.EmployeeTask;
 import com.hms.generated.jooq.hms.tables.EmployeeV;
 import com.hms.generated.jooq.hms.tables.Reservation;
 import com.hms.generated.jooq.hms.tables.ReservationGuest;
@@ -18,6 +19,8 @@ import com.hms.generated.jooq.hms.tables.RoomV;
 import com.hms.generated.jooq.hms.tables.TypeCitizenship;
 import com.hms.generated.jooq.hms.tables.TypeDocumentType;
 import com.hms.generated.jooq.hms.tables.TypeEmployeePosition;
+import com.hms.generated.jooq.hms.tables.TypeEmployeeTask;
+import com.hms.generated.jooq.hms.tables.TypeEmployeeTaskStatus;
 import com.hms.generated.jooq.hms.tables.TypeReservationSource;
 import com.hms.generated.jooq.hms.tables.TypeReservationStatus;
 import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
@@ -48,6 +51,11 @@ public class Hms extends SchemaImpl {
      * The table <code>hms.employee_position</code>.
      */
     public final EmployeePosition EMPLOYEE_POSITION = EmployeePosition.EMPLOYEE_POSITION;
+
+    /**
+     * The table <code>hms.employee_task</code>.
+     */
+    public final EmployeeTask EMPLOYEE_TASK = EmployeeTask.EMPLOYEE_TASK;
 
     /**
      * The table <code>hms.employee_v</code>.
@@ -110,6 +118,16 @@ public class Hms extends SchemaImpl {
     public final TypeEmployeePosition TYPE_EMPLOYEE_POSITION = TypeEmployeePosition.TYPE_EMPLOYEE_POSITION;
 
     /**
+     * The table <code>hms.type_employee_task</code>.
+     */
+    public final TypeEmployeeTask TYPE_EMPLOYEE_TASK = TypeEmployeeTask.TYPE_EMPLOYEE_TASK;
+
+    /**
+     * The table <code>hms.type_employee_task_status</code>.
+     */
+    public final TypeEmployeeTaskStatus TYPE_EMPLOYEE_TASK_STATUS = TypeEmployeeTaskStatus.TYPE_EMPLOYEE_TASK_STATUS;
+
+    /**
      * The table <code>hms.type_reservation_source</code>.
      */
     public final TypeReservationSource TYPE_RESERVATION_SOURCE = TypeReservationSource.TYPE_RESERVATION_SOURCE;
@@ -141,6 +159,7 @@ public class Hms extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             EmployeePosition.EMPLOYEE_POSITION,
+            EmployeeTask.EMPLOYEE_TASK,
             EmployeeV.EMPLOYEE_V,
             Reservation.RESERVATION,
             ReservationGuest.RESERVATION_GUEST,
@@ -153,6 +172,8 @@ public class Hms extends SchemaImpl {
             TypeCitizenship.TYPE_CITIZENSHIP,
             TypeDocumentType.TYPE_DOCUMENT_TYPE,
             TypeEmployeePosition.TYPE_EMPLOYEE_POSITION,
+            TypeEmployeeTask.TYPE_EMPLOYEE_TASK,
+            TypeEmployeeTaskStatus.TYPE_EMPLOYEE_TASK_STATUS,
             TypeReservationSource.TYPE_RESERVATION_SOURCE,
             TypeReservationStatus.TYPE_RESERVATION_STATUS,
             TypeRoomStandard.TYPE_ROOM_STANDARD
