@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,7 @@ public class TaskController {
   }
 
   @GetMapping("/my")
-  public ResponseEntity<List<MyTaskListItem>> getMyTasks(Jwt jwt) {
+  public ResponseEntity<List<MyTaskListItem>> getMyTasks(@AuthenticationPrincipal Jwt jwt) {
     UUID appUserId = jwtService.requireAppUserId(jwt);
     return ResponseEntity.ok(taskService.getMyTasks(appUserId));
   }
