@@ -7,6 +7,7 @@ package com.hms.generated.jooq.hms;
 import com.hms.generated.jooq.DefaultCatalog;
 import com.hms.generated.jooq.hms.tables.EmployeePosition;
 import com.hms.generated.jooq.hms.tables.EmployeeTask;
+import com.hms.generated.jooq.hms.tables.EmployeeTaskV;
 import com.hms.generated.jooq.hms.tables.EmployeeV;
 import com.hms.generated.jooq.hms.tables.Reservation;
 import com.hms.generated.jooq.hms.tables.ReservationGuest;
@@ -56,6 +57,11 @@ public class Hms extends SchemaImpl {
      * The table <code>hms.employee_task</code>.
      */
     public final EmployeeTask EMPLOYEE_TASK = EmployeeTask.EMPLOYEE_TASK;
+
+    /**
+     * The table <code>hms.employee_task_v</code>.
+     */
+    public final EmployeeTaskV EMPLOYEE_TASK_V = EmployeeTaskV.EMPLOYEE_TASK_V;
 
     /**
      * The table <code>hms.employee_v</code>.
@@ -160,6 +166,7 @@ public class Hms extends SchemaImpl {
         return Arrays.asList(
             EmployeePosition.EMPLOYEE_POSITION,
             EmployeeTask.EMPLOYEE_TASK,
+            EmployeeTaskV.EMPLOYEE_TASK_V,
             EmployeeV.EMPLOYEE_V,
             Reservation.RESERVATION,
             ReservationGuest.RESERVATION_GUEST,

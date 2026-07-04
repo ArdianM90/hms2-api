@@ -6,6 +6,7 @@ package com.hms.generated.jooq.hms;
 
 import com.hms.generated.jooq.hms.tables.EmployeePosition;
 import com.hms.generated.jooq.hms.tables.EmployeeTask;
+import com.hms.generated.jooq.hms.tables.EmployeeTaskV;
 import com.hms.generated.jooq.hms.tables.EmployeeV;
 import com.hms.generated.jooq.hms.tables.Reservation;
 import com.hms.generated.jooq.hms.tables.ReservationGuest;
@@ -40,6 +41,11 @@ public class Tables {
      * The table <code>hms.employee_task</code>.
      */
     public static final EmployeeTask EMPLOYEE_TASK = EmployeeTask.EMPLOYEE_TASK;
+
+    /**
+     * The table <code>hms.employee_task_v</code>.
+     */
+    public static final EmployeeTaskV EMPLOYEE_TASK_V = EmployeeTaskV.EMPLOYEE_TASK_V;
 
     /**
      * The table <code>hms.employee_v</code>.

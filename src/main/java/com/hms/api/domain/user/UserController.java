@@ -12,30 +12,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/employees")
 @RequiredArgsConstructor
 public class UserController {
 
   private final UserService userService;
 
-  @GetMapping("/employees")
+  @GetMapping
   public ResponseEntity<List<EmployeeListItem>> getEmployees() {
     return ResponseEntity.ok(userService.getEmployees());
   }
 
-  @PostMapping("/employees")
+  @PostMapping
   public ResponseEntity<LabeledValue<UUID>> addEmployee(@RequestBody EmployeeRequest request) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new LabeledValue<>("userId", userService.addEmployee(request)));
   }
 
-  @PutMapping("/employees/{user-id}")
+  @PutMapping("/{user-id}")
   public ResponseEntity<Void> updateEmployee(
       @PathVariable("user-id") UUID userId, @RequestBody EmployeeRequest request) {
     userService.updateEmployee(userId, request);
     return ResponseEntity.noContent().build();
   }
 
-  @DeleteMapping("/employees/{user-id}")
+  @DeleteMapping("/{user-id}")
   public ResponseEntity<Void> deleteEmployee(@PathVariable("user-id") UUID userId) {
     userService.deleteEmployee(userId);
     return ResponseEntity.noContent().build();
