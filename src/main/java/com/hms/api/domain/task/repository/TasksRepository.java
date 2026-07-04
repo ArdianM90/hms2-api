@@ -4,10 +4,13 @@ import com.hms.api.domain.task.dto.*;
 import com.hms.api.domain.task.model.TaskStatus;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public interface TasksRepository {
 
-  List<TaskListItem> getTasks(TasksFilterParams filterParams);
+  List<TaskListItem> getAllTasks(TasksFilterParams filterParams);
+
+  List<MyTaskListItem> getMyTasks(UUID appUserId);
 
   Integer addTask(AddTaskRequest request);
 

@@ -5,6 +5,7 @@ import com.hms.api.domain.task.model.TaskStatus;
 import com.hms.api.domain.task.repository.TasksRepository;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,13 @@ public class TaskServiceImpl implements TaskService {
   private final TasksRepository tasksRepository;
 
   @Override
-  public List<TaskListItem> getTasks(TasksFilterParams filterParams) {
-    return tasksRepository.getTasks(filterParams);
+  public List<TaskListItem> getAllTasks(TasksFilterParams filterParams) {
+    return tasksRepository.getAllTasks(filterParams);
+  }
+
+  @Override
+  public List<MyTaskListItem> getMyTasks(UUID appUserId) {
+    return tasksRepository.getMyTasks(appUserId);
   }
 
   @Override

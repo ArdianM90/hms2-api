@@ -7,6 +7,7 @@ import com.hms.generated.jooq.hms.tables.EmployeeTaskV;
 import com.hms.generated.jooq.hms.tables.records.EmployeeTaskRecord;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,7 @@ public class TasksRepositoryImpl implements TasksRepository {
   private final DSLContext dsl;
 
   @Override
-  public List<TaskListItem> getTasks(TasksFilterParams filterParams) {
+  public List<TaskListItem> getAllTasks(TasksFilterParams filterParams) {
     EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
     return dsl.select(
             etv.EMPLOYEE_TASK_ID,
@@ -44,6 +45,32 @@ public class TasksRepositoryImpl implements TasksRepository {
         .from(etv)
         .where(etv.ASSIGNEE_USER_ID.eq(filterParams.userId()))
         .fetchInto(TaskListItem.class);
+  }
+
+  @Override
+  public List<MyTaskListItem> getMyTasks(UUID appUserId) {
+    EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
+    return dsl.select(
+            etv.EMPLOYEE_TASK_ID,
+            etv.CREATED_BY_USER_ID,
+            etv.CREATED_BY_FIRST_NAME,
+            etv.CREATED_BY_LAST_NAME,
+            etv.ROOM_ID,
+            etv.RESERVATION_ID,
+            etv.TASK_TYPE_CODE,
+            etv.TASK_TYPE,
+            etv.STATUS_CODE,
+            etv.STATUS,
+            etv.TITLE,
+            etv.DESCRIPTION,
+            etv.PRIORITY,
+            etv.DUE_AT,
+            etv.CREATED_AT,
+            etv.STARTED_AT,
+            etv.COMPLETED_AT)
+        .from(etv)
+        .where(etv.ASSIGNEE_USER_ID.eq(appUserId))
+        .fetchInto(MyTaskListItem.class);
   }
 
   @Override
