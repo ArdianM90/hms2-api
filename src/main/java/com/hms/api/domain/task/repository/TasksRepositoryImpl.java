@@ -10,7 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.jooq.Condition;
 import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,6 +24,10 @@ public class TasksRepositoryImpl implements TasksRepository {
   @Override
   public List<TaskListItem> getAllTasks(TasksFilterParams filterParams) {
     EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
+    Condition condition = DSL.trueCondition();
+    if (filterParams.userId() != null) {
+      condition = condition.and(etv.ASSIGNEE_USER_ID.eq(filterParams.userId()));
+    }
     return dsl.select(
             etv.EMPLOYEE_TASK_ID,
             etv.ASSIGNEE_USER_ID,
@@ -44,7 +50,7 @@ public class TasksRepositoryImpl implements TasksRepository {
             etv.STARTED_AT,
             etv.COMPLETED_AT)
         .from(etv)
-        .where(etv.ASSIGNEE_USER_ID.eq(filterParams.userId()))
+        .where(condition)
         .fetchInto(TaskListItem.class);
   }
 
