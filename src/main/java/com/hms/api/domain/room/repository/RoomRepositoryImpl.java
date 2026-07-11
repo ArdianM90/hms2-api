@@ -48,6 +48,12 @@ public class RoomRepositoryImpl implements RoomRepository {
   }
 
   @Override
+  public List<RoomSimpleDto> getRoomsSimple() {
+    RoomV v = RoomV.ROOM_V;
+    return dsl.select(v.ROOM_ID, v.ROOM_NUMBER).from(v).fetchInto(RoomSimpleDto.class);
+  }
+
+  @Override
   public int createRoom(CreateRoomRequest request) {
     RoomRecord room = dsl.newRecord(Tables.ROOM);
     room.setCapacity(request.capacity());

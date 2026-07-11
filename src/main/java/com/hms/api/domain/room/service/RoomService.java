@@ -11,6 +11,8 @@ public interface RoomService {
 
   List<RoomDto> getRooms(RoomsFilterParams filterParams);
 
+  List<RoomSimpleDto> getRoomsSimple();
+
   RoomsQtyResponse getRoomsQuantity();
 
   @Transactional

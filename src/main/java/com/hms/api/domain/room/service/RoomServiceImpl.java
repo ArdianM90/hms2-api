@@ -24,6 +24,11 @@ public class RoomServiceImpl implements RoomService {
   }
 
   @Override
+  public List<RoomSimpleDto> getRoomsSimple() {
+    return roomRepository.getRoomsSimple();
+  }
+
+  @Override
   public RoomsQtyResponse getRoomsQuantity() {
     return new RoomsQtyResponse(
         roomRepository.getRooms(new RoomsFilterParams(null, null, null, null)).size());

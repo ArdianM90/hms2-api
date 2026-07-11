@@ -10,6 +10,8 @@ public interface RoomRepository {
 
   List<RoomDto> getRooms(RoomsFilterParams filterParams);
 
+  List<RoomSimpleDto> getRoomsSimple();
+
   int createRoom(CreateRoomRequest request);
 
   void updateRoom(int roomId, UpdateRoomRequest request);

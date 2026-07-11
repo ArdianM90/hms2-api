@@ -12,6 +12,7 @@ public record TaskListItem(
     String createdByFirstName,
     String createdByLastName,
     Integer roomId,
+    String roomNumber,
     Integer reservationId,
     String taskTypeCode,
     String taskType,

@@ -133,171 +133,185 @@ public class EmployeeTaskVRecord extends TableRecordImpl<EmployeeTaskVRecord> {
     }
 
     /**
+     * Setter for <code>hms.employee_task_v.room_number</code>.
+     */
+    public void setRoomNumber(String value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>hms.employee_task_v.room_number</code>.
+     */
+    public String getRoomNumber() {
+        return (String) get(8);
+    }
+
+    /**
      * Setter for <code>hms.employee_task_v.reservation_id</code>.
      */
     public void setReservationId(Integer value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.reservation_id</code>.
      */
     public Integer getReservationId() {
-        return (Integer) get(8);
+        return (Integer) get(9);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.task_type_code</code>.
      */
     public void setTaskTypeCode(String value) {
-        set(9, value);
+        set(10, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.task_type_code</code>.
      */
     public String getTaskTypeCode() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.task_type</code>.
      */
     public void setTaskType(String value) {
-        set(10, value);
+        set(11, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.task_type</code>.
      */
     public String getTaskType() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.status_code</code>.
      */
     public void setStatusCode(String value) {
-        set(11, value);
+        set(12, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.status_code</code>.
      */
     public String getStatusCode() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.status</code>.
      */
     public void setStatus(String value) {
-        set(12, value);
+        set(13, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.status</code>.
      */
     public String getStatus() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.title</code>.
      */
     public void setTitle(String value) {
-        set(13, value);
+        set(14, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.title</code>.
      */
     public String getTitle() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.description</code>.
      */
     public void setDescription(String value) {
-        set(14, value);
+        set(15, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.description</code>.
      */
     public String getDescription() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.priority</code>.
      */
     public void setPriority(Short value) {
-        set(15, value);
+        set(16, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.priority</code>.
      */
     public Short getPriority() {
-        return (Short) get(15);
+        return (Short) get(16);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.due_at</code>.
      */
     public void setDueAt(LocalDateTime value) {
-        set(16, value);
+        set(17, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.due_at</code>.
      */
     public LocalDateTime getDueAt() {
-        return (LocalDateTime) get(16);
+        return (LocalDateTime) get(17);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.created_at</code>.
      */
     public void setCreatedAt(LocalDateTime value) {
-        set(17, value);
+        set(18, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.created_at</code>.
      */
     public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(17);
+        return (LocalDateTime) get(18);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.started_at</code>.
      */
     public void setStartedAt(LocalDateTime value) {
-        set(18, value);
+        set(19, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.started_at</code>.
      */
     public LocalDateTime getStartedAt() {
-        return (LocalDateTime) get(18);
+        return (LocalDateTime) get(19);
     }
 
     /**
      * Setter for <code>hms.employee_task_v.completed_at</code>.
      */
     public void setCompletedAt(LocalDateTime value) {
-        set(19, value);
+        set(20, value);
     }
 
     /**
      * Getter for <code>hms.employee_task_v.completed_at</code>.
      */
     public LocalDateTime getCompletedAt() {
-        return (LocalDateTime) get(19);
+        return (LocalDateTime) get(20);
     }
 
     // -------------------------------------------------------------------------
@@ -314,7 +328,7 @@ public class EmployeeTaskVRecord extends TableRecordImpl<EmployeeTaskVRecord> {
     /**
      * Create a detached, initialised EmployeeTaskVRecord
      */
-    public EmployeeTaskVRecord(Integer employeeTaskId, UUID assigneeUserId, String assigneeFirstName, String assigneeLastName, UUID createdByUserId, String createdByFirstName, String createdByLastName, Integer roomId, Integer reservationId, String taskTypeCode, String taskType, String statusCode, String status, String title, String description, Short priority, LocalDateTime dueAt, LocalDateTime createdAt, LocalDateTime startedAt, LocalDateTime completedAt) {
+    public EmployeeTaskVRecord(Integer employeeTaskId, UUID assigneeUserId, String assigneeFirstName, String assigneeLastName, UUID createdByUserId, String createdByFirstName, String createdByLastName, Integer roomId, String roomNumber, Integer reservationId, String taskTypeCode, String taskType, String statusCode, String status, String title, String description, Short priority, LocalDateTime dueAt, LocalDateTime createdAt, LocalDateTime startedAt, LocalDateTime completedAt) {
         super(EmployeeTaskV.EMPLOYEE_TASK_V);
 
         setEmployeeTaskId(employeeTaskId);
@@ -325,6 +339,7 @@ public class EmployeeTaskVRecord extends TableRecordImpl<EmployeeTaskVRecord> {
         setCreatedByFirstName(createdByFirstName);
         setCreatedByLastName(createdByLastName);
         setRoomId(roomId);
+        setRoomNumber(roomNumber);
         setReservationId(reservationId);
         setTaskTypeCode(taskTypeCode);
         setTaskType(taskType);
@@ -355,6 +370,7 @@ public class EmployeeTaskVRecord extends TableRecordImpl<EmployeeTaskVRecord> {
             setCreatedByFirstName(value.getCreatedByFirstName());
             setCreatedByLastName(value.getCreatedByLastName());
             setRoomId(value.getRoomId());
+            setRoomNumber(value.getRoomNumber());
             setReservationId(value.getReservationId());
             setTaskTypeCode(value.getTaskTypeCode());
             setTaskType(value.getTaskType());

@@ -25,6 +25,7 @@ public class EmployeeTaskV implements Serializable {
     private String createdByFirstName;
     private String createdByLastName;
     private Integer roomId;
+    private String roomNumber;
     private Integer reservationId;
     private String taskTypeCode;
     private String taskType;
@@ -49,6 +50,7 @@ public class EmployeeTaskV implements Serializable {
         this.createdByFirstName = value.createdByFirstName;
         this.createdByLastName = value.createdByLastName;
         this.roomId = value.roomId;
+        this.roomNumber = value.roomNumber;
         this.reservationId = value.reservationId;
         this.taskTypeCode = value.taskTypeCode;
         this.taskType = value.taskType;
@@ -72,6 +74,7 @@ public class EmployeeTaskV implements Serializable {
         String createdByFirstName,
         String createdByLastName,
         Integer roomId,
+        String roomNumber,
         Integer reservationId,
         String taskTypeCode,
         String taskType,
@@ -93,6 +96,7 @@ public class EmployeeTaskV implements Serializable {
         this.createdByFirstName = createdByFirstName;
         this.createdByLastName = createdByLastName;
         this.roomId = roomId;
+        this.roomNumber = roomNumber;
         this.reservationId = reservationId;
         this.taskTypeCode = taskTypeCode;
         this.taskType = taskType;
@@ -217,6 +221,20 @@ public class EmployeeTaskV implements Serializable {
      */
     public void setRoomId(Integer roomId) {
         this.roomId = roomId;
+    }
+
+    /**
+     * Getter for <code>hms.employee_task_v.room_number</code>.
+     */
+    public String getRoomNumber() {
+        return this.roomNumber;
+    }
+
+    /**
+     * Setter for <code>hms.employee_task_v.room_number</code>.
+     */
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     /**
@@ -444,6 +462,12 @@ public class EmployeeTaskV implements Serializable {
         }
         else if (!this.roomId.equals(other.roomId))
             return false;
+        if (this.roomNumber == null) {
+            if (other.roomNumber != null)
+                return false;
+        }
+        else if (!this.roomNumber.equals(other.roomNumber))
+            return false;
         if (this.reservationId == null) {
             if (other.reservationId != null)
                 return false;
@@ -531,6 +555,7 @@ public class EmployeeTaskV implements Serializable {
         result = prime * result + ((this.createdByFirstName == null) ? 0 : this.createdByFirstName.hashCode());
         result = prime * result + ((this.createdByLastName == null) ? 0 : this.createdByLastName.hashCode());
         result = prime * result + ((this.roomId == null) ? 0 : this.roomId.hashCode());
+        result = prime * result + ((this.roomNumber == null) ? 0 : this.roomNumber.hashCode());
         result = prime * result + ((this.reservationId == null) ? 0 : this.reservationId.hashCode());
         result = prime * result + ((this.taskTypeCode == null) ? 0 : this.taskTypeCode.hashCode());
         result = prime * result + ((this.taskType == null) ? 0 : this.taskType.hashCode());
@@ -558,6 +583,7 @@ public class EmployeeTaskV implements Serializable {
         sb.append(", ").append(createdByFirstName);
         sb.append(", ").append(createdByLastName);
         sb.append(", ").append(roomId);
+        sb.append(", ").append(roomNumber);
         sb.append(", ").append(reservationId);
         sb.append(", ").append(taskTypeCode);
         sb.append(", ").append(taskType);

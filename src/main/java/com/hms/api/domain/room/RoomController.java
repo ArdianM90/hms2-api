@@ -28,6 +28,11 @@ public class RoomController {
     return ResponseEntity.ok(roomService.getRooms(filterParams));
   }
 
+  @GetMapping("/simple")
+  public ResponseEntity<List<RoomSimpleDto>> getRoomsSimple() {
+    return ResponseEntity.ok(roomService.getRoomsSimple());
+  }
+
   @GetMapping("/quantity")
   public ResponseEntity<RoomsQtyResponse> getRoomsQuantity() {
     return ResponseEntity.ok(roomService.getRoomsQuantity());

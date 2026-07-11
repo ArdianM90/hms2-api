@@ -4,7 +4,6 @@ import com.hms.api.domain.task.dto.*;
 import com.hms.api.domain.task.model.TaskStatus;
 import com.hms.generated.jooq.hms.tables.EmployeeTask;
 import com.hms.generated.jooq.hms.tables.EmployeeTaskV;
-import com.hms.generated.jooq.hms.tables.Room;
 import com.hms.generated.jooq.hms.tables.records.EmployeeTaskRecord;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,6 +36,7 @@ public class TasksRepositoryImpl implements TasksRepository {
             etv.CREATED_BY_FIRST_NAME,
             etv.CREATED_BY_LAST_NAME,
             etv.ROOM_ID,
+            etv.ROOM_NUMBER,
             etv.RESERVATION_ID,
             etv.TASK_TYPE_CODE,
             etv.TASK_TYPE,
@@ -57,13 +57,12 @@ public class TasksRepositoryImpl implements TasksRepository {
   @Override
   public List<MyTaskListItem> getMyTasks(UUID appUserId) {
     EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
-    Room r = Room.ROOM;
     return dsl.select(
             etv.EMPLOYEE_TASK_ID,
             etv.CREATED_BY_USER_ID,
             etv.CREATED_BY_FIRST_NAME,
             etv.CREATED_BY_LAST_NAME,
-            r.ROOM_NUMBER,
+            etv.ROOM_NUMBER,
             etv.RESERVATION_ID,
             etv.TASK_TYPE_CODE,
             etv.TASK_TYPE,
@@ -77,8 +76,6 @@ public class TasksRepositoryImpl implements TasksRepository {
             etv.STARTED_AT,
             etv.COMPLETED_AT)
         .from(etv)
-        .leftJoin(r)
-        .on(etv.ROOM_ID.eq(r.ROOM_ID))
         .where(etv.ASSIGNEE_USER_ID.eq(appUserId))
         .fetchInto(MyTaskListItem.class);
   }
