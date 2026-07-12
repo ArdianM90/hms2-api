@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface TaskService {
 
+  TaskDetails getTask(int employeeTaskId);
+
   List<TaskListItem> getAllTasks(TasksFilterParams filterParams);
 
   List<MyTaskListItem> getMyTasks(UUID appUserId);

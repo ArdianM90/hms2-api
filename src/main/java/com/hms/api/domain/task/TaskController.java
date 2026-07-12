@@ -23,6 +23,11 @@ public class TaskController {
   private final JwtService jwtService;
   private final TaskService taskService;
 
+  @GetMapping("/{task-id}")
+  public ResponseEntity<TaskDetails> getTask(@PathVariable("task-id") int employeeTaskId) {
+    return ResponseEntity.ok(taskService.getTask(employeeTaskId));
+  }
+
   @GetMapping()
   public ResponseEntity<List<TaskListItem>> getAllTasks(
       @ParameterObject TasksFilterParams filterParams) {

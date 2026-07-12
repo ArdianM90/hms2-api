@@ -16,6 +16,11 @@ public class TaskServiceImpl implements TaskService {
   private final TasksRepository tasksRepository;
 
   @Override
+  public TaskDetails getTask(int employeeTaskId) {
+    return tasksRepository.getTask(employeeTaskId);
+  }
+
+  @Override
   public List<TaskListItem> getAllTasks(TasksFilterParams filterParams) {
     return tasksRepository.getAllTasks(filterParams);
   }

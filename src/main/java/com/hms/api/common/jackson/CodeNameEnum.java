@@ -1,7 +1,7 @@
 package com.hms.api.common.jackson;
 
-public interface CodeLabelEnum {
+public interface CodeNameEnum {
   String getCode();
 
-  String getLabel();
+  String getName();
 }

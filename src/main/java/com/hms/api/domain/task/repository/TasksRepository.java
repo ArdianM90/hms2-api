@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface TasksRepository {
 
+  TaskDetails getTask(int employeeTaskId);
+
   List<TaskListItem> getAllTasks(TasksFilterParams filterParams);
 
   List<MyTaskListItem> getMyTasks(UUID appUserId);

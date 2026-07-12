@@ -2,14 +2,14 @@ package com.hms.api.domain.reservation.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.hms.api.common.exception.BusinessException;
-import com.hms.api.common.jackson.CodeLabelEnum;
-import com.hms.api.common.jackson.CodeLabelResponse;
+import com.hms.api.common.jackson.CodeNameEnum;
+import com.hms.api.common.jackson.CodeNameResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
-@Schema(implementation = CodeLabelResponse.class)
-public enum ReservationStatus implements CodeLabelEnum {
+@Schema(implementation = CodeNameResponse.class)
+public enum ReservationStatus implements CodeNameEnum {
   CREATED("Utworzona"),
   CONFIRMED("Potwierdzona"),
   CANCELLED("Anulowana"),
@@ -17,10 +17,10 @@ public enum ReservationStatus implements CodeLabelEnum {
   CHECKED_OUT("Wymeldowany"),
   NO_SHOW("Nie pojawił się");
 
-  private final String label;
+  private final String name;
 
-  ReservationStatus(String label) {
-    this.label = label;
+  ReservationStatus(String name) {
+    this.name = name;
   }
 
   public String getCode() {

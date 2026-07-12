@@ -2,14 +2,14 @@ package com.hms.api.domain.reservation.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.hms.api.common.exception.BusinessException;
-import com.hms.api.common.jackson.CodeLabelEnum;
-import com.hms.api.common.jackson.CodeLabelResponse;
+import com.hms.api.common.jackson.CodeNameEnum;
+import com.hms.api.common.jackson.CodeNameResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
-@Schema(implementation = CodeLabelResponse.class)
-public enum ReservationSource implements CodeLabelEnum {
+@Schema(implementation = CodeNameResponse.class)
+public enum ReservationSource implements CodeNameEnum {
   HMS_WEB("hms-web", "Aplikacja HMS Web"),
   HMS_MOB("hms-mobile", "Aplikacja HMS Mobile"),
   PHONE("phone", "Telefonicznie"),
@@ -18,11 +18,11 @@ public enum ReservationSource implements CodeLabelEnum {
   OTHER("other", "Inne");
 
   private final String code;
-  private final String label;
+  private final String name;
 
-  ReservationSource(String code, String label) {
+  ReservationSource(String code, String name) {
     this.code = code;
-    this.label = label;
+    this.name = name;
   }
 
   @JsonCreator

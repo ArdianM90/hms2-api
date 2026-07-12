@@ -1,5 +1,6 @@
 package com.hms.api.domain.task.repository;
 
+import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.domain.task.dto.*;
 import com.hms.api.domain.task.model.TaskStatus;
 import com.hms.generated.jooq.hms.tables.EmployeeTask;
@@ -21,37 +22,64 @@ public class TasksRepositoryImpl implements TasksRepository {
   private final DSLContext dsl;
 
   @Override
+  public TaskDetails getTask(int employeeTaskId) {
+    EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
+    return dsl.selectFrom(etv)
+        .where(etv.EMPLOYEE_TASK_ID.eq(employeeTaskId))
+        .fetchOne(
+            r ->
+                new TaskDetails(
+                    r.getAssigneeUserId(),
+                    r.getAssigneeFirstName(),
+                    r.getAssigneeLastName(),
+                    r.getCreatedByUserId(),
+                    r.getCreatedByFirstName(),
+                    r.getCreatedByLastName(),
+                    r.getRoomId(),
+                    r.getRoomNumber(),
+                    r.getReservationId(),
+                    new DictionaryValue(r.getTaskTypeCode(), r.getTaskType()),
+                    new DictionaryValue(r.getStatusCode(), r.getStatus()),
+                    r.getTitle(),
+                    r.getDescription(),
+                    r.getPriority(),
+                    r.getDueAt(),
+                    r.getCreatedAt(),
+                    r.getStartedAt(),
+                    r.getCompletedAt()));
+  }
+
+  @Override
   public List<TaskListItem> getAllTasks(TasksFilterParams filterParams) {
     EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
     Condition condition = DSL.trueCondition();
     if (filterParams.userId() != null) {
       condition = condition.and(etv.ASSIGNEE_USER_ID.eq(filterParams.userId()));
     }
-    return dsl.select(
-            etv.EMPLOYEE_TASK_ID,
-            etv.ASSIGNEE_USER_ID,
-            etv.ASSIGNEE_FIRST_NAME,
-            etv.ASSIGNEE_LAST_NAME,
-            etv.CREATED_BY_USER_ID,
-            etv.CREATED_BY_FIRST_NAME,
-            etv.CREATED_BY_LAST_NAME,
-            etv.ROOM_ID,
-            etv.ROOM_NUMBER,
-            etv.RESERVATION_ID,
-            etv.TASK_TYPE_CODE,
-            etv.TASK_TYPE,
-            etv.STATUS_CODE,
-            etv.STATUS,
-            etv.TITLE,
-            etv.DESCRIPTION,
-            etv.PRIORITY,
-            etv.DUE_AT,
-            etv.CREATED_AT,
-            etv.STARTED_AT,
-            etv.COMPLETED_AT)
-        .from(etv)
+    return dsl.selectFrom(etv)
         .where(condition)
-        .fetchInto(TaskListItem.class);
+        .fetch(
+            r ->
+                new TaskListItem(
+                    r.getEmployeeTaskId(),
+                    r.getAssigneeUserId(),
+                    r.getAssigneeFirstName(),
+                    r.getAssigneeLastName(),
+                    r.getCreatedByUserId(),
+                    r.getCreatedByFirstName(),
+                    r.getCreatedByLastName(),
+                    r.getRoomId(),
+                    r.getRoomNumber(),
+                    r.getReservationId(),
+                    new DictionaryValue(r.getTaskTypeCode(), r.getTaskType()),
+                    new DictionaryValue(r.getStatusCode(), r.getStatus()),
+                    r.getTitle(),
+                    r.getDescription(),
+                    r.getPriority(),
+                    r.getDueAt(),
+                    r.getCreatedAt(),
+                    r.getStartedAt(),
+                    r.getCompletedAt()));
   }
 
   @Override

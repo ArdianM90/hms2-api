@@ -4,8 +4,7 @@ import com.hms.api.common.dictionary.dto.DictionaryValue;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record TaskListItem(
-    Integer employeeTaskId,
+public record TaskDetails(
     UUID assigneeUserId,
     String assigneeFirstName,
     String assigneeLastName,
