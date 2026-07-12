@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,29 +28,41 @@ public class TaskServiceImpl implements TaskService {
   @Override
   public PageableResult<List<TaskListItem>> getTasks(
       TasksFilterParams filterParams, PageableParam pageable) {
-    UUID appUserId = authContext.isAdmin() ? null : authContext.currentUserId();
-    return tasksRepository.getTasks(appUserId, filterParams, pageable);
+    if (authContext.isAdmin()) {
+      return tasksRepository.getTasks(filterParams, pageable);
+    }
+    UUID appUserId = authContext.currentUserId();
+    return tasksRepository.getMyTasks(appUserId, filterParams, pageable);
   }
 
   @Override
   public Integer addTask(AddTaskRequest request) {
+    if (!authContext.isAdmin()) {
+      throw new AccessDeniedException("Wymagana rola administratora");
+    }
     return tasksRepository.addTask(request);
   }
 
   @Override
   public void updateTask(Integer employeeTaskId, UpdateTaskRequest request) {
+    if (!authContext.isEmployee()) {
+      throw new AccessDeniedException("Wymagana rola pracownika lub administratora");
+    }
     tasksRepository.updateTask(employeeTaskId, request);
   }
 
   @Override
   public void updateStatus(Integer employeeTaskId, UpdateStatusRequest request) {
+    if (!authContext.isEmployee()) {
+      throw new AccessDeniedException("Wymagana rola pracownika lub administratora");
+    }
+
     LocalDateTime completedAt;
     if (TaskStatus.COMPLETED.equals(request.statusCode()) && request.completedAt() == null) {
       completedAt = LocalDateTime.now();
     } else {
       completedAt = request.completedAt();
     }
-
     tasksRepository.updateStatus(employeeTaskId, request.statusCode(), completedAt);
   }
 }

@@ -58,7 +58,7 @@ public class TasksRepositoryImpl implements TasksRepository {
 
   @Override
   public PageableResult<List<TaskListItem>> getTasks(
-      UUID appUserId, TasksFilterParams filterParams, PageableParam pageable) {
+      TasksFilterParams filterParams, PageableParam pageable) {
     EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
 
     RecordMapper<Record, TaskListItem> taskListItemMapper =
@@ -84,12 +84,58 @@ public class TasksRepositoryImpl implements TasksRepository {
                 r.get(etv.STARTED_AT),
                 r.get(etv.COMPLETED_AT));
 
-    Condition condition = DSL.trueCondition();
-    if (appUserId != null) {
-      condition = condition.and(etv.ASSIGNEE_USER_ID.eq(filterParams.userId()));
-    }
+    Select<?> select = dsl.selectFrom(etv).where(buildTasksCondition(filterParams));
 
-    Select<?> select = dsl.selectFrom(etv).where(condition);
+    Function<Table<?>, SortField<?>[]> sortFieldProvider =
+        table ->
+            SortFieldProvider.builder()
+                .table(table)
+                .pageable(pageable)
+                .defaultField(etv.CREATED_AT, LocalDateTime.class)
+                .defaultDesc()
+                .build();
+
+    return PaginatedQueryBuilder.<TaskListItem>builder()
+        .dsl(dsl)
+        .baseSelect(select)
+        .pageable(pageable)
+        .sortFieldProvider(sortFieldProvider)
+        .mapper(taskListItemMapper)
+        .build()
+        .fetch();
+  }
+
+  @Override
+  public PageableResult<List<TaskListItem>> getMyTasks(
+      UUID appUserId, TasksFilterParams filterParams, PageableParam pageable) {
+    EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
+
+    RecordMapper<Record, TaskListItem> taskListItemMapper =
+        r ->
+            new TaskListItem(
+                r.get(etv.EMPLOYEE_TASK_ID),
+                r.get(etv.ASSIGNEE_USER_ID),
+                null,
+                null,
+                r.get(etv.CREATED_BY_USER_ID),
+                r.get(etv.CREATED_BY_FIRST_NAME),
+                r.get(etv.CREATED_BY_LAST_NAME),
+                r.get(etv.ROOM_ID),
+                r.get(etv.ROOM_NUMBER),
+                r.get(etv.RESERVATION_ID),
+                DictionaryValue.of(r, etv.TASK_TYPE_CODE, etv.TASK_TYPE),
+                DictionaryValue.of(r, etv.STATUS_CODE, etv.STATUS),
+                r.get(etv.TITLE),
+                r.get(etv.DESCRIPTION),
+                r.get(etv.PRIORITY),
+                r.get(etv.DUE_AT),
+                r.get(etv.CREATED_AT),
+                r.get(etv.STARTED_AT),
+                r.get(etv.COMPLETED_AT));
+
+    Select<?> select =
+        dsl.selectFrom(etv)
+            .where(buildTasksCondition(filterParams).and(etv.ASSIGNEE_USER_ID.eq(appUserId)));
 
     Function<Table<?>, SortField<?>[]> sortFieldProvider =
         table ->
@@ -156,5 +202,31 @@ public class TasksRepositoryImpl implements TasksRepository {
         .set(et.UPDATED_AT, LocalDateTime.now())
         .where(et.EMPLOYEE_TASK_ID.eq(employeeTaskId))
         .execute();
+  }
+
+  private Condition buildTasksCondition(TasksFilterParams filterParams) {
+    Condition condition = DSL.trueCondition();
+    if (filterParams == null) {
+      return condition;
+    }
+
+    EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
+    if (filterParams.query() != null) {
+      String pattern = "%" + filterParams.query().trim() + "%";
+      condition =
+          condition.and(
+              DSL.concat(etv.ASSIGNEE_FIRST_NAME, DSL.inline(" "), etv.ASSIGNEE_LAST_NAME)
+                  .likeIgnoreCase(pattern));
+    }
+    if (filterParams.taskTypeCodes() != null) {
+      condition = condition.and(etv.TASK_TYPE_CODE.in(filterParams.taskTypeCodes()));
+    }
+    if (filterParams.dueFrom() != null) {
+      condition = condition.and(etv.DUE_AT.ge(filterParams.dueFrom().atStartOfDay()));
+    }
+    if (filterParams.dueTo() != null) {
+      condition = condition.and(etv.DUE_AT.lt(filterParams.dueTo().plusDays(1).atStartOfDay()));
+    }
+    return condition;
   }
 }

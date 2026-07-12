@@ -3,8 +3,6 @@ package com.hms.api.domain.task;
 import com.hms.api.common.dto.LabeledValue;
 import com.hms.api.common.dto.PageableParam;
 import com.hms.api.common.dto.PageableResult;
-import com.hms.api.common.security.RequireAdmin;
-import com.hms.api.common.security.RequireEmployee;
 import com.hms.api.domain.task.dto.*;
 import com.hms.api.domain.task.service.TaskService;
 import jakarta.validation.Valid;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/tasks")
-@RequireEmployee
 @RequiredArgsConstructor
 public class TaskController {
 
@@ -35,7 +32,6 @@ public class TaskController {
   }
 
   @PostMapping()
-  @RequireAdmin
   public ResponseEntity<LabeledValue<Integer>> addTask(@RequestBody @Valid AddTaskRequest request) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new LabeledValue<>("employeeTaskId", taskService.addTask(request)));

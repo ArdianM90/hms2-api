@@ -13,6 +13,9 @@ public interface TasksRepository {
   TaskDetails getTask(int employeeTaskId);
 
   PageableResult<List<TaskListItem>> getTasks(
+      TasksFilterParams filterParams, PageableParam pageable);
+
+  PageableResult<List<TaskListItem>> getMyTasks(
       UUID appUserId, TasksFilterParams filterParams, PageableParam pageable);
 
   Integer addTask(AddTaskRequest request);

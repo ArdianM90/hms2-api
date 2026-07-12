@@ -1,8 +1,6 @@
 package com.hms.api.domain.reservation;
 
 import com.hms.api.common.dto.LabeledValue;
-import com.hms.api.common.security.RequireAdmin;
-import com.hms.api.common.security.RequireGuest;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.service.ReservationService;
 import java.util.List;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequireGuest
 @RequestMapping("/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
@@ -49,7 +46,6 @@ public class ReservationController {
     return ResponseEntity.ok(reservationService.getReservationOffers(request));
   }
 
-  @RequireAdmin
   @PatchMapping("/{reservationId}/status")
   public ResponseEntity<Void> updateReservationStatus(
       @PathVariable int reservationId, @RequestBody UpdateReservationStatusRequest request) {

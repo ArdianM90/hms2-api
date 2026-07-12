@@ -1,7 +1,6 @@
 package com.hms.api.domain.user;
 
 import com.hms.api.common.dto.LabeledValue;
-import com.hms.api.common.security.RequireAdmin;
 import com.hms.api.domain.user.dto.EmployeeListItem;
 import com.hms.api.domain.user.dto.EmployeeRequest;
 import com.hms.api.domain.user.service.UserService;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employees")
-@RequireAdmin
+// @RequireAdmin
 @RequiredArgsConstructor
 public class UserController {
 
