@@ -4,7 +4,6 @@ import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.domain.room.dto.*;
 import com.hms.generated.jooq.hms.Tables;
 import com.hms.generated.jooq.hms.tables.RoomV;
-import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
 import com.hms.generated.jooq.hms.tables.records.RoomRecord;
 import com.hms.generated.jooq.hms.tables.records.RoomVRecord;
 import java.math.BigDecimal;
@@ -83,12 +82,6 @@ public class RoomRepositoryImpl implements RoomRepository {
   @Override
   public void deleteRoom(int roomId) {
     dsl.deleteFrom(Tables.ROOM).where(Tables.ROOM.ROOM_ID.eq(roomId)).execute();
-  }
-
-  @Override
-  public List<DictionaryValue> getRoomStandards() {
-    TypeRoomStandard trs = TypeRoomStandard.TYPE_ROOM_STANDARD;
-    return dsl.selectFrom(trs).fetch(r -> new DictionaryValue(r.getCode(), r.getName()));
   }
 
   private RoomDto mapToRoomDto(RoomVRecord r) {

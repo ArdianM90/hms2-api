@@ -1,7 +1,8 @@
 package com.hms.api.domain.room;
 
-import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.common.dto.LabeledValue;
+import com.hms.api.common.security.RequireAdmin;
+import com.hms.api.common.security.RequireGuest;
 import com.hms.api.domain.room.dto.*;
 import com.hms.api.domain.room.service.RoomService;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/rooms")
+@RequireGuest
 @RequiredArgsConstructor
 public class RoomController {
 
@@ -39,12 +41,14 @@ public class RoomController {
   }
 
   @PostMapping
+  @RequireAdmin
   public ResponseEntity<LabeledValue<Integer>> createRoom(@RequestBody CreateRoomRequest request) {
     int id = roomService.createRoom(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(new LabeledValue<>("roomId", id));
   }
 
   @PutMapping("/{roomId}")
+  @RequireAdmin
   public ResponseEntity<Void> updateRoom(
       @PathVariable int roomId, @RequestBody UpdateRoomRequest request) {
     roomService.updateRoom(roomId, request);
@@ -52,13 +56,9 @@ public class RoomController {
   }
 
   @DeleteMapping("/{roomId}")
+  @RequireAdmin
   public ResponseEntity<Void> deleteRoom(@PathVariable int roomId) {
     roomService.deleteRoom(roomId);
     return ResponseEntity.noContent().build();
-  }
-
-  @GetMapping("/standards")
-  public ResponseEntity<List<DictionaryValue>> getRoomStandards() {
-    return ResponseEntity.ok(roomService.getRoomStandards());
   }
 }

@@ -1,17 +1,17 @@
 package com.hms.api.domain.task.service;
 
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
 import com.hms.api.domain.task.dto.*;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface TaskService {
 
   TaskDetails getTask(int employeeTaskId);
 
-  List<TaskListItem> getAllTasks(TasksFilterParams filterParams);
-
-  List<MyTaskListItem> getMyTasks(UUID appUserId);
+  PageableResult<List<TaskListItem>> getTasks(
+      TasksFilterParams filterParams, PageableParam pageable);
 
   @Transactional
   Integer addTask(AddTaskRequest request);

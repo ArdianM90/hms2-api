@@ -1,5 +1,7 @@
 package com.hms.api.domain.task.repository;
 
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
 import com.hms.api.domain.task.dto.*;
 import com.hms.api.domain.task.model.TaskStatus;
 import java.time.LocalDateTime;
@@ -10,9 +12,8 @@ public interface TasksRepository {
 
   TaskDetails getTask(int employeeTaskId);
 
-  List<TaskListItem> getAllTasks(TasksFilterParams filterParams);
-
-  List<MyTaskListItem> getMyTasks(UUID appUserId);
+  PageableResult<List<TaskListItem>> getTasks(
+      UUID appUserId, TasksFilterParams filterParams, PageableParam pageable);
 
   Integer addTask(AddTaskRequest request);
 

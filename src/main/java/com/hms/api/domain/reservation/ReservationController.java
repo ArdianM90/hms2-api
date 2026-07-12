@@ -1,17 +1,18 @@
 package com.hms.api.domain.reservation;
 
 import com.hms.api.common.dto.LabeledValue;
+import com.hms.api.common.security.RequireAdmin;
+import com.hms.api.common.security.RequireGuest;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.service.ReservationService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequireGuest
 @RequestMapping("/reservations")
 @RequiredArgsConstructor
 public class ReservationController {
@@ -25,20 +26,19 @@ public class ReservationController {
   }
 
   @GetMapping()
-  public ResponseEntity<List<ReservationDto>> getMyReservations(@AuthenticationPrincipal Jwt jwt) {
-    return ResponseEntity.ok(reservationService.getMyReservations(jwt));
+  public ResponseEntity<List<ReservationDto>> getMyReservations() {
+    return ResponseEntity.ok(reservationService.getMyReservations());
   }
 
   @GetMapping("/all")
-  public ResponseEntity<List<NamedReservationDto>> getAllReservations(
-      @AuthenticationPrincipal Jwt jwt) {
-    return ResponseEntity.ok(reservationService.getAllReservations(jwt));
+  public ResponseEntity<List<NamedReservationDto>> getAllReservations() {
+    return ResponseEntity.ok(reservationService.getAllReservations());
   }
 
   @PostMapping()
   public ResponseEntity<LabeledValue<Integer>> makeReservation(
-      @AuthenticationPrincipal Jwt jwt, @RequestBody MakeReservationRequest request) {
-    int reservationId = reservationService.makeReservation(jwt, request);
+      @RequestBody MakeReservationRequest request) {
+    int reservationId = reservationService.makeReservation(request);
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new LabeledValue<>("reservationId", reservationId));
   }
@@ -49,6 +49,7 @@ public class ReservationController {
     return ResponseEntity.ok(reservationService.getReservationOffers(request));
   }
 
+  @RequireAdmin
   @PatchMapping("/{reservationId}/status")
   public ResponseEntity<Void> updateReservationStatus(
       @PathVariable int reservationId, @RequestBody UpdateReservationStatusRequest request) {

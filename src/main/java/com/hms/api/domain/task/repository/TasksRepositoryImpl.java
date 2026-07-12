@@ -1,6 +1,10 @@
 package com.hms.api.domain.task.repository;
 
 import com.hms.api.common.dictionary.dto.DictionaryValue;
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
+import com.hms.api.common.jooq.PaginatedQueryBuilder;
+import com.hms.api.common.jooq.SortFieldProvider;
 import com.hms.api.domain.task.dto.*;
 import com.hms.api.domain.task.model.TaskStatus;
 import com.hms.generated.jooq.hms.tables.EmployeeTask;
@@ -9,10 +13,12 @@ import com.hms.generated.jooq.hms.tables.records.EmployeeTaskRecord;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
-import org.jooq.Condition;
-import org.jooq.DSLContext;
+import org.jooq.*;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,6 +26,7 @@ import org.springframework.stereotype.Repository;
 public class TasksRepositoryImpl implements TasksRepository {
 
   private final DSLContext dsl;
+  private final PathPatternRequestMatcher.Builder builder;
 
   @Override
   public TaskDetails getTask(int employeeTaskId) {
@@ -50,62 +57,57 @@ public class TasksRepositoryImpl implements TasksRepository {
   }
 
   @Override
-  public List<TaskListItem> getAllTasks(TasksFilterParams filterParams) {
+  public PageableResult<List<TaskListItem>> getTasks(
+      UUID appUserId, TasksFilterParams filterParams, PageableParam pageable) {
     EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
+
+    RecordMapper<Record, TaskListItem> taskListItemMapper =
+        r ->
+            new TaskListItem(
+                r.get(etv.EMPLOYEE_TASK_ID),
+                r.get(etv.ASSIGNEE_USER_ID),
+                r.get(etv.ASSIGNEE_FIRST_NAME),
+                r.get(etv.ASSIGNEE_LAST_NAME),
+                r.get(etv.CREATED_BY_USER_ID),
+                r.get(etv.CREATED_BY_FIRST_NAME),
+                r.get(etv.CREATED_BY_LAST_NAME),
+                r.get(etv.ROOM_ID),
+                r.get(etv.ROOM_NUMBER),
+                r.get(etv.RESERVATION_ID),
+                DictionaryValue.of(r, etv.TASK_TYPE_CODE, etv.TASK_TYPE),
+                DictionaryValue.of(r, etv.STATUS_CODE, etv.STATUS),
+                r.get(etv.TITLE),
+                r.get(etv.DESCRIPTION),
+                r.get(etv.PRIORITY),
+                r.get(etv.DUE_AT),
+                r.get(etv.CREATED_AT),
+                r.get(etv.STARTED_AT),
+                r.get(etv.COMPLETED_AT));
+
     Condition condition = DSL.trueCondition();
-    if (filterParams.userId() != null) {
+    if (appUserId != null) {
       condition = condition.and(etv.ASSIGNEE_USER_ID.eq(filterParams.userId()));
     }
-    return dsl.selectFrom(etv)
-        .where(condition)
-        .fetch(
-            r ->
-                new TaskListItem(
-                    r.getEmployeeTaskId(),
-                    r.getAssigneeUserId(),
-                    r.getAssigneeFirstName(),
-                    r.getAssigneeLastName(),
-                    r.getCreatedByUserId(),
-                    r.getCreatedByFirstName(),
-                    r.getCreatedByLastName(),
-                    r.getRoomId(),
-                    r.getRoomNumber(),
-                    r.getReservationId(),
-                    new DictionaryValue(r.getTaskTypeCode(), r.getTaskType()),
-                    new DictionaryValue(r.getStatusCode(), r.getStatus()),
-                    r.getTitle(),
-                    r.getDescription(),
-                    r.getPriority(),
-                    r.getDueAt(),
-                    r.getCreatedAt(),
-                    r.getStartedAt(),
-                    r.getCompletedAt()));
-  }
 
-  @Override
-  public List<MyTaskListItem> getMyTasks(UUID appUserId) {
-    EmployeeTaskV etv = EmployeeTaskV.EMPLOYEE_TASK_V;
-    return dsl.select(
-            etv.EMPLOYEE_TASK_ID,
-            etv.CREATED_BY_USER_ID,
-            etv.CREATED_BY_FIRST_NAME,
-            etv.CREATED_BY_LAST_NAME,
-            etv.ROOM_NUMBER,
-            etv.RESERVATION_ID,
-            etv.TASK_TYPE_CODE,
-            etv.TASK_TYPE,
-            etv.STATUS_CODE,
-            etv.STATUS,
-            etv.TITLE,
-            etv.DESCRIPTION,
-            etv.PRIORITY,
-            etv.DUE_AT,
-            etv.CREATED_AT,
-            etv.STARTED_AT,
-            etv.COMPLETED_AT)
-        .from(etv)
-        .where(etv.ASSIGNEE_USER_ID.eq(appUserId))
-        .fetchInto(MyTaskListItem.class);
+    Select<?> select = dsl.selectFrom(etv).where(condition);
+
+    Function<Table<?>, SortField<?>[]> sortFieldProvider =
+        table ->
+            SortFieldProvider.builder()
+                .table(table)
+                .pageable(pageable)
+                .defaultField(etv.CREATED_AT, LocalDateTime.class)
+                .defaultDesc()
+                .build();
+
+    return PaginatedQueryBuilder.<TaskListItem>builder()
+        .dsl(dsl)
+        .baseSelect(select)
+        .pageable(pageable)
+        .sortFieldProvider(sortFieldProvider)
+        .mapper(taskListItemMapper)
+        .build()
+        .fetch();
   }
 
   @Override

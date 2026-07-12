@@ -1,6 +1,5 @@
 package com.hms.api.domain.room.service;
 
-import com.hms.api.common.dictionary.dto.DictionaryValue;
 import com.hms.api.domain.room.dto.*;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +22,4 @@ public interface RoomService {
 
   @Transactional
   void deleteRoom(int roomId);
-
-  List<DictionaryValue> getRoomStandards();
 }

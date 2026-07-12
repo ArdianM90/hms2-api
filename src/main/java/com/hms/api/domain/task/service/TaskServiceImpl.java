@@ -1,5 +1,8 @@
 package com.hms.api.domain.task.service;
 
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
+import com.hms.api.common.security.AuthContext;
 import com.hms.api.domain.task.dto.*;
 import com.hms.api.domain.task.model.TaskStatus;
 import com.hms.api.domain.task.repository.TasksRepository;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
+  private final AuthContext authContext;
   private final TasksRepository tasksRepository;
 
   @Override
@@ -21,13 +25,10 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public List<TaskListItem> getAllTasks(TasksFilterParams filterParams) {
-    return tasksRepository.getAllTasks(filterParams);
-  }
-
-  @Override
-  public List<MyTaskListItem> getMyTasks(UUID appUserId) {
-    return tasksRepository.getMyTasks(appUserId);
+  public PageableResult<List<TaskListItem>> getTasks(
+      TasksFilterParams filterParams, PageableParam pageable) {
+    UUID appUserId = authContext.isAdmin() ? null : authContext.currentUserId();
+    return tasksRepository.getTasks(appUserId, filterParams, pageable);
   }
 
   @Override

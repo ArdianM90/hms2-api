@@ -1,5 +1,6 @@
 package com.hms.api.domain.guest;
 
+import com.hms.api.common.security.RequireEmployee;
 import com.hms.api.domain.guest.dto.CheckInRequest;
 import com.hms.api.domain.guest.service.GuestService;
 import jakarta.validation.Valid;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequireEmployee
 @RequestMapping("/reservation-guest")
 @RequiredArgsConstructor
 public class GuestController {

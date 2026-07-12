@@ -1,6 +1,6 @@
 package com.hms.api.domain.reservation.service;
 
-import com.hms.api.common.jwt.JwtService;
+import com.hms.api.common.security.AuthContext;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.exception.TooManyRoomsException;
 import com.hms.api.domain.reservation.model.ReservationSource;
@@ -13,14 +13,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
 
-  private final JwtService jwtService;
+  private final AuthContext authContext;
   private final RoomService roomService;
   private final ReservationRepository reservationRepository;
 
@@ -29,22 +28,22 @@ public class ReservationServiceImpl implements ReservationService {
     return reservationRepository.getReservation(reservationId);
   }
 
+  // todo: scalić metody List
   @Override
-  public List<ReservationDto> getMyReservations(Jwt jwt) {
-    UUID appUserId = jwtService.requireAppUserId(jwt);
+  public List<ReservationDto> getMyReservations() {
+    UUID appUserId = authContext.currentUserId();
     return reservationRepository.getMyReservations(appUserId);
   }
 
   @Override
-  public List<NamedReservationDto> getAllReservations(Jwt jwt) {
-    // todo: walidacja uprawnień admina
+  public List<NamedReservationDto> getAllReservations() {
     return reservationRepository.getAllReservations();
   }
 
   @Override
-  public int makeReservation(Jwt jwt, MakeReservationRequest request) {
-    UUID appUserId = jwtService.requireAppUserId(jwt);
-    ReservationSource source = resolveSource(jwt);
+  public int makeReservation(MakeReservationRequest request) {
+    UUID appUserId = authContext.currentUserId();
+    ReservationSource source = authContext.requestSource();
     return reservationRepository.makeReservation(appUserId, source, request);
   }
 
@@ -142,14 +141,6 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     return result;
-  }
-
-  private ReservationSource resolveSource(Jwt jwt) {
-    String clientId = jwt.getClaimAsString("client_id");
-    if (clientId == null) {
-      return ReservationSource.OTHER;
-    }
-    return ReservationSource.fromCode(clientId);
   }
 
   private void validateSearchReservationRequest(SearchReservationOffersRequest request) {
