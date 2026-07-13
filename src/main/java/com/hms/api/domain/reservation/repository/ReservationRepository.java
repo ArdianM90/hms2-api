@@ -1,9 +1,8 @@
 package com.hms.api.domain.reservation.repository;
 
-import com.hms.api.domain.reservation.dto.MakeReservationRequest;
-import com.hms.api.domain.reservation.dto.NamedReservationDto;
-import com.hms.api.domain.reservation.dto.ReservationDetails;
-import com.hms.api.domain.reservation.dto.ReservationDto;
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
+import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.model.ReservationSource;
 import com.hms.api.domain.reservation.model.ReservationStatus;
 import java.time.LocalDate;
@@ -16,9 +15,11 @@ public interface ReservationRepository {
 
   ReservationDetails getReservation(int reservationId);
 
-  List<ReservationDto> getMyReservations(UUID appUserId);
+  PageableResult<List<ReservationListItem>> getReservations(
+      ReservationsFilterParams filterParams, PageableParam pageable);
 
-  List<NamedReservationDto> getAllReservations();
+  PageableResult<List<ReservationListItem>> getMyReservations(
+      UUID appUserId, ReservationsFilterParams filterParams, PageableParam pageable);
 
   @Transactional
   int makeReservation(UUID appUserId, ReservationSource source, MakeReservationRequest request);

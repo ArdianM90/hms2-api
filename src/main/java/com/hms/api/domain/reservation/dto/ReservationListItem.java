@@ -1,13 +1,11 @@
 package com.hms.api.domain.reservation.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hms.api.domain.reservation.model.ReservationSource;
-import com.hms.api.domain.reservation.model.ReservationStatus;
+import com.hms.api.common.dictionary.dto.DictionaryValue;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public record NamedReservationDto(
+public record ReservationListItem(
     Integer reservationId,
     String guestFirstName,
     String guestLastName,
@@ -16,7 +14,7 @@ public record NamedReservationDto(
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     Long daysQty,
-    @JsonFormat(shape = JsonFormat.Shape.OBJECT) ReservationStatus reservationStatus,
-    @JsonFormat(shape = JsonFormat.Shape.OBJECT) ReservationSource reservationSource,
+    DictionaryValue reservationStatus,
+    DictionaryValue reservationSource,
     BigDecimal totalPrice,
     Long roomsQty) {}

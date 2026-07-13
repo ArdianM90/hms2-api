@@ -135,7 +135,8 @@ public class TasksRepositoryImpl implements TasksRepository {
 
     Select<?> select =
         dsl.selectFrom(etv)
-            .where(buildTasksCondition(filterParams).and(etv.ASSIGNEE_USER_ID.eq(appUserId)));
+            .where(etv.ASSIGNEE_USER_ID.eq(appUserId))
+            .and(buildTasksCondition(filterParams));
 
     Function<Table<?>, SortField<?>[]> sortFieldProvider =
         table ->

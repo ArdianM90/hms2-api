@@ -11,6 +11,8 @@ import org.jooq.Table;
 
 @Getter
 public enum DictionaryType {
+  RESERVATION_STATUS(TypeReservationStatus.TYPE_RESERVATION_STATUS),
+  RESERVATION_SOURCE(TypeReservationSource.TYPE_RESERVATION_SOURCE),
   ROOM_STANDARD(TypeRoomStandard.TYPE_ROOM_STANDARD),
   DOCUMENT_TYPE(TypeDocumentType.TYPE_DOCUMENT_TYPE),
   CITIZENSHIP(TypeCitizenship.TYPE_CITIZENSHIP),

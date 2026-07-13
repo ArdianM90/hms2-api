@@ -1,5 +1,7 @@
 package com.hms.api.domain.reservation.service;
 
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
 import com.hms.api.common.security.AuthContext;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.exception.TooManyRoomsException;
@@ -28,16 +30,14 @@ public class ReservationServiceImpl implements ReservationService {
     return reservationRepository.getReservation(reservationId);
   }
 
-  // todo: scalić metody List
   @Override
-  public List<ReservationDto> getMyReservations() {
+  public PageableResult<List<ReservationListItem>> getReservations(
+      ReservationsFilterParams filterParams, PageableParam pageable) {
+    if (authContext.isAdmin()) {
+      return reservationRepository.getReservations(filterParams, pageable);
+    }
     UUID appUserId = authContext.currentUserId();
-    return reservationRepository.getMyReservations(appUserId);
-  }
-
-  @Override
-  public List<NamedReservationDto> getAllReservations() {
-    return reservationRepository.getAllReservations();
+    return reservationRepository.getMyReservations(appUserId, filterParams, pageable);
   }
 
   @Override

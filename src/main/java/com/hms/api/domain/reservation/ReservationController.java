@@ -1,10 +1,13 @@
 package com.hms.api.domain.reservation;
 
 import com.hms.api.common.dto.LabeledValue;
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.service.ReservationService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +26,10 @@ public class ReservationController {
   }
 
   @GetMapping()
-  public ResponseEntity<List<ReservationDto>> getMyReservations() {
-    return ResponseEntity.ok(reservationService.getMyReservations());
-  }
-
-  @GetMapping("/all")
-  public ResponseEntity<List<NamedReservationDto>> getAllReservations() {
-    return ResponseEntity.ok(reservationService.getAllReservations());
+  public ResponseEntity<PageableResult<List<ReservationListItem>>> getReservations(
+      @ParameterObject ReservationsFilterParams filterParams,
+      @ParameterObject PageableParam pageable) {
+    return ResponseEntity.ok(reservationService.getReservations(filterParams, pageable));
   }
 
   @PostMapping()

@@ -1,10 +1,11 @@
 package com.hms.api.domain.reservation.repository;
 
 import com.hms.api.common.dictionary.dto.DictionaryValue;
-import com.hms.api.domain.reservation.dto.MakeReservationRequest;
-import com.hms.api.domain.reservation.dto.NamedReservationDto;
-import com.hms.api.domain.reservation.dto.ReservationDetails;
-import com.hms.api.domain.reservation.dto.ReservationDto;
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
+import com.hms.api.common.jooq.PaginatedQueryBuilder;
+import com.hms.api.common.jooq.SortFieldProvider;
+import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.model.ReservationSource;
 import com.hms.api.domain.reservation.model.ReservationStatus;
 import com.hms.api.domain.room.dto.RoomDto;
@@ -16,8 +17,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
-import org.jooq.DSLContext;
+import org.jooq.*;
+import org.jooq.Record;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -28,64 +32,110 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
   @Override
   public ReservationDetails getReservation(int reservationId) {
-    ReservationsV v = ReservationsV.RESERVATIONS_V;
+    ReservationsV rv = ReservationsV.RESERVATIONS_V;
     List<RoomDto> rooms = getReservationRooms(reservationId);
-    return dsl.selectFrom(v)
-        .where(v.RESERVATION_ID.eq(reservationId))
+    return dsl.selectFrom(rv)
+        .where(rv.RESERVATION_ID.eq(reservationId))
         .fetchOne(
             r ->
                 new ReservationDetails(
-                    r.get(v.RESERVATION_ID),
-                    r.get(v.CREATED_AT),
-                    r.get(v.UPDATED_AT),
-                    r.get(v.START_DATE),
-                    r.get(v.END_DATE),
-                    r.get(v.TOTAL_PRICE),
-                    ReservationStatus.fromCode(r.get(v.STATUS_CODE)),
-                    ReservationSource.fromCode(r.get(v.SOURCE_CODE)),
+                    r.get(rv.RESERVATION_ID),
+                    r.get(rv.CREATED_AT),
+                    r.get(rv.UPDATED_AT),
+                    r.get(rv.START_DATE),
+                    r.get(rv.END_DATE),
+                    r.get(rv.TOTAL_PRICE),
+                    DictionaryValue.of(r, rv.STATUS_CODE, rv.STATUS_NAME),
+                    DictionaryValue.of(r, rv.SOURCE_CODE, rv.SOURCE_NAME),
                     rooms,
-                    r.get(v.COMMENT)));
+                    r.get(rv.COMMENT)));
   }
 
   @Override
-  public List<ReservationDto> getMyReservations(UUID appUserId) {
-    ReservationsV v = ReservationsV.RESERVATIONS_V;
-    return dsl.selectFrom(v)
-        .where(v.APP_USER_ID.eq(appUserId))
-        .fetch(
-            r ->
-                new ReservationDto(
-                    r.get(v.RESERVATION_ID),
-                    r.get(v.START_DATE),
-                    r.get(v.END_DATE),
-                    r.get(v.CREATED_AT),
-                    r.get(v.UPDATED_AT),
-                    ChronoUnit.DAYS.between(r.get(v.START_DATE), r.get(v.END_DATE)),
-                    ReservationStatus.fromCode(r.get(v.STATUS_CODE)),
-                    ReservationSource.fromCode(r.get(v.SOURCE_CODE)),
-                    r.get(v.TOTAL_PRICE),
-                    r.get(v.ROOMS_QUANTITY)));
+  public PageableResult<List<ReservationListItem>> getReservations(
+      ReservationsFilterParams filterParams, PageableParam pageable) {
+    ReservationsV rv = ReservationsV.RESERVATIONS_V;
+
+    RecordMapper<Record, ReservationListItem> reservationDtoMapper =
+        r ->
+            new ReservationListItem(
+                r.get(rv.RESERVATION_ID),
+                r.get(rv.GUEST_FIRST_NAME),
+                r.get(rv.GUEST_LAST_NAME),
+                r.get(rv.START_DATE),
+                r.get(rv.END_DATE),
+                r.get(rv.CREATED_AT),
+                r.get(rv.UPDATED_AT),
+                ChronoUnit.DAYS.between(r.get(rv.START_DATE), r.get(rv.END_DATE)),
+                DictionaryValue.of(r, rv.STATUS_CODE, rv.STATUS_NAME),
+                DictionaryValue.of(r, rv.SOURCE_CODE, rv.SOURCE_NAME),
+                r.get(rv.TOTAL_PRICE),
+                r.get(rv.ROOMS_QUANTITY));
+
+    Select<?> select = dsl.selectFrom(rv).where(buildReservationsCondition(filterParams));
+
+    Function<Table<?>, SortField<?>[]> sortFieldProvider =
+        table ->
+            SortFieldProvider.builder()
+                .table(table)
+                .pageable(pageable)
+                .defaultField(rv.CREATED_AT, LocalDateTime.class)
+                .defaultDesc()
+                .build();
+
+    return PaginatedQueryBuilder.<ReservationListItem>builder()
+        .dsl(dsl)
+        .baseSelect(select)
+        .pageable(pageable)
+        .sortFieldProvider(sortFieldProvider)
+        .mapper(reservationDtoMapper)
+        .build()
+        .fetch();
   }
 
   @Override
-  public List<NamedReservationDto> getAllReservations() {
-    ReservationsV v = ReservationsV.RESERVATIONS_V;
-    return dsl.selectFrom(v)
-        .fetch(
-            r ->
-                new NamedReservationDto(
-                    r.get(v.RESERVATION_ID),
-                    r.get(v.GUEST_FIRST_NAME),
-                    r.get(v.GUEST_LAST_NAME),
-                    r.get(v.START_DATE),
-                    r.get(v.END_DATE),
-                    r.get(v.CREATED_AT),
-                    r.get(v.UPDATED_AT),
-                    ChronoUnit.DAYS.between(r.get(v.START_DATE), r.get(v.END_DATE)),
-                    ReservationStatus.fromCode(r.get(v.STATUS_CODE)),
-                    ReservationSource.fromCode(r.get(v.SOURCE_CODE)),
-                    r.get(v.TOTAL_PRICE),
-                    r.get(v.ROOMS_QUANTITY)));
+  public PageableResult<List<ReservationListItem>> getMyReservations(
+      UUID appUserId, ReservationsFilterParams filterParams, PageableParam pageable) {
+    ReservationsV rv = ReservationsV.RESERVATIONS_V;
+
+    RecordMapper<Record, ReservationListItem> reservationDtoMapper =
+        r ->
+            new ReservationListItem(
+                r.get(rv.RESERVATION_ID),
+                null,
+                null,
+                r.get(rv.START_DATE),
+                r.get(rv.END_DATE),
+                r.get(rv.CREATED_AT),
+                r.get(rv.UPDATED_AT),
+                ChronoUnit.DAYS.between(r.get(rv.START_DATE), r.get(rv.END_DATE)),
+                DictionaryValue.of(r, rv.STATUS_CODE, rv.STATUS_NAME),
+                DictionaryValue.of(r, rv.SOURCE_CODE, rv.SOURCE_NAME),
+                r.get(rv.TOTAL_PRICE),
+                r.get(rv.ROOMS_QUANTITY));
+
+    Select<?> select =
+        dsl.selectFrom(rv)
+            .where(rv.APP_USER_ID.eq(appUserId))
+            .and(buildReservationsCondition(filterParams));
+
+    Function<Table<?>, SortField<?>[]> sortFieldProvider =
+        table ->
+            SortFieldProvider.builder()
+                .table(table)
+                .pageable(pageable)
+                .defaultField(rv.CREATED_AT, LocalDateTime.class)
+                .defaultDesc()
+                .build();
+
+    return PaginatedQueryBuilder.<ReservationListItem>builder()
+        .dsl(dsl)
+        .baseSelect(select)
+        .pageable(pageable)
+        .sortFieldProvider(sortFieldProvider)
+        .mapper(reservationDtoMapper)
+        .build()
+        .fetch();
   }
 
   @Override
@@ -152,5 +202,32 @@ public class ReservationRepositoryImpl implements ReservationRepository {
                     r.get(v.PRICE_PER_NIGHT),
                     r.get(v.FLOOR),
                     r.get(v.AREA_M2)));
+  }
+
+  private Condition buildReservationsCondition(ReservationsFilterParams filterParams) {
+    Condition condition = DSL.trueCondition();
+    if (filterParams == null) {
+      return condition;
+    }
+
+    ReservationsV rv = ReservationsV.RESERVATIONS_V;
+    if (filterParams.query() != null) {
+      String pattern = "%" + filterParams.query().trim() + "%";
+      condition =
+          condition.and(
+              DSL.concat(rv.GUEST_FIRST_NAME, DSL.inline(" "), rv.GUEST_LAST_NAME)
+                  .likeIgnoreCase(pattern));
+    }
+    if (filterParams.reservationStatusCode() != null) {
+      condition = condition.and(rv.STATUS_CODE.eq(filterParams.reservationStatusCode()));
+    }
+    if (filterParams.createdFrom() != null) {
+      condition = condition.and(rv.CREATED_AT.ge(filterParams.createdFrom().atStartOfDay()));
+    }
+    if (filterParams.createdTo() != null) {
+      condition =
+          condition.and(rv.CREATED_AT.lt(filterParams.createdTo().plusDays(1).atStartOfDay()));
+    }
+    return condition;
   }
 }
