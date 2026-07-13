@@ -15,6 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,11 +27,13 @@ public class ReservationServiceImpl implements ReservationService {
   private final ReservationRepository reservationRepository;
 
   @Override
+  @PreAuthorize("hasRole('ADMIN')")
   public ReservationDetails getReservation(int reservationId) {
     return reservationRepository.getReservation(reservationId);
   }
 
   @Override
+  @PreAuthorize("hasAnyRole('ADMIN','GUEST')")
   public PageableResult<List<ReservationListItem>> getReservations(
       ReservationsFilterParams filterParams, PageableParam pageable) {
     if (authContext.isAdmin()) {
@@ -41,6 +44,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
+  @PreAuthorize("hasAnyRole('ADMIN','GUEST')")
   public int makeReservation(MakeReservationRequest request) {
     UUID appUserId = authContext.currentUserId();
     ReservationSource source = authContext.requestSource();
@@ -48,6 +52,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
+  @PreAuthorize("hasAnyRole('ADMIN','GUEST')")
   public List<ReservationOffer> getReservationOffers(SearchReservationOffersRequest request) {
     validateSearchReservationRequest(request);
     List<RoomDto> availableRooms = getAvailableRooms(request);
@@ -56,6 +61,7 @@ public class ReservationServiceImpl implements ReservationService {
   }
 
   @Override
+  @PreAuthorize("hasRole('ADMIN')")
   public void updateReservationStatus(int reservationId, UpdateReservationStatusRequest request) {
     reservationRepository.updateReservationStatus(reservationId, request.statusCode());
   }

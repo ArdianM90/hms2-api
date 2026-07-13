@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,11 +21,13 @@ public class TaskServiceImpl implements TaskService {
   private final TasksRepository tasksRepository;
 
   @Override
+  @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
   public TaskDetails getTask(int employeeTaskId) {
     return tasksRepository.getTask(employeeTaskId);
   }
 
   @Override
+  @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
   public PageableResult<List<TaskListItem>> getTasks(
       TasksFilterParams filterParams, PageableParam pageable) {
     if (authContext.isAdmin()) {
@@ -36,26 +38,20 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
+  @PreAuthorize("hasRole('ADMIN')")
   public Integer addTask(AddTaskRequest request) {
-    if (!authContext.isAdmin()) {
-      throw new AccessDeniedException("Wymagana rola administratora");
-    }
     return tasksRepository.addTask(request);
   }
 
   @Override
+  @PreAuthorize("hasRole('ADMIN')")
   public void updateTask(Integer employeeTaskId, UpdateTaskRequest request) {
-    if (!authContext.isEmployee()) {
-      throw new AccessDeniedException("Wymagana rola pracownika lub administratora");
-    }
     tasksRepository.updateTask(employeeTaskId, request);
   }
 
   @Override
+  @PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
   public void updateStatus(Integer employeeTaskId, UpdateStatusRequest request) {
-    if (!authContext.isEmployee()) {
-      throw new AccessDeniedException("Wymagana rola pracownika lub administratora");
-    }
 
     LocalDateTime completedAt;
     if (TaskStatus.COMPLETED.equals(request.statusCode()) && request.completedAt() == null) {
