@@ -222,6 +222,9 @@ public class TasksRepositoryImpl implements TasksRepository {
     if (filterParams.taskTypeCodes() != null) {
       condition = condition.and(etv.TASK_TYPE_CODE.in(filterParams.taskTypeCodes()));
     }
+    if (filterParams.taskStatusCodes() != null) {
+      condition = condition.and(etv.STATUS_CODE.in(filterParams.taskStatusCodes()));
+    }
     if (filterParams.dueFrom() != null) {
       condition = condition.and(etv.DUE_AT.ge(filterParams.dueFrom().atStartOfDay()));
     }

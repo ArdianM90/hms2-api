@@ -4,4 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record TasksFilterParams(
-    String query, List<String> taskTypeCodes, LocalDate dueFrom, LocalDate dueTo) {}
+    String query,
+    List<String> taskTypeCodes,
+    List<String> taskStatusCodes,
+    LocalDate dueFrom,
+    LocalDate dueTo) {}
