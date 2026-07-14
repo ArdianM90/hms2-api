@@ -6,6 +6,8 @@ import com.hms.api.common.dto.PageableResult;
 import com.hms.api.domain.reservation.dto.*;
 import com.hms.api.domain.reservation.service.ReservationService;
 import java.util.List;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,7 @@ public class ReservationController {
   @GetMapping()
   public ResponseEntity<PageableResult<List<ReservationListItem>>> getReservations(
       @ParameterObject ReservationsFilterParams filterParams,
-      @ParameterObject PageableParam pageable) {
+      @ParameterObject @Valid PageableParam pageable) {
     return ResponseEntity.ok(reservationService.getReservations(filterParams, pageable));
   }
 

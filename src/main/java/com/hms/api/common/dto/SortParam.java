@@ -7,6 +7,5 @@ import lombok.Getter;
 @Getter
 public class SortParam {
 
-  private String sortBy;
-  private boolean descending;
+  
 }

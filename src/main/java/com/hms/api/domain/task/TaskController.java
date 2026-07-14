@@ -27,7 +27,7 @@ public class TaskController {
 
   @GetMapping()
   public ResponseEntity<PageableResult<List<TaskListItem>>> getTasks(
-      @ParameterObject TasksFilterParams filterParams, @ParameterObject PageableParam pageable) {
+      @ParameterObject TasksFilterParams filterParams, @ParameterObject @Valid PageableParam pageable) {
     return ResponseEntity.ok(taskService.getTasks(filterParams, pageable));
   }
 
