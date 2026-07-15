@@ -11,5 +11,5 @@ public record GuestCheckInRequest(
     @NotNull LocalDate dateOfBirth,
     @NotNull String documentTypeCode,
     String documentNumber,
-    String citizenshipCode,
+    @NotBlank String citizenshipCode,
     String phone) {}
