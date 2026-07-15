@@ -1,27 +1,33 @@
 package com.hms.api.domain.user;
 
 import com.hms.api.common.dto.LabeledValue;
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
 import com.hms.api.domain.user.dto.EmployeeListItem;
 import com.hms.api.domain.user.dto.EmployeeRequest;
+import com.hms.api.domain.user.dto.EmployeesFilterParams;
 import com.hms.api.domain.user.service.UserService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employees")
-// @RequireAdmin
 @RequiredArgsConstructor
 public class UserController {
 
   private final UserService userService;
 
   @GetMapping
-  public ResponseEntity<List<EmployeeListItem>> getEmployees() {
-    return ResponseEntity.ok(userService.getEmployees());
+  public ResponseEntity<PageableResult<List<EmployeeListItem>>> getEmployees(
+      @ParameterObject EmployeesFilterParams filterParams,
+      @ParameterObject @Valid PageableParam pageable) {
+    return ResponseEntity.ok(userService.getEmployees(filterParams, pageable));
   }
 
   @PostMapping

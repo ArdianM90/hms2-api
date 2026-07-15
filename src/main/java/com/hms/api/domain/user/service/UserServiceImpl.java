@@ -2,15 +2,20 @@ package com.hms.api.domain.user.service;
 
 import com.hms.api.common.auth.AuthClient;
 import com.hms.api.common.auth.dto.RegisterRequest;
+import com.hms.api.common.dto.PageableParam;
+import com.hms.api.common.dto.PageableResult;
 import com.hms.api.domain.user.dto.EmployeeListItem;
 import com.hms.api.domain.user.dto.EmployeeRequest;
+import com.hms.api.domain.user.dto.EmployeesFilterParams;
 import com.hms.api.domain.user.repository.UserRepository;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service
+@PreAuthorize("hasRole('ADMIN')")
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -18,8 +23,9 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
 
   @Override
-  public List<EmployeeListItem> getEmployees() {
-    return userRepository.getEmployees();
+  public PageableResult<List<EmployeeListItem>> getEmployees(
+      EmployeesFilterParams filterParams, PageableParam pageable) {
+    return userRepository.getEmployees(filterParams, pageable);
   }
 
   @Override
