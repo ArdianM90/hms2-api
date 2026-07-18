@@ -4,12 +4,12 @@ import com.hms.api.common.dto.PageableParam;
 import com.hms.api.common.dto.PageableResult;
 import com.hms.api.common.jooq.PaginatedQueryBuilder;
 import com.hms.api.common.jooq.SortFieldProvider;
-import com.hms.api.domain.user.dto.EmployeeListItem;
-import com.hms.api.domain.user.dto.EmployeeRequest;
-import com.hms.api.domain.user.dto.EmployeesFilterParams;
+import com.hms.api.domain.user.dto.UserListItem;
+import com.hms.api.domain.user.dto.UserRequest;
+import com.hms.api.domain.user.dto.UsersFilterParams;
 import com.hms.generated.jooq.auth.tables.AppUser;
+import com.hms.generated.jooq.hms.tables.AppUsersV;
 import com.hms.generated.jooq.hms.tables.EmployeePosition;
-import com.hms.generated.jooq.hms.tables.EmployeeV;
 import com.hms.generated.jooq.hms.tables.records.EmployeePositionRecord;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +28,13 @@ public class UserRepositoryImpl implements UserRepository {
   private final DSLContext dsl;
 
   @Override
-  public PageableResult<List<EmployeeListItem>> getUsers(
-      EmployeesFilterParams filterParams, PageableParam pageable) {
-    EmployeeV view = EmployeeV.EMPLOYEE_V;
+  public PageableResult<List<UserListItem>> getUsers(
+      UsersFilterParams filterParams, PageableParam pageable) {
+    AppUsersV view = AppUsersV.APP_USERS_V;
 
-    RecordMapper<Record, EmployeeListItem> listItemMapper =
+    RecordMapper<Record, UserListItem> listItemMapper =
         r ->
-            new EmployeeListItem(
+            new UserListItem(
                 r.get(view.USER_ID),
                 r.get(view.EMAIL),
                 r.get(view.FIRST_NAME),
@@ -53,7 +53,7 @@ public class UserRepositoryImpl implements UserRepository {
                 .defaultDesc()
                 .build();
 
-    return PaginatedQueryBuilder.<EmployeeListItem>builder()
+    return PaginatedQueryBuilder.<UserListItem>builder()
         .dsl(dsl)
         .baseSelect(select)
         .pageable(pageable)
@@ -63,8 +63,8 @@ public class UserRepositoryImpl implements UserRepository {
         .fetch();
   }
 
-  private Condition buidlEmployeesCondition(EmployeesFilterParams filterParams) {
-    EmployeeV view = EmployeeV.EMPLOYEE_V;
+  private Condition buidlEmployeesCondition(UsersFilterParams filterParams) {
+    AppUsersV view = AppUsersV.APP_USERS_V;
     Condition condition = view.IS_ACTIVE.isTrue();
     if (filterParams == null) {
       return condition;
@@ -89,7 +89,7 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public void updateEmployee(UUID userId, EmployeeRequest request) {
+  public void updateUser(UUID userId, UserRequest request) {
     AppUser au = AppUser.APP_USER;
     dsl.update(au)
         .set(au.EMAIL, request.email())

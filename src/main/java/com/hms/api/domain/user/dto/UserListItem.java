@@ -2,7 +2,7 @@ package com.hms.api.domain.user.dto;
 
 import java.util.UUID;
 
-public record EmployeeListItem(
+public record UserListItem(
     UUID userId,
     String email,
     String firstName,

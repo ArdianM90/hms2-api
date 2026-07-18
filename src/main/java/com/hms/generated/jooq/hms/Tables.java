@@ -4,10 +4,10 @@
 package com.hms.generated.jooq.hms;
 
 
+import com.hms.generated.jooq.hms.tables.AppUsersV;
 import com.hms.generated.jooq.hms.tables.EmployeePosition;
 import com.hms.generated.jooq.hms.tables.EmployeeTask;
 import com.hms.generated.jooq.hms.tables.EmployeeTaskV;
-import com.hms.generated.jooq.hms.tables.EmployeeV;
 import com.hms.generated.jooq.hms.tables.Reservation;
 import com.hms.generated.jooq.hms.tables.ReservationGuest;
 import com.hms.generated.jooq.hms.tables.ReservationRoom;
@@ -33,6 +33,11 @@ import com.hms.generated.jooq.hms.tables.TypeRoomStandard;
 public class Tables {
 
     /**
+     * The table <code>hms.app_users_v</code>.
+     */
+    public static final AppUsersV APP_USERS_V = AppUsersV.APP_USERS_V;
+
+    /**
      * The table <code>hms.employee_position</code>.
      */
     public static final EmployeePosition EMPLOYEE_POSITION = EmployeePosition.EMPLOYEE_POSITION;
@@ -46,11 +51,6 @@ public class Tables {
      * The table <code>hms.employee_task_v</code>.
      */
     public static final EmployeeTaskV EMPLOYEE_TASK_V = EmployeeTaskV.EMPLOYEE_TASK_V;
-
-    /**
-     * The table <code>hms.employee_v</code>.
-     */
-    public static final EmployeeV EMPLOYEE_V = EmployeeV.EMPLOYEE_V;
 
     /**
      * The table <code>hms.reservation</code>.
