@@ -219,6 +219,9 @@ public class TasksRepositoryImpl implements TasksRepository {
               DSL.concat(etv.ASSIGNEE_FIRST_NAME, DSL.inline(" "), etv.ASSIGNEE_LAST_NAME)
                   .likeIgnoreCase(pattern));
     }
+    if (filterParams.appUserId() != null) {
+      condition = condition.and(etv.ASSIGNEE_USER_ID.eq(filterParams.appUserId()));
+    }
     if (filterParams.taskTypeCodes() != null) {
       condition = condition.and(etv.TASK_TYPE_CODE.in(filterParams.taskTypeCodes()));
     }
