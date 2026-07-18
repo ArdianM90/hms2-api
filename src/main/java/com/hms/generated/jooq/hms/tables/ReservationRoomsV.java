@@ -56,6 +56,11 @@ public class ReservationRoomsV extends TableImpl<ReservationRoomsVRecord> {
     public final TableField<ReservationRoomsVRecord, Integer> RESERVATION_ID = createField(DSL.name("reservation_id"), SQLDataType.INTEGER, this, "");
 
     /**
+     * The column <code>hms.reservation_rooms_v.reservation_status_code</code>.
+     */
+    public final TableField<ReservationRoomsVRecord, String> RESERVATION_STATUS_CODE = createField(DSL.name("reservation_status_code"), SQLDataType.CLOB, this, "");
+
+    /**
      * The column <code>hms.reservation_rooms_v.start_date</code>.
      */
     public final TableField<ReservationRoomsVRecord, LocalDate> START_DATE = createField(DSL.name("start_date"), SQLDataType.LOCALDATE, this, "");
@@ -102,6 +107,7 @@ public class ReservationRoomsV extends TableImpl<ReservationRoomsVRecord> {
     private ReservationRoomsV(Name alias, Table<ReservationRoomsVRecord> aliased, Field<?>[] parameters, Condition where) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
         CREATE VIEW "reservation_rooms_v" AS  SELECT rsv.reservation_id,
+         rsv.status_code AS reservation_status_code,
          rsv.start_date,
          rsv.end_date,
          r.room_id,

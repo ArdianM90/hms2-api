@@ -35,115 +35,129 @@ public class ReservationRoomsVRecord extends TableRecordImpl<ReservationRoomsVRe
     }
 
     /**
+     * Setter for <code>hms.reservation_rooms_v.reservation_status_code</code>.
+     */
+    public void setReservationStatusCode(String value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>hms.reservation_rooms_v.reservation_status_code</code>.
+     */
+    public String getReservationStatusCode() {
+        return (String) get(1);
+    }
+
+    /**
      * Setter for <code>hms.reservation_rooms_v.start_date</code>.
      */
     public void setStartDate(LocalDate value) {
-        set(1, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>hms.reservation_rooms_v.start_date</code>.
      */
     public LocalDate getStartDate() {
-        return (LocalDate) get(1);
+        return (LocalDate) get(2);
     }
 
     /**
      * Setter for <code>hms.reservation_rooms_v.end_date</code>.
      */
     public void setEndDate(LocalDate value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>hms.reservation_rooms_v.end_date</code>.
      */
     public LocalDate getEndDate() {
-        return (LocalDate) get(2);
+        return (LocalDate) get(3);
     }
 
     /**
      * Setter for <code>hms.reservation_rooms_v.room_id</code>.
      */
     public void setRoomId(Integer value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>hms.reservation_rooms_v.room_id</code>.
      */
     public Integer getRoomId() {
-        return (Integer) get(3);
+        return (Integer) get(4);
     }
 
     /**
      * Setter for <code>hms.reservation_rooms_v.room_number</code>.
      */
     public void setRoomNumber(String value) {
-        set(4, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>hms.reservation_rooms_v.room_number</code>.
      */
     public String getRoomNumber() {
-        return (String) get(4);
+        return (String) get(5);
     }
 
     /**
      * Setter for <code>hms.reservation_rooms_v.capacity</code>.
      */
     public void setCapacity(Integer value) {
-        set(5, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>hms.reservation_rooms_v.capacity</code>.
      */
     public Integer getCapacity() {
-        return (Integer) get(5);
+        return (Integer) get(6);
     }
 
     /**
      * Setter for <code>hms.reservation_rooms_v.price_per_night</code>.
      */
     public void setPricePerNight(BigDecimal value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>hms.reservation_rooms_v.price_per_night</code>.
      */
     public BigDecimal getPricePerNight() {
-        return (BigDecimal) get(6);
+        return (BigDecimal) get(7);
     }
 
     /**
      * Setter for <code>hms.reservation_rooms_v.standard_code</code>.
      */
     public void setStandardCode(String value) {
-        set(7, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>hms.reservation_rooms_v.standard_code</code>.
      */
     public String getStandardCode() {
-        return (String) get(7);
+        return (String) get(8);
     }
 
     /**
      * Setter for <code>hms.reservation_rooms_v.standard_name</code>.
      */
     public void setStandardName(String value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>hms.reservation_rooms_v.standard_name</code>.
      */
     public String getStandardName() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -160,10 +174,11 @@ public class ReservationRoomsVRecord extends TableRecordImpl<ReservationRoomsVRe
     /**
      * Create a detached, initialised ReservationRoomsVRecord
      */
-    public ReservationRoomsVRecord(Integer reservationId, LocalDate startDate, LocalDate endDate, Integer roomId, String roomNumber, Integer capacity, BigDecimal pricePerNight, String standardCode, String standardName) {
+    public ReservationRoomsVRecord(Integer reservationId, String reservationStatusCode, LocalDate startDate, LocalDate endDate, Integer roomId, String roomNumber, Integer capacity, BigDecimal pricePerNight, String standardCode, String standardName) {
         super(ReservationRoomsV.RESERVATION_ROOMS_V);
 
         setReservationId(reservationId);
+        setReservationStatusCode(reservationStatusCode);
         setStartDate(startDate);
         setEndDate(endDate);
         setRoomId(roomId);
@@ -183,6 +198,7 @@ public class ReservationRoomsVRecord extends TableRecordImpl<ReservationRoomsVRe
 
         if (value != null) {
             setReservationId(value.getReservationId());
+            setReservationStatusCode(value.getReservationStatusCode());
             setStartDate(value.getStartDate());
             setEndDate(value.getEndDate());
             setRoomId(value.getRoomId());

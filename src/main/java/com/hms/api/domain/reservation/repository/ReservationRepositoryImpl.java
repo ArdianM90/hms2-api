@@ -30,6 +30,8 @@ public class ReservationRepositoryImpl implements ReservationRepository {
 
   private final DSLContext dsl;
 
+  private static final String RESERVATION_CANCELLED_STATUS_CODE = "cancelled";
+
   @Override
   public ReservationDetails getReservation(int reservationId) {
     ReservationsV rv = ReservationsV.RESERVATIONS_V;
@@ -168,7 +170,8 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     ReservationRoomsV v = ReservationRoomsV.RESERVATION_ROOMS_V;
     return dsl.select(v.ROOM_ID)
         .from(v)
-        .where(v.START_DATE.le(endDate).and(v.END_DATE.ge(startDate)))
+        .where(v.RESERVATION_STATUS_CODE.ne(RESERVATION_CANCELLED_STATUS_CODE))
+        .and(v.START_DATE.le(endDate).and(v.END_DATE.ge(startDate)))
         .fetchSet(v.ROOM_ID);
   }
 
@@ -221,12 +224,11 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     if (filterParams.reservationStatusCode() != null) {
       condition = condition.and(rv.STATUS_CODE.eq(filterParams.reservationStatusCode()));
     }
-    if (filterParams.createdFrom() != null) {
-      condition = condition.and(rv.CREATED_AT.ge(filterParams.createdFrom().atStartOfDay()));
+    if (filterParams.from() != null) {
+      condition = condition.and(rv.START_DATE.ge(filterParams.from()));
     }
-    if (filterParams.createdTo() != null) {
-      condition =
-          condition.and(rv.CREATED_AT.lt(filterParams.createdTo().plusDays(1).atStartOfDay()));
+    if (filterParams.to() != null) {
+      condition = condition.and(rv.END_DATE.lt(filterParams.to().plusDays(1)));
     }
     return condition;
   }

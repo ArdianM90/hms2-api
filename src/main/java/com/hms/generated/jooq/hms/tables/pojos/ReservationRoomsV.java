@@ -18,6 +18,7 @@ public class ReservationRoomsV implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer reservationId;
+    private String reservationStatusCode;
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer roomId;
@@ -31,6 +32,7 @@ public class ReservationRoomsV implements Serializable {
 
     public ReservationRoomsV(ReservationRoomsV value) {
         this.reservationId = value.reservationId;
+        this.reservationStatusCode = value.reservationStatusCode;
         this.startDate = value.startDate;
         this.endDate = value.endDate;
         this.roomId = value.roomId;
@@ -43,6 +45,7 @@ public class ReservationRoomsV implements Serializable {
 
     public ReservationRoomsV(
         Integer reservationId,
+        String reservationStatusCode,
         LocalDate startDate,
         LocalDate endDate,
         Integer roomId,
@@ -53,6 +56,7 @@ public class ReservationRoomsV implements Serializable {
         String standardName
     ) {
         this.reservationId = reservationId;
+        this.reservationStatusCode = reservationStatusCode;
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
@@ -75,6 +79,20 @@ public class ReservationRoomsV implements Serializable {
      */
     public void setReservationId(Integer reservationId) {
         this.reservationId = reservationId;
+    }
+
+    /**
+     * Getter for <code>hms.reservation_rooms_v.reservation_status_code</code>.
+     */
+    public String getReservationStatusCode() {
+        return this.reservationStatusCode;
+    }
+
+    /**
+     * Setter for <code>hms.reservation_rooms_v.reservation_status_code</code>.
+     */
+    public void setReservationStatusCode(String reservationStatusCode) {
+        this.reservationStatusCode = reservationStatusCode;
     }
 
     /**
@@ -204,6 +222,12 @@ public class ReservationRoomsV implements Serializable {
         }
         else if (!this.reservationId.equals(other.reservationId))
             return false;
+        if (this.reservationStatusCode == null) {
+            if (other.reservationStatusCode != null)
+                return false;
+        }
+        else if (!this.reservationStatusCode.equals(other.reservationStatusCode))
+            return false;
         if (this.startDate == null) {
             if (other.startDate != null)
                 return false;
@@ -260,6 +284,7 @@ public class ReservationRoomsV implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.reservationId == null) ? 0 : this.reservationId.hashCode());
+        result = prime * result + ((this.reservationStatusCode == null) ? 0 : this.reservationStatusCode.hashCode());
         result = prime * result + ((this.startDate == null) ? 0 : this.startDate.hashCode());
         result = prime * result + ((this.endDate == null) ? 0 : this.endDate.hashCode());
         result = prime * result + ((this.roomId == null) ? 0 : this.roomId.hashCode());
@@ -276,6 +301,7 @@ public class ReservationRoomsV implements Serializable {
         StringBuilder sb = new StringBuilder("ReservationRoomsV (");
 
         sb.append(reservationId);
+        sb.append(", ").append(reservationStatusCode);
         sb.append(", ").append(startDate);
         sb.append(", ").append(endDate);
         sb.append(", ").append(roomId);
