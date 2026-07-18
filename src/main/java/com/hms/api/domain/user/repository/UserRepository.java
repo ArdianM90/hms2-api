@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface UserRepository {
 
-  PageableResult<List<EmployeeListItem>> getEmployees(
+  PageableResult<List<EmployeeListItem>> getUsers(
       EmployeesFilterParams filterParams, PageableParam pageable);
 
   void updateEmployee(UUID userId, EmployeeRequest request);

@@ -91,16 +91,15 @@ public class EmployeeV extends TableImpl<EmployeeVRecord> {
     private EmployeeV(Name alias, Table<EmployeeVRecord> aliased, Field<?>[] parameters, Condition where) {
         super(alias, null, aliased, parameters, DSL.comment(""), TableOptions.view("""
         CREATE VIEW "employee_v" AS  SELECT user_id,
-          email,
-          first_name,
-          last_name,
-          is_active,
-          role_code,
-          COALESCE(( SELECT array_agg(ep.position_code ORDER BY ep.position_code) AS array_agg
-                 FROM hms.employee_position ep
-                WHERE (ep.user_id = au.user_id)), ARRAY[]::text[]) AS position_codes
-         FROM auth.app_user au
-        WHERE (role_code = ANY (ARRAY['admin'::text, 'employee'::text]));
+         email,
+         first_name,
+         last_name,
+         is_active,
+         role_code,
+         COALESCE(( SELECT array_agg(ep.position_code ORDER BY ep.position_code) AS array_agg
+                FROM hms.employee_position ep
+               WHERE (ep.user_id = au.user_id)), ARRAY[]::text[]) AS position_codes
+        FROM auth.app_user au;
         """), where);
     }
 

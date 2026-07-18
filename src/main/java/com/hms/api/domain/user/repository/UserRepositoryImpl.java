@@ -28,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
   private final DSLContext dsl;
 
   @Override
-  public PageableResult<List<EmployeeListItem>> getEmployees(
+  public PageableResult<List<EmployeeListItem>> getUsers(
       EmployeesFilterParams filterParams, PageableParam pageable) {
     EmployeeV view = EmployeeV.EMPLOYEE_V;
 

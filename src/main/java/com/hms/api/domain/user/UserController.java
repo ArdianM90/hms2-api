@@ -24,10 +24,10 @@ public class UserController {
   private final UserService userService;
 
   @GetMapping
-  public ResponseEntity<PageableResult<List<EmployeeListItem>>> getEmployees(
+  public ResponseEntity<PageableResult<List<EmployeeListItem>>> getUsers(
       @ParameterObject EmployeesFilterParams filterParams,
       @ParameterObject @Valid PageableParam pageable) {
-    return ResponseEntity.ok(userService.getEmployees(filterParams, pageable));
+    return ResponseEntity.ok(userService.getUsers(filterParams, pageable));
   }
 
   @PostMapping

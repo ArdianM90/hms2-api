@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
 
   @Override
-  public PageableResult<List<EmployeeListItem>> getEmployees(
+  public PageableResult<List<EmployeeListItem>> getUsers(
       EmployeesFilterParams filterParams, PageableParam pageable) {
-    return userRepository.getEmployees(filterParams, pageable);
+    return userRepository.getUsers(filterParams, pageable);
   }
 
   @Override

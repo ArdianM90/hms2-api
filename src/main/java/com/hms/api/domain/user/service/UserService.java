@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface UserService {
 
-  PageableResult<List<EmployeeListItem>> getEmployees(
+  PageableResult<List<EmployeeListItem>> getUsers(
       EmployeesFilterParams filterParams, PageableParam pageable);
 
   @Transactional
