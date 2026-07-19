@@ -5,11 +5,9 @@ ALTER TABLE auth.app_user
     ADD COLUMN last_name  text;
 
 update auth.app_user
-set first_name = 'Adrian'
-where user_id = 'eff3c11a-0409-498a-abdd-33e7b935de3d';
+set first_name = 'Adrian';
 update auth.app_user
-set last_name = 'M'
-where user_id = 'eff3c11a-0409-498a-abdd-33e7b935de3d';
+set last_name = 'M';;
 
 ALTER TABLE auth.app_user
     ALTER COLUMN first_name SET NOT NULL,
