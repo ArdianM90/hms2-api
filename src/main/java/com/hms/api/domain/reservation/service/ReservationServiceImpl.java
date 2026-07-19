@@ -27,7 +27,7 @@ public class ReservationServiceImpl implements ReservationService {
   private final ReservationRepository reservationRepository;
 
   @Override
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN','GUEST')")
   public ReservationDetails getReservation(int reservationId) {
     return reservationRepository.getReservation(reservationId);
   }
