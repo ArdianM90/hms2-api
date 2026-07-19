@@ -225,10 +225,10 @@ public class ReservationRepositoryImpl implements ReservationRepository {
       condition = condition.and(rv.STATUS_CODE.eq(filterParams.reservationStatusCode()));
     }
     if (filterParams.from() != null) {
-      condition = condition.and(rv.START_DATE.ge(filterParams.from()));
+      condition = condition.and(rv.END_DATE.ge(filterParams.from()));
     }
     if (filterParams.to() != null) {
-      condition = condition.and(rv.END_DATE.lt(filterParams.to().plusDays(1)));
+      condition = condition.and(rv.START_DATE.le(filterParams.to()));
     }
     return condition;
   }

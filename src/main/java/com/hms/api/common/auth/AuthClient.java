@@ -30,7 +30,7 @@ public class AuthClient {
     builder
         .build()
         .put()
-        .uri(authUrl + "/auth/users/{userId}/inactivate", userId)
+        .uri(authUrl + "/auth/{user-id}/inactivate", userId)
         .retrieve()
         .toBodilessEntity();
   }

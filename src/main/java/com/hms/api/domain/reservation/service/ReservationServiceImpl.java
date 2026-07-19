@@ -151,6 +151,10 @@ public class ReservationServiceImpl implements ReservationService {
 
   private void validateSearchReservationRequest(SearchReservationOffersRequest request) {
     int roomsQty = roomService.getRoomsQuantity().quantity();
+    if (!request.endDate().isAfter(request.startDate())) {
+      throw new TooManyRoomsException(
+          "Data końca pobytu musi być późniejsza niż data początku pobytu");
+    }
     if (request.roomCapacities().length > roomsQty) {
       throw new TooManyRoomsException("Przekroczono liczbę dostępnych pokojów.");
     }

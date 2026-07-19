@@ -43,7 +43,7 @@ public class ReservationController {
 
   @PostMapping("/search")
   public ResponseEntity<List<ReservationOffer>> getReservationOffers(
-      @RequestBody SearchReservationOffersRequest request) {
+      @RequestBody @Valid SearchReservationOffersRequest request) {
     return ResponseEntity.ok(reservationService.getReservationOffers(request));
   }
 
